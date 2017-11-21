@@ -27,6 +27,8 @@ void Logger::logtime() {
 	totaltime << timestruct.tm_mday << "/" << timestruct.tm_mon << "/" << timestruct.tm_year+1900 << " - " << timestruct.tm_hour << ":" << minuten;
 	log(totaltime.str());
 }
+
+
 void Logger::log(std::string text1)
 {
 	file1.open("logfile.txt", std::ios::app);
