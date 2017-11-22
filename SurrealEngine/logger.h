@@ -12,6 +12,7 @@ public:
 	void logtime();
 	void log( int );
 	void log( std::string );
+	void flush();
 
 private:
 	std::ofstream file1;
