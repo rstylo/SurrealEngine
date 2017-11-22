@@ -16,7 +16,7 @@ bool MakeWindow(HINSTANCE hInstance, int nCmdShow, LPSTR className, HWND& hWnd, 
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);															//Functie voor message handling, wParam n lParam ... extra information dat niet perce nodig is
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)												//windows main function, geeft nodige parameters mee om een window te kunnen creeëren, previnstance altijd null!!
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)												//windows main function, geeft nodige parameters mee om een window te kunnen creeÃ«ren, previnstance altijd null!!
 {
 
 	HWND hWnd;																							//window class
@@ -65,7 +65,7 @@ bool MakeWindow(HINSTANCE hInstance, int nCmdShow, LPSTR className, HWND& hWnd, 
 
 	windowClassEx.lpszClassName = className;																					//naam van de window
 
-	windowClassEx.hbrBackground = (HBRUSH)COLOR_WINDOW;																			//background kleur.. De variablen hierboven zijn nodig om de window te kunnen creëren
+	windowClassEx.hbrBackground = (HBRUSH)COLOR_WINDOW;																			//background kleur.. De variablen hierboven zijn nodig om de window te kunnen creÃ«ren
 
 	windowClassEx.hCursor = LoadCursor(NULL, IDC_ARROW);																		//default arrow
 	windowClassEx.hIcon = LoadIcon(NULL, IDI_APPLICATION);																		//default aplication icon
@@ -77,7 +77,7 @@ bool MakeWindow(HINSTANCE hInstance, int nCmdShow, LPSTR className, HWND& hWnd, 
 		return false;
 	}
 
-	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPEDWINDOW, x, y, width, height, NULL, NULL, hInstance, NULL);	//window zelf creëren
+	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPEDWINDOW, x, y, width, height, NULL, NULL, hInstance, NULL);	//window zelf creÃ«ren
 
 	ShowWindow(hWnd, nCmdShow);																									//parameters voor hoe de window afgespeeld wordt
 
@@ -99,6 +99,5 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 	return DefWindowProc(hWnd, message, wParam, lParam);			//anders default window procedure
 }
-
 
 /**/
