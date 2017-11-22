@@ -10,6 +10,7 @@ public:
 	Logger();
 	virtual ~Logger();
 	void logtime();
+	void log( int );
 	void log( std::string );
 
 private:

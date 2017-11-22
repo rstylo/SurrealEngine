@@ -28,12 +28,22 @@ void Logger::logtime() {
 	log(totaltime.str());
 }
 
-
-void Logger::log(std::string text1)
+void Logger::log(int value)
 {
 	file1.open("logfile.txt", std::ios::app);
-	file1 << text1;
+	file1 << value;
 	file1 << std::endl;
-	std::cout << text1 << std::endl;
+	file1.flush();
+	std::cout << value << std::endl;
+	file1.close();
+}
+
+void Logger::log(std::string text)
+{
+	file1.open("logfile.txt", std::ios::app);
+	file1 << text;
+	file1 << std::endl;
+	file1.flush();
+	std::cout << text << std::endl;
 	file1.close();
 }
