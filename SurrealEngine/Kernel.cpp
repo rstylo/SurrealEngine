@@ -3,7 +3,9 @@
 LPDIRECT3D9         d3d9device; // Used to create the D3DDevice
 LPDIRECT3DDEVICE9   d3d9renderer; // Our rendering device
 WNDCLASSEX windowclass;
+WNDCLASSEX windowclass2;
 HWND window;
+HWND window2;
 
 Kernel::Kernel()
 {
@@ -13,16 +15,30 @@ Kernel::Kernel()
 		L"Engine", NULL
 	};
 
+	windowclass2 = { sizeof(WNDCLASSEX), CS_CLASSDC, MessageHandler, 0L, 0L,
+		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
+		L"Engine2", NULL
+	};
+
 	RegisterClassEx(&windowclass);
 
 	window = CreateWindow(L"Engine", L"Surrealengine",
 		WS_OVERLAPPEDWINDOW, 100, 100, 1268, 864,
 		NULL, NULL, windowclass.hInstance, NULL);
 
+	window2 = CreateWindow(L"Engine2", L"Surrealengine2",
+		WS_OVERLAPPEDWINDOW, 100, 100, 1268, 864,
+		NULL, NULL, windowclass2.hInstance, NULL);
+	
+	InitD3D(window2);
+
 	if (SUCCEEDED(InitD3D(window)))
 	{
 		ShowWindow(window, SW_SHOWDEFAULT);
 		UpdateWindow(window);
+
+		ShowWindow(window2, SW_SHOWDEFAULT);
+		UpdateWindow(window2);
 
 		MSG msg;
 		while (GetMessage(&msg, NULL, 0, 0))
@@ -32,7 +48,8 @@ Kernel::Kernel()
 		}
 	}
 
-	UnregisterClass(L"D3D Tutorial", windowclass.hInstance);
+	UnregisterClass(L"Engine", windowclass.hInstance);
+	UnregisterClass(L"Engine2", windowclass2.hInstance);
 }
 
 Kernel::~Kernel()
