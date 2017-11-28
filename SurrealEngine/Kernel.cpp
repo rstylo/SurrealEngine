@@ -2,6 +2,7 @@
 
 LPDIRECT3D9         d3d9device; // Used to create the D3DDevice
 LPDIRECT3DDEVICE9   d3d9renderer; // Our rendering device
+LPDIRECT3DDEVICE9   d3d9renderer2; // Our rendering device
 WNDCLASSEX windowclass;
 WNDCLASSEX windowclass2;
 HWND window;
@@ -21,21 +22,20 @@ Kernel::Kernel()
 	};
 
 	RegisterClassEx(&windowclass);
+	RegisterClassEx(&windowclass2);
 
 	window = CreateWindow(L"Engine", L"Surrealengine",
 		WS_OVERLAPPEDWINDOW, 100, 100, 1268, 864,
 		NULL, NULL, windowclass.hInstance, NULL);
 
 	window2 = CreateWindow(L"Engine2", L"Surrealengine2",
-		WS_OVERLAPPEDWINDOW, 100, 100, 1268, 864,
+		WS_OVERLAPPEDWINDOW, 500, 200, 1268, 864,
 		NULL, NULL, windowclass2.hInstance, NULL);
 	
 	
 
-	if (SUCCEEDED(InitD3D(window)))
+	if (SUCCEEDED(InitD3D(window, window2)))
 	{
-		InitD3D(window2);
-		d3d9renderer->CreateAdditionalSwapChain
 		ShowWindow(window, SW_SHOWDEFAULT);
 		UpdateWindow(window);
 
@@ -58,7 +58,7 @@ Kernel::~Kernel()
 {
 }
 
-HRESULT Kernel::InitD3D(HWND hWnd)
+HRESULT Kernel::InitD3D(HWND hWnd, HWND hWnd2)
 {
 	if (NULL == (d3d9device = Direct3DCreate9(D3D_SDK_VERSION)))
 		return E_FAIL;
@@ -75,7 +75,20 @@ HRESULT Kernel::InitD3D(HWND hWnd)
 	{
 		return E_FAIL;
 	}
+/*	
+	D3DPRESENT_PARAMETERS d3dpp2;
+	ZeroMemory(&d3dpp2, sizeof(d3dpp2));
+	d3dpp2.Windowed = TRUE;
+	d3dpp2.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	d3dpp2.BackBufferFormat = D3DFMT_UNKNOWN;
 
+	if (FAILED(d3d9device->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
+		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+		&d3dpp2, &d3d9renderer2)))
+	{
+		return E_FAIL;
+	}
+*/
 	// Device state would normally be set here
 
 	return S_OK;
@@ -83,6 +96,9 @@ HRESULT Kernel::InitD3D(HWND hWnd)
 
 VOID Cleanup()
 {
+	if (d3d9renderer2 != NULL)
+		d3d9renderer2->Release();
+
 	if (d3d9renderer != NULL)
 		d3d9renderer->Release();
 
@@ -113,6 +129,25 @@ VOID Render()
 
 	// Present the backbuffer contents to the display
 	d3d9renderer->Present(NULL, NULL, NULL, NULL);
+	/*
+	if (NULL == d3d9renderer2)
+		return;
+
+	// Clear the backbuffer to a blue color
+	d3d9renderer2->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 255, 0), 1.0f, 0);
+
+	// Begin the scene
+	if (SUCCEEDED(d3d9renderer2->BeginScene()))
+	{
+		// Rendering of scene objects can happen here
+
+		// End the scene
+		d3d9renderer2->EndScene();
+	}
+
+	// Present the backbuffer contents to the display
+	d3d9renderer2->Present(NULL, NULL, NULL, NULL);
+	*/
 }
 
 LRESULT WINAPI MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)

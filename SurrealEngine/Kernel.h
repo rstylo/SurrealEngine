@@ -12,7 +12,7 @@ class Kernel {
 public:
 	Kernel();
 	virtual ~Kernel();
-	HRESULT InitD3D(HWND hWnd);
+	HRESULT InitD3D(HWND hWnd, HWND hWnd2);
 	
 private:
 	
