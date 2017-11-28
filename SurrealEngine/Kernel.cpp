@@ -30,10 +30,12 @@ Kernel::Kernel()
 		WS_OVERLAPPEDWINDOW, 100, 100, 1268, 864,
 		NULL, NULL, windowclass2.hInstance, NULL);
 	
-	InitD3D(window2);
+	
 
 	if (SUCCEEDED(InitD3D(window)))
 	{
+		InitD3D(window2);
+		d3d9renderer->CreateAdditionalSwapChain
 		ShowWindow(window, SW_SHOWDEFAULT);
 		UpdateWindow(window);
 
