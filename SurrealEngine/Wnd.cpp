@@ -19,7 +19,7 @@ LRESULT CALLBACK Wnd::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 }
 
 Wnd::Wnd(HINSTANCE hInstance, int nCmdShow, LPSTR className, LPSTR windowTitle, int width, int height)
-	:hInstance(hInstance), nCmdShow(nCmdShow), className(className), windowTitle(windowTitle), width(width), height(height)
+	:hInstance(hInstance), nCmdShow(nCmdShow), className((LPCWSTR)className), windowTitle((LPCWSTR)windowTitle), width(width), height(height)
 {
 }
 
@@ -42,7 +42,7 @@ bool Wnd::Init()
 
 	windowClassEx.lpszClassName = className;																					//naam van de window
 
-	windowClassEx.hbrBackground = (HBRUSH)COLOR_WINDOW;																			//background kleur.. De variablen hierboven zijn nodig om de window te kunnen creëren
+	windowClassEx.hbrBackground = (HBRUSH)COLOR_WINDOW;																			//background kleur.. De variablen hierboven zijn nodig om de window te kunnen creÃ«ren
 
 	windowClassEx.hCursor = LoadCursor(NULL, IDC_ARROW);																		//default arrow
 	windowClassEx.hIcon = LoadIcon(NULL, IDI_APPLICATION);																		//default aplication icon
@@ -51,11 +51,11 @@ bool Wnd::Init()
 	if (RegisterClassEx(&windowClassEx) == false)																				//is klasse ex geregistreed?
 	{
 		initialized = false;
-		MessageBox(NULL,"Failed creating window!!", NULL, NULL);
+		MessageBox(NULL,(LPCWSTR)"Failed creating window!!", NULL, NULL);
 		return false;
 	}
 
-	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPEDWINDOW, (GetSystemMetrics(SM_CXSCREEN) - width), (GetSystemMetrics(SM_CYSCREEN) - height), width, height, NULL, NULL, hInstance, NULL);	//window zelf creëren
+	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPEDWINDOW, (GetSystemMetrics(SM_CXSCREEN) - width), (GetSystemMetrics(SM_CYSCREEN) - height), width, height, NULL, NULL, hInstance, NULL);	//window zelf creÃ«ren
 
 	ShowWindow(hWnd, nCmdShow);																									//parameters voor hoe de window afgespeeld wordt
 
