@@ -3,6 +3,9 @@
 #include <iostream>
 #include <string>
 
+#include "Kernel.h"
+#include "Wnd.h"
+
 /*
 * 1. Om de code te kunnen runnen, moet onder project properties -> vc++ -> included directories deze path toevoegen
 * 	C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include.
