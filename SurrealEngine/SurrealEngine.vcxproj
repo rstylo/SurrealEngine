@@ -150,11 +150,13 @@
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="SurrealEngine.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

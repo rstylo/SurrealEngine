@@ -1,4 +1,7 @@
 #include "Kernel.h"
+#include "Window.h"
+
+
 
 LPDIRECT3D9         d3d9device; // Used to create the D3DDevice
 LPDIRECT3DDEVICE9   d3d9renderer; // Our rendering device
@@ -8,9 +11,10 @@ WNDCLASSEX windowclass2;
 HWND window;
 HWND window2;
 
+
 Kernel::Kernel()
 {
-
+	
 	windowclass = { sizeof(WNDCLASSEX), CS_CLASSDC, MessageHandler, 0L, 0L,
 		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
 		L"Engine", NULL
@@ -24,21 +28,25 @@ Kernel::Kernel()
 	RegisterClassEx(&windowclass);
 	RegisterClassEx(&windowclass2);
 
+	w1[0] = new Window(windowclass, L"SurrealEngine3", 100, 100, 1268, 864);
+	w1[1] = new Window(windowclass, L"SurrealEngine4", 200, 200, 1268, 864);
+	w1[2] = new Window(windowclass, L"SurrealEngine5", 500, 400, 368, 264);
+
 	window = CreateWindow(L"Engine", L"Surrealengine",
 		WS_OVERLAPPEDWINDOW, 100, 100, 1268, 864,
 		NULL, NULL, windowclass.hInstance, NULL);
 
-	window2 = CreateWindow(L"Engine2", L"Surrealengine2",
+	window2 = CreateWindow(L"Engine", L"Surrealengine2",
 		WS_OVERLAPPEDWINDOW, 500, 200, 1268, 864,
-		NULL, NULL, windowclass2.hInstance, NULL);
-	
-	
+		NULL, NULL, windowclass.hInstance, NULL);
 
-	if (SUCCEEDED(InitD3D(window, window2)))
+	if (SUCCEEDED(InitD3D(window, &d3d9renderer)))
 	{
+
 		ShowWindow(window, SW_SHOWDEFAULT);
 		UpdateWindow(window);
 
+		InitD3D(window2, &d3d9renderer2);
 		ShowWindow(window2, SW_SHOWDEFAULT);
 		UpdateWindow(window2);
 
@@ -56,9 +64,11 @@ Kernel::Kernel()
 
 Kernel::~Kernel()
 {
+	for (int i = 0; i < MAXWINDOWS && i != NULL; i++)
+		delete w1[i];
 }
 
-HRESULT Kernel::InitD3D(HWND hWnd, HWND hWnd2)
+HRESULT Kernel::InitD3D(HWND hWnd, LPDIRECT3DDEVICE9* d3d9renderer)
 {
 	if (NULL == (d3d9device = Direct3DCreate9(D3D_SDK_VERSION)))
 		return E_FAIL;
@@ -71,25 +81,10 @@ HRESULT Kernel::InitD3D(HWND hWnd, HWND hWnd2)
 
 	if (FAILED(d3d9device->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-		&d3dpp, &d3d9renderer)))
+		&d3dpp, d3d9renderer)))
 	{
 		return E_FAIL;
 	}
-/*	
-	D3DPRESENT_PARAMETERS d3dpp2;
-	ZeroMemory(&d3dpp2, sizeof(d3dpp2));
-	d3dpp2.Windowed = TRUE;
-	d3dpp2.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp2.BackBufferFormat = D3DFMT_UNKNOWN;
-
-	if (FAILED(d3d9device->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-		&d3dpp2, &d3d9renderer2)))
-	{
-		return E_FAIL;
-	}
-*/
-	// Device state would normally be set here
 
 	return S_OK;
 }
@@ -129,7 +124,7 @@ VOID Render()
 
 	// Present the backbuffer contents to the display
 	d3d9renderer->Present(NULL, NULL, NULL, NULL);
-	/*
+
 	if (NULL == d3d9renderer2)
 		return;
 
@@ -147,7 +142,6 @@ VOID Render()
 
 	// Present the backbuffer contents to the display
 	d3d9renderer2->Present(NULL, NULL, NULL, NULL);
-	*/
 }
 
 LRESULT WINAPI MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
