@@ -1,7 +1,6 @@
 #include "Kernel.h"
 #include "Renderer.h"
 #include "Sprite.h"
-#include "GameObject.h"
 #include "EntityManager.h"
 #include "ResourceManager.h"
 #include "Entity.h"

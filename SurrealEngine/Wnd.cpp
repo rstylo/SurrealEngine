@@ -19,7 +19,7 @@ LRESULT CALLBACK Wnd::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 }
 
 Wnd::Wnd(HINSTANCE hInstance, int nCmdShow, LPSTR className, LPSTR windowTitle, int width, int height)
-	:hInstance(hInstance), nCmdShow(nCmdShow), className((LPCWSTR)className), windowTitle((LPCWSTR)windowTitle), width(width), height(height)
+	:hInstance(hInstance), nCmdShow(nCmdShow), className(className), windowTitle(windowTitle), width(width), height(height)
 {
 }
 
@@ -51,7 +51,7 @@ bool Wnd::Init()
 	if (RegisterClassEx(&windowClassEx) == false)																				//is klasse ex geregistreed?
 	{
 		initialized = false;
-		MessageBox(NULL,(LPCWSTR)"Failed creating window!!", NULL, NULL);
+		MessageBox(NULL,"Failed creating window!!", NULL, NULL);
 		return false;
 	}
 

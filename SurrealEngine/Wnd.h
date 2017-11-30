@@ -21,8 +21,8 @@ public:
 private:
 	HINSTANCE hInstance;
 	int nCmdShow;
-	LPCWSTR className;
-	LPCWSTR windowTitle;
+	LPSTR className;
+	LPSTR windowTitle;
 	int width;
 	int height;
 	WPARAM wParam;
