@@ -18,8 +18,8 @@ LRESULT CALLBACK Wnd::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	return DefWindowProc(hWnd, message, wParam, lParam);																	//anders default window procedure
 }
 
-Wnd::Wnd(HINSTANCE hInstance, int nCmdShow, LPSTR className, LPSTR windowTitle, int width, int height)
-	:hInstance(hInstance), nCmdShow(nCmdShow), className(className), windowTitle(windowTitle), width(width), height(height)
+Wnd::Wnd(HINSTANCE hInstance, int nCmdShow, LPSTR className, LPSTR windowTitle, int width, int height, int x, int y)
+	:hInstance(hInstance), nCmdShow(nCmdShow), className(className), windowTitle(windowTitle), width(width), height(height), x(x), y(y)
 {
 }
 
@@ -55,7 +55,7 @@ bool Wnd::Init()
 		return false;
 	}
 
-	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPEDWINDOW, (GetSystemMetrics(SM_CXSCREEN) - width), (GetSystemMetrics(SM_CYSCREEN) - height), width, height, NULL, NULL, hInstance, NULL);	//window zelf creëren
+	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPEDWINDOW, x, y, /*(GetSystemMetrics(SM_CXSCREEN) - width), (GetSystemMetrics(SM_CYSCREEN) - height*/ width, height, NULL, NULL, hInstance, NULL);	//window zelf creëren
 
 	ShowWindow(hWnd, nCmdShow);																									//parameters voor hoe de window afgespeeld wordt
 

@@ -27,12 +27,12 @@ Kernel::~Kernel()
 		}
 }
 
-bool Kernel::Init(HWND hWnd, bool windowed) {
+bool Kernel::Init(HWND hWnd, HWND hWnd2, bool windowed) {
 
 	renderer = new Renderer();
+	renderer2 = new Renderer();
 
-
-	if (renderer->Init(hWnd, true)) 
+	if (renderer->Init(hWnd, windowed) && renderer2->Init(hWnd2, windowed))
 	{
 		initialized = true;
 		return true;
@@ -56,6 +56,20 @@ void Kernel::Draw()
 
 		renderer->End();
 		renderer->Present();
+	}
+	
+	if (initialized)
+	{
+		renderer2->Clear(D3DCOLOR_XRGB(100, 50, 100));
+		renderer2->Begin();
+
+		for (auto mIt = managers.begin(); mIt != managers.end(); mIt++)
+		{
+			(*mIt)->Draw();
+		}
+
+		renderer2->End();
+		renderer2->Present();
 	}
 }
 

@@ -16,7 +16,7 @@ public:
 	Kernel();														
 	~Kernel();
 
-    bool Init(HWND, bool);
+    bool Init(HWND, HWND, bool);
 
 	void Update();
 	void Draw();
@@ -29,9 +29,9 @@ private:
 private:
 	std::list<Manager*> managers;
 	Renderer* renderer;
+	Renderer* renderer2;
 
 	bool initialized;
-
 
 };
 #endif // KERNEL_H_

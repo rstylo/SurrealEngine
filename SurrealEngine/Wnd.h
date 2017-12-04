@@ -6,7 +6,7 @@
 class Wnd
 {
 public:
-	Wnd(HINSTANCE hInstance, int, LPSTR, LPSTR, int, int);
+	Wnd(HINSTANCE hInstance, int, LPSTR, LPSTR, int, int, int, int);
 	~Wnd();
 
 	bool Init();
@@ -27,6 +27,8 @@ private:
 	int height;
 	WPARAM wParam;
 	LPARAM lParam;
+	int x;
+	int y;
 
 	bool initialized;
 };

@@ -19,14 +19,14 @@ voeg hier * voor uncomment>
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)	 //hPrevInstance always null, lpCmdLine commandline van de instance
 {																									//window to be handel
 
-	Wnd wnd(hInstance, nCmdShow, "MainWindow", "First window :D", 1280, 720);
-	
+	Wnd wnd(hInstance, nCmdShow, "MainWindow", "First window :D", 1280, 720, 100, 100);
+	Wnd wnd2(hInstance, nCmdShow, "SecondWindow", "Second window ^_^", 860, 640, 1000, 300);
 
-	if (wnd.Init())																				//maak nieuwe window aam
+	if (wnd.Init() && wnd2.Init())																				//maak nieuwe window aam
 	{
 		Kernel kernel;
 
-		if (kernel.Init((wnd.hWnd), true)) 
+		if (kernel.Init((wnd.hWnd), (wnd2.hWnd), true))
 		{
 			if (kernel.CreateEntity("BobMarley.png", 340, 340, 150, 150, 0))					//test functie 
 			{							
