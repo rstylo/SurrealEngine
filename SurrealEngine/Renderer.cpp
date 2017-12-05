@@ -48,15 +48,33 @@ bool Renderer::Init(HWND hWnd, bool windowed)
 	//belangrijkje params voor d3d deviice
 	D3DPRESENT_PARAMETERS presParams;				//"presentation" parameters
 	ZeroMemory(&presParams, sizeof(presParams));
+	
 	presParams.hDeviceWindow = hWnd;
 	presParams.Windowed = windowed;
 	presParams.SwapEffect = D3DSWAPEFFECT_DISCARD;	//snelste mogelijkheid, geen overhead die wel hebt bij andere swapeffecten zie msdn
+	
+
+	//copy van tut06
+	/*
+	presParams.Windowed = TRUE;
+	presParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	presParams.BackBufferFormat = D3DFMT_UNKNOWN;
+	presParams.EnableAutoDepthStencil = TRUE;
+	presParams.AutoDepthStencilFormat = D3DFMT_D16;
+	*/
 
 	if (!SUCCEEDED(direct3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_MIXED_VERTEXPROCESSING, &presParams, &device))) //mixed vortex = gecompineerd hardware n software 3d berekeningen
 	{
 		MessageBox(NULL, "issue creating gfx device", NULL, NULL);
 		return false;
 	}
+
+	// Turn on the zbuffer
+	device->SetRenderState(D3DRS_ZENABLE, TRUE);
+
+	// Turn on ambient lighting 
+	device->SetRenderState(D3DRS_AMBIENT, 0xffffffff);
+
 
 	return true;
 

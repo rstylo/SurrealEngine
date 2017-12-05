@@ -5,6 +5,7 @@
 ResourceManager::ResourceManager()
 	:Manager("ResourceManager")			//zie manager of entitymanager
 {
+
 }
 
 
@@ -14,30 +15,18 @@ ResourceManager::~ResourceManager()
 	{
 		delete it->second;
 	}
-
 	resources.clear();
-
 }
 
 void ResourceManager::AddResource(Resource* _resource) 
 {
 	if(resources.find(_resource->GetId()) != resources.end()) return;
 		resources[_resource->GetId()] = _resource;
-
 }
 
 Resource* ResourceManager::GetResource(uint32_t _uuid)
 {
 	if (resources.find(_uuid) != resources.end())
 		return resources.find(_uuid)->second;
-
 	return NULL;
-}
-void ResourceManager::Update() 
-{
-}
-
-void ResourceManager::Draw()
-{
-	//doet niks
 }

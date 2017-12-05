@@ -14,8 +14,6 @@ class ResourceManager : public Manager
 public:
 	ResourceManager();
 	virtual ~ResourceManager();
-	virtual void Update();
-	virtual void Draw();
 
 	virtual void AddResource(Resource*);
 

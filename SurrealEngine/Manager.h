@@ -7,10 +7,7 @@ class Manager
 {
 public:
 	Manager(std::string);
-	virtual ~Manager();
-
-	virtual void Update() = 0;
-	virtual void Draw() = 0;			
+	virtual ~Manager();		
 
 	std::string GetManagerType();
 

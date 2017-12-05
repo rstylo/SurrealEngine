@@ -4,10 +4,10 @@
 #include "EntityManager.h"
 #include "ResourceManager.h"
 #include "Entity.h"
+#include "GameEntity.h"
 
 
-Kernel::Kernel()
-	: initialized(false)
+Kernel::Kernel() : initialized(false)
 {
 	Manager* etyMngr = new EntityManager();
 	Manager* rscMngr = new ResourceManager();
@@ -30,10 +30,11 @@ Kernel::~Kernel()
 bool Kernel::Init(HWND hWnd, bool windowed) {
 
 	renderer = new Renderer();
-
+	myEntityManager = new EntityManager();
 
 	if (renderer->Init(hWnd, true)) 
 	{
+		myEntityManager->Init(renderer->device);
 		initialized = true;
 		return true;
 	}
@@ -49,56 +50,21 @@ void Kernel::Draw()
 		renderer->Clear(D3DCOLOR_XRGB(0, 100, 100));
 		renderer->Begin();
 
-		for (auto mIt = managers.begin(); mIt != managers.end(); mIt++)
-			{
-				(*mIt)->Draw();
-			}
+		myEntityManager->DrawEntities();
 
 		renderer->End();
 		renderer->Present();
 	}
 }
 
-bool Kernel::CreateEntity(std::string name, int h, int w, float x, float y, float z)
-{
-	if (initialized) 
-	{	
-		Entity* entity = new Entity(x , y, z);
-		Sprite* sprite = new Sprite();
 
-		if (sprite->Init(renderer->device, name, h, w)) {												//check of de naam naar de directory wel echt bestaat
-			entity->AddSprite(sprite);
-
-			if (dynamic_cast<EntityManager*>(GetManager("EntityManager")))								//check of er in lijst van managers een Entity manager in zit
-			{
-				dynamic_cast<EntityManager*>(GetManager("EntityManager"))->AddEntity(entity);			//zodat voeg  de entity toe
-			}
-
-			if (dynamic_cast<ResourceManager*>(GetManager("ResourceManager")))
-			{
-				dynamic_cast<ResourceManager*>(GetManager("ResourceManager"))->AddResource(sprite);
-			}
-
-			return true;
-		}
-		return false;
-	}
-
-	return false;
-}
 
 void Kernel::Update() {
-	for (auto mIt = managers.begin(); mIt != managers.end(); mIt++)
-	{
-		if ((*mIt) != NULL)
-		{
-			(*mIt)->Update();
-		}
-	}
 }
 
 Manager* Kernel::GetManager(std::string managerType)
 {
+	/*
 	for (std::list<Manager*>::const_iterator mIt = managers.begin(); mIt != managers.end(); mIt++)
 	{
 		if ((*mIt) != NULL && (*mIt)->GetManagerType() == managerType)
@@ -106,5 +72,6 @@ Manager* Kernel::GetManager(std::string managerType)
 			return (*mIt);
 		}
 	}
+	*/
 	return NULL;
 }

@@ -4,35 +4,26 @@
 #include <d3dx9.h>
 #include <string>
 #include <list>
+#include "GameEntity.h"
+#include "Manager.h"
+#include "EntityManager.h"
+#include "Renderer.h"
 
-class Sprite;
-class Renderer;
-class Manager;
-class Entity;
-
-class Kernel													//deze klasse geliever niet abstract omdat hij van teveel andere klasse afhankelijk is
+class Kernel
 {
 public:
 	Kernel();														
 	~Kernel();
-
     bool Init(HWND, bool);
-
 	void Update();
 	void Draw();
 
-	bool CreateEntity(std::string, int, int, float, float, float); //mishien wel handig parameter namen ook hierbij //temp functie
-
 private:
 	Manager* GetManager(std::string);
-
-private:
 	std::list<Manager*> managers;
 	Renderer* renderer;
-
 	bool initialized;
-
-
+	EntityManager* myEntityManager;
 };
 #endif // KERNEL_H_
 

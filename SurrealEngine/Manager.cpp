@@ -17,8 +17,3 @@ std::string Manager::GetManagerType()
 {
 	return managerType;
 }
-
-void Manager::Draw()
-{
-
-}
