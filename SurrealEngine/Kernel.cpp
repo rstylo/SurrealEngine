@@ -60,7 +60,7 @@ void Kernel::Draw()
 	
 	if (initialized)
 	{
-		renderer2->Clear(D3DCOLOR_XRGB(100, 50, 100));
+		renderer2->Clear(D3DCOLOR_XRGB(0, 100, 255));
 		renderer2->Begin();
 
 		for (auto mIt = managers.begin(); mIt != managers.end(); mIt++)
