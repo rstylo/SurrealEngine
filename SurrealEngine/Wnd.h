@@ -11,7 +11,7 @@ public:
 
 	bool Init();
 	bool IsInitialized();
-	void Run();
+	bool Run();
 	LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);															//Functie voor message handling, wParam n lParam ... extra information dat niet perce nodig is
 
 public:

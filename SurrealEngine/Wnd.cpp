@@ -26,7 +26,7 @@ Wnd::Wnd(HINSTANCE hInstance, int nCmdShow, LPSTR className, LPSTR windowTitle, 
 
 Wnd::~Wnd()
 {
-
+	UnregisterClass(className, hInstance);
 }
 
 bool Wnd::Init() 
@@ -42,7 +42,7 @@ bool Wnd::Init()
 
 	windowClassEx.lpszClassName = className;																					//naam van de window
 
-	windowClassEx.hbrBackground = (HBRUSH)COLOR_WINDOW;																			//background kleur.. De variablen hierboven zijn nodig om de window te kunnen creÃ«ren
+	windowClassEx.hbrBackground = (HBRUSH)COLOR_WINDOW;																			//background kleur.. De variablen hierboven zijn nodig om de window te kunnen creëren
 
 	windowClassEx.hCursor = LoadCursor(NULL, IDC_ARROW);																		//default arrow
 	windowClassEx.hIcon = LoadIcon(NULL, IDI_APPLICATION);																		//default aplication icon
@@ -55,9 +55,10 @@ bool Wnd::Init()
 		return false;
 	}
 
-	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPEDWINDOW, (GetSystemMetrics(SM_CXSCREEN) - width), (GetSystemMetrics(SM_CYSCREEN) - height), width, height, NULL, NULL, hInstance, NULL);	//window zelf creÃ«ren
+	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPEDWINDOW, (GetSystemMetrics(SM_CXSCREEN) - width), (GetSystemMetrics(SM_CYSCREEN) - height), width, height, NULL, NULL, hInstance, NULL);	//window zelf creëren
 
 	ShowWindow(hWnd, nCmdShow);																									//parameters voor hoe de window afgespeeld wordt
+	UpdateWindow(hWnd);
 
 	initialized = true;
 	return true;
@@ -68,7 +69,7 @@ bool Wnd::IsInitialized()
 	return initialized;
 }
 
-void Wnd::Run()
+bool Wnd::Run()
 {
 	if (initialized == true)	//maak nieuwe window aan
 	{
@@ -83,8 +84,10 @@ void Wnd::Run()
 
 		if (message.message == WM_QUIT)
 		{
-
+			return false;
 		}
+		return true;
 	}
+	return false;
 }
 

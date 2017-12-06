@@ -9,6 +9,8 @@ class Sprite;
 class Renderer;
 class Manager;
 class Entity;
+class Object;
+class Scene;
 
 class Kernel													//deze klasse geliever niet abstract omdat hij van teveel andere klasse afhankelijk is
 {
@@ -31,6 +33,9 @@ private:
 	Renderer* renderer;
 
 	bool initialized;
+
+	Scene* scene;
+	Object* object;
 
 
 };

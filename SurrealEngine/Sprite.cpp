@@ -25,7 +25,6 @@ Sprite::~Sprite()
 
 bool Sprite::Init(LPDIRECT3DDEVICE9 device, std::string file, int width, int height)
 {
-
 	if (!SUCCEEDED(D3DXCreateTextureFromFileEx(device, file.c_str(), width, height,
 		D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
 		D3DX_DEFAULT, D3DX_DEFAULT, 0, NULL, NULL, &tex)))								
@@ -39,7 +38,7 @@ bool Sprite::Init(LPDIRECT3DDEVICE9 device, std::string file, int width, int hei
 		MessageBox(NULL, "issue creating sprite", NULL, NULL);
 		return false;
 	}
-
+	
 	initialized = true;
 	return true;
 }
