@@ -6,7 +6,7 @@
 class Wnd
 {
 public:
-	Wnd(HINSTANCE hInstance, int, LPSTR, LPSTR, int, int, int, int);
+	Wnd(LPSTR, LPSTR, int, int, int, int);
 	~Wnd();
 
 	bool Init();

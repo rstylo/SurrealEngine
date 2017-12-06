@@ -18,7 +18,7 @@ LRESULT CALLBACK Wnd::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	return DefWindowProc(hWnd, message, wParam, lParam);																	//anders default window procedure
 }
 
-Wnd::Wnd(HINSTANCE hInstance, int nCmdShow, LPSTR className, LPSTR windowTitle, int width, int height, int x, int y)
+Wnd::Wnd(LPSTR className, LPSTR windowTitle, int width, int height, int x, int y)
 	:hInstance(hInstance), nCmdShow(nCmdShow), className(className), windowTitle(windowTitle), width(width), height(height), x(x), y(y)
 {
 }
@@ -31,6 +31,9 @@ Wnd::~Wnd()
 
 bool Wnd::Init() 
 {
+	HINSTANCE hInstance = GetModuleHandle(NULL);
+	int nCmdShow = SW_SHOWDEFAULT;
+
 	WNDCLASSEX windowClassEx;																									//window classs ex(windows class maar met meer functionaliteit)
 
 	ZeroMemory(&windowClassEx, sizeof(WNDCLASSEX));
