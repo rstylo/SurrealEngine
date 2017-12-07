@@ -33,7 +33,6 @@ int main() //hPrevInstance always null, lpCmdLine commandline van de instance
 				while (true)
 				{
 					wnd.Run();
-					wnd2.Run();
 
 					kernel.Update();
 
