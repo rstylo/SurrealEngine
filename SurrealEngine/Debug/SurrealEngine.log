@@ -1,15 +1,2 @@
-﻿  Wnd.cpp
-  WinMain.cpp
-  Sprite.cpp
-  Skybox.cpp
-  ResourceManager.cpp
-  Resource.cpp
-  Renderer.cpp
-  Manager.cpp
-  logger.cpp
-  Kernel.cpp
-  GameEntity.cpp
-  EntityManager.cpp
-  Entity.cpp
-  Generating Code...
-  SurrealEngine.vcxproj -> C:\Users\Gebruiker\Documents\GitHub\SurrealEngine\Debug\SurrealEngine.exe
+﻿  Terrain.cpp
+  SurrealEngine.vcxproj -> C:\Users\Eigenaar\Documents\GitHub\SurrealEngine\Debug\SurrealEngine.exe

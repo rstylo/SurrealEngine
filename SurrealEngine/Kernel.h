@@ -5,8 +5,7 @@
 #include <string>
 #include <list>
 #include "GameEntity.h"
-#include "Manager.h"
-#include "EntityManager.h"
+#include "Scene.h"
 #include "Renderer.h"
 
 class Kernel
@@ -19,11 +18,9 @@ public:
 	void Draw();
 
 private:
-	Manager* GetManager(std::string);
-	std::list<Manager*> managers;
 	Renderer* renderer;
 	bool initialized;
-	EntityManager* myEntityManager;
+	Scene* myScene;
 };
 #endif // KERNEL_H_
 

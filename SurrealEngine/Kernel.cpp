@@ -1,40 +1,23 @@
 #include "Kernel.h"
 #include "Renderer.h"
-#include "Sprite.h"
-#include "EntityManager.h"
+#include "Scene.h"
 #include "ResourceManager.h"
 #include "Entity.h"
 #include "GameEntity.h"
 
 
-Kernel::Kernel() : initialized(false)
-{
-	Manager* etyMngr = new EntityManager();
-	Manager* rscMngr = new ResourceManager();
+Kernel::Kernel() : initialized(false) {}
 
-	managers.push_back(etyMngr);
-	managers.push_back(rscMngr);
-}
-
-
-Kernel::~Kernel()
-{
-	for (auto mIt = managers.begin(); mIt != managers.end(); mIt++)
-		if ((* mIt) == NULL)
-		{
-			delete (* mIt);
-			(* mIt) = NULL;
-		}
-}
+Kernel::~Kernel() {}
 
 bool Kernel::Init(HWND hWnd, bool windowed) {
 
 	renderer = new Renderer();
-	myEntityManager = new EntityManager();
+	myScene = new Scene();
 
 	if (renderer->Init(hWnd, true)) 
 	{
-		myEntityManager->Init(renderer->device);
+		myScene->Init(renderer->device);
 		initialized = true;
 		return true;
 	}
@@ -50,28 +33,11 @@ void Kernel::Draw()
 		renderer->Clear(D3DCOLOR_XRGB(0, 100, 100));
 		renderer->Begin();
 
-		myEntityManager->DrawEntities();
+		myScene->DrawEntities();
 
 		renderer->End();
 		renderer->Present();
 	}
 }
 
-
-
-void Kernel::Update() {
-}
-
-Manager* Kernel::GetManager(std::string managerType)
-{
-	/*
-	for (std::list<Manager*>::const_iterator mIt = managers.begin(); mIt != managers.end(); mIt++)
-	{
-		if ((*mIt) != NULL && (*mIt)->GetManagerType() == managerType)
-		{
-			return (*mIt);
-		}
-	}
-	*/
-	return NULL;
-}
+void Kernel::Update() {}

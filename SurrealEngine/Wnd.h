@@ -14,6 +14,9 @@ public:
 	void Run();
 	LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);															//Functie voor message handling, wParam n lParam ... extra information dat niet perce nodig is
 
+	HINSTANCE GetHinstance();
+
+
 public:
 	HWND hWnd;
 	MSG message;

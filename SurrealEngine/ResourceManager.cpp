@@ -3,7 +3,6 @@
 
 
 ResourceManager::ResourceManager()
-	:Manager("ResourceManager")			//zie manager of entitymanager
 {
 
 }

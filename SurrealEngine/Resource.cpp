@@ -1,7 +1,4 @@
 #include "Resource.h"
-#include "Sprite.h"
-
-
 
 Resource::Resource(std::string _resourceType)
 	:resourceType(_resourceType)	//nodig om te zien in de base klassse welke type de childklasse is
@@ -9,7 +6,6 @@ Resource::Resource(std::string _resourceType)
 	//uuid aanmaken
 	id = reinterpret_cast<uint32_t>(this);
 }
-
 
 Resource::~Resource()
 {

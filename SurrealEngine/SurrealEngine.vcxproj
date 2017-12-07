@@ -156,16 +156,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="logger.cpp" />
-    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Skybox.cpp" />
-    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="Wnd.cpp" />
   </ItemGroup>
@@ -174,16 +173,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="logger.h" />
-    <ClInclude Include="Manager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Skybox.h" />
-    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="Wnd.h" />
   </ItemGroup>
   <ItemGroup>

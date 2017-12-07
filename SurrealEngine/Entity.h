@@ -16,18 +16,11 @@ public:
 	virtual ~Entity();
 
 	virtual void Draw();
-	virtual void AddSprite(Sprite*);
 	virtual uint32_t GetId();
 
 private:
-
 	uint32_t id;							//voor unique ids
-
-	Sprite* sprite;							//test resource
-
 	D3DXVECTOR3 position;					//ELKE entity moet een positie in de wereld hebben
-
-
 };
 
 #endif // !ENTITY_H_

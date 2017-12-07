@@ -4,12 +4,11 @@
 #include <windows.h>						//voor unique ids
 #include <map>
 
-#include "Manager.h"
 #include <cstdint>
 
 class Resource;
 
-class ResourceManager : public Manager
+class ResourceManager
 {
 public:
 	ResourceManager();
