@@ -169,9 +169,6 @@
     <ClCompile Include="Wnd.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="BobMarley.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="GameEntity.h" />
