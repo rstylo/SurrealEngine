@@ -49,6 +49,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="BobMarley.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
