@@ -12,6 +12,7 @@ Terrain::~Terrain()
 
 }
 
+//Made from the example off the teacher
 bool Terrain::LoadBMP(char* argFileName)
 {
 	Logger* log = new Logger();
@@ -69,7 +70,8 @@ bool Terrain::LoadBMP(char* argFileName)
 			heightData[(lHeight*width * 3) + lWidth * 3 + 1] = GetGValue(GetPixel(lhdcDest, lHeight, lWidth));
 			heightData[(lHeight*width * 3) + lWidth * 3 + 2] = GetBValue(GetPixel(lhdcDest, lHeight, lWidth));
 
-			log->log(heightData[(lHeight*width * 3) + lWidth * 3 + 0]);
+			//this takes time, it will log all pixels of the image
+			//log->log(heightData[(lHeight*width * 3) + lWidth * 3 + 0]);
 		}
 	}
 	//How to optimize this function? (hint: heightmaps are grayscale BMP's)
