@@ -1,13 +1,13 @@
 #ifndef Scene_H_
 #define Scene_H_
 
-#include <windows.h>						//voor unique ids
+#include <windows.h>
 #include <map>
-#include <d3dx9.h>
 #include <cstdint>
 #include "GameEntity.h"
 #include "Entity.h"
 #include "Terrain.h"
+#include <d3d9.h>
 
 class Scene
 {

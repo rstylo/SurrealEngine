@@ -7,14 +7,18 @@ GameEntity::GameEntity() {}
 
 GameEntity::~GameEntity() {}
 
-void GameEntity::Init(LPDIRECT3DDEVICE9 _g_pd3dDevice)
+void GameEntity::Init( )
 {
-	g_pd3dDevice = _g_pd3dDevice;
 	g_pMesh = NULL;
 	g_pMeshMaterials = NULL;
 	g_pMeshTextures = NULL;
 	g_dwNumMaterials = 0L;
 	path = "assets\\";
+}
+
+void GameEntity::SetRenderDevice(LPDIRECT3DDEVICE9 _g_pd3dDevice)
+{
+	g_pd3dDevice = _g_pd3dDevice;
 }
 
 HRESULT GameEntity::SetMesh(std::string _fileName)

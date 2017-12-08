@@ -5,7 +5,7 @@
 #include <string>
 #include <list>
 #include "GameEntity.h"
-#include "Scene.h"
+#include "SceneManager.h"
 #include "Renderer.h"
 
 class Kernel
@@ -15,12 +15,12 @@ public:
 	~Kernel();
     bool Init(HWND, bool);
 	void Update();
-	void Draw();
 
 private:
 	Renderer* renderer;
 	bool initialized;
-	Scene* myScene;
+	SceneManager* sceneManager;
+	ResourceManager* resourceManager;
 };
 #endif // KERNEL_H_
 

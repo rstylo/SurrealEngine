@@ -1,6 +1,7 @@
 #include "Kernel.h"
 #include "Renderer.h"
 #include "Scene.h"
+#include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Entity.h"
 #include "GameEntity.h"
@@ -13,11 +14,15 @@ Kernel::~Kernel() {}
 bool Kernel::Init(HWND hWnd, bool windowed) {
 
 	renderer = new Renderer();
-	myScene = new Scene();
 
 	if (renderer->Init(hWnd, true)) 
 	{
-		myScene->Init(renderer->device);
+		resourceManager = new ResourceManager();
+
+		sceneManager = new SceneManager();
+		Scene* scene = sceneManager->GetCurrentScene();
+		scene->Init(renderer->device);
+
 		initialized = true;
 		return true;
 	}
@@ -26,18 +31,17 @@ bool Kernel::Init(HWND hWnd, bool windowed) {
 	return false;
 }
 
-void Kernel::Draw()
+void Kernel::Update() 
 {
-	if (initialized) 
+	if (initialized)
 	{
 		renderer->Clear(D3DCOLOR_XRGB(0, 100, 100));
 		renderer->Begin();
 
-		myScene->DrawEntities();
+		Scene* scene = sceneManager->GetCurrentScene();
+		scene->DrawEntities();
 
 		renderer->End();
 		renderer->Present();
 	}
 }
-
-void Kernel::Update() {}

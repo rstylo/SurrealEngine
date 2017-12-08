@@ -1,15 +1,8 @@
-﻿  logger.cpp
-  Wnd.cpp
-  WinMain.cpp
-  Terrain.cpp
-  Skybox.cpp
-  Scene.cpp
-  ResourceManager.cpp
-  Resource.cpp
-  Renderer.cpp
+﻿  Scene.cpp
   Kernel.cpp
-  GameEntity.cpp
-  Entity.cpp
   Generating Code...
-  LINK : C:\Users\Gebruiker\Documents\GitHub\SurrealEngine\Debug\SurrealEngine.exe not found or not built by the last incremental link; performing full link
+  Compiling...
+  WinMain.cpp
+  SceneManager.cpp
+  Generating Code...
   SurrealEngine.vcxproj -> C:\Users\Gebruiker\Documents\GitHub\SurrealEngine\Debug\SurrealEngine.exe

@@ -1,7 +1,6 @@
 #include "Scene.h"
 #include "Entity.h"
 #include "GameEntity.h"
-#include <d3dx9.h>
 #include "Terrain.h"
 
 
@@ -9,11 +8,12 @@ Scene::Scene() {}
 
 Scene::~Scene() {}
 
-void Scene::Init(LPDIRECT3DDEVICE9 device)
+void Scene::Init(LPDIRECT3DDEVICE9 _g_pd3dDevice)
 {
 	//Make an game entity for test
 	game = new GameEntity();
-	game->Init(device);
+	game->SetRenderDevice(_g_pd3dDevice);
+	game->Init();
 	game->SetMesh("tiger.x");
 
 	//Generate Terrain

@@ -33,8 +33,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				wnd.Run();
 
 				kernel.Update();
-
-				kernel.Draw();
 					
 			}
 		}

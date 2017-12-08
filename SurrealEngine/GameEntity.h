@@ -9,7 +9,8 @@ class GameEntity
 public:
 	GameEntity();
 	~GameEntity();
-	void Init(LPDIRECT3DDEVICE9);
+	void Init();
+	void SetRenderDevice(LPDIRECT3DDEVICE9);
 	HRESULT SetMesh(std::string);
 	void Cleanup();
 	void Draw();
