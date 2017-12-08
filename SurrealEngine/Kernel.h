@@ -6,6 +6,7 @@
 #include <list>
 #include "GameEntity.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
 #include "Renderer.h"
 
 class Kernel
