@@ -1,7 +1,5 @@
 #include "Camera.h"
 
-
-
 Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation)
 {
 	float twoPi = D3DX_PI; //handig om een eigen util/math klasse te maken waar twopi al in is gedefineerd
@@ -67,4 +65,24 @@ void Camera::Update()
 void Camera::MoveTo(D3DXVECTOR3)
 {
 
+}
+
+void Camera::MoveLeft()
+{
+	lookAt.x -= 0.05f;
+}
+
+void Camera::MoveRight()
+{
+	lookAt.x += 0.05f;
+}
+
+void Camera::MoveForwards()
+{
+	eye.z += 0.05f;
+}
+
+void Camera::MoveBackwards()
+{
+	eye.z -= 0.05f;
 }

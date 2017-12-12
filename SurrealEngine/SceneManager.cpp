@@ -87,3 +87,8 @@ Entity* SceneManager::GetEntity(uint32_t _uuid)
 
 	return NULL;
 }
+
+Scene * SceneManager::GetCurrentScene()
+{
+	return currentScene;
+}

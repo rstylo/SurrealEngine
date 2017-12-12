@@ -10,6 +10,7 @@ class Renderer;
 class Wnd;
 class SceneManager;
 class ResourceManager;
+class InputHandler;
 
 class Kernel													//deze klasse geliever niet abstract omdat hij van teveel andere klasse afhankelijk is
 {
@@ -31,6 +32,8 @@ private:
 
 	SceneManager* sceneManager;
 	ResourceManager* resourceManager;
+
+	InputHandler* inputHandler;
 
 
 

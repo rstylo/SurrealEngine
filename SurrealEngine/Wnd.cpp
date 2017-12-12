@@ -1,4 +1,3 @@
-//#include "stdafx.h"
 #include "Wnd.h"
 
 
@@ -18,7 +17,7 @@ LRESULT CALLBACK Wnd::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	return DefWindowProc(hWnd, message, wParam, lParam);																	//anders default window procedure
 }
 
-Wnd::Wnd(LPSTR className, LPSTR windowTitle, int width, int height)
+Wnd::Wnd(LPCWSTR className, LPCWSTR windowTitle, int width, int height)
 	:hInstance(GetModuleHandle(0)), nCmdShow(SW_SHOWDEFAULT), className(className), windowTitle(windowTitle), width(width), height(height)
 {
 }
@@ -56,7 +55,7 @@ bool Wnd::Init(int startX, int startY)
 	if (RegisterClassEx(&windowClassEx) == false)																				//is klasse ex geregistreed?
 	{
 		initialized = false;
-		MessageBox(NULL,"Failed creating window!!", NULL, NULL);
+		MessageBox(NULL,L"Failed creating window!!", NULL, NULL);
 		return false;
 	}
 

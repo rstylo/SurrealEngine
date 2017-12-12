@@ -20,6 +20,7 @@ public:
 	virtual void Draw(LPDIRECT3DDEVICE9);
 	virtual void SetupTerrain(LPDIRECT3DDEVICE9);
 	virtual uint32_t GetId();
+	virtual Camera* GetCamera(int);
 
 	virtual void AddCamera(int, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3);
 	

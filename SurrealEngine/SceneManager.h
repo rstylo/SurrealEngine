@@ -31,6 +31,8 @@ public:
 	virtual void AddEntity(Entity*);
 	virtual Entity* GetEntity(uint32_t);
 
+	virtual Scene* GetCurrentScene();
+
 
 
 private:

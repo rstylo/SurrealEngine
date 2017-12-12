@@ -6,7 +6,7 @@
 class Wnd
 {
 public:
-	Wnd(LPSTR, LPSTR, int, int);
+	Wnd(LPCWSTR, LPCWSTR, int, int);
 	~Wnd();
 
 	bool Init();
@@ -22,8 +22,8 @@ public:
 private:
 	HINSTANCE hInstance;
 	int nCmdShow;
-	LPSTR className;
-	LPSTR windowTitle;
+	LPCWSTR className;
+	LPCWSTR windowTitle;
 	int width;
 	int height;
 	WPARAM wParam;

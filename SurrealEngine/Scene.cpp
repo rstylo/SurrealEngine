@@ -30,6 +30,11 @@ uint32_t Scene::GetId()
 	return id;
 }
 
+Camera * Scene::GetCamera(int cam)
+{
+	return cameras.find(cam)->second;
+}
+
 void Scene::SetupTerrain(LPDIRECT3DDEVICE9 _device)
 {
 	if (terrain != NULL)
@@ -50,7 +55,6 @@ void Scene::SetupMatrices(LPDIRECT3DDEVICE9 _device, int cam)
 	{
 		printf("failed displaying camera view for cam: %d \n", &cam);
 	}
-
 }
 
 void Scene::Draw(LPDIRECT3DDEVICE9 _device)

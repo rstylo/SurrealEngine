@@ -1,5 +1,5 @@
-#ifndef _LOGGER_H_
-#define _LOGGER_H_
+#ifndef LOGGER_H_
+#define LOGGER_H_
 
 #include <iostream>
 #include <fstream>
@@ -9,10 +9,11 @@ class Logger {
 public:
 	Logger();
 	virtual ~Logger();
-	void logtime();
-	void log( int );
-	void log( std::string );
-	void flush();
+
+	virtual void Logtime();
+	virtual void Log( int );
+	void Log( std::string );
+	void Flush();
 
 private:
 	std::ofstream file1;

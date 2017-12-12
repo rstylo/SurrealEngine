@@ -1,2 +1,6 @@
-﻿  SurrealEngine.cpp
-  SurrealEngine.vcxproj -> C:\Users\Eigenaar\Desktop\CPlusPlus\SurrealEngine\Debug\SurrealEngine.exe
+﻿  Wnd.cpp
+  Kernel.cpp
+  d:\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Camera.cpp
+  Generating Code...
+  SurrealEngine.vcxproj -> C:\Users\ilhan\Documents\3d engine\Debug\SurrealEngine.exe

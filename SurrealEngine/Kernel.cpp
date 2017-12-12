@@ -4,7 +4,10 @@
 
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "InputHandler.h"
 
+#include "Scene.h"
+#include "Camera.h"
 
 
 Kernel::Kernel()
@@ -32,8 +35,8 @@ bool Kernel::Init(bool windowed)
 {
 
 	
-	Wnd* gameWnd = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
-	Wnd* devWnd = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
+	Wnd* gameWnd = new Wnd(L"GameWindow", L"Game window", 1280, 720);						//window die de view van de game geeft
+	Wnd* devWnd = new Wnd(L"DevWindow", L"Dev window", 640, 420);							//window die view van een andere persoctive geeft
 	
 	Renderer* gameRend = new Renderer();												
 	Renderer* devRend = new Renderer();													
@@ -53,8 +56,11 @@ bool Kernel::Init(bool windowed)
 
 			sceneManager = new SceneManager();											//aanmaken van scenemanager
 			resourceManager = new ResourceManager();
-
+			
 			sceneManager->SetupScene(gameRend->device);									
+
+			inputHandler = new InputHandler(&gameWnd->hWnd);
+			inputHandler->Acquire();
 
 			initialized = true;
 			return true;
@@ -63,7 +69,7 @@ bool Kernel::Init(bool windowed)
 
 	
 
-	MessageBox(NULL, "failed initializing Game class", NULL, NULL);
+	MessageBox(NULL, L"failed initializing Game class", NULL, NULL);
 	return false;
 }
 
@@ -101,6 +107,8 @@ void Kernel::Update() {
 	{	
 		sceneManager->Update();
 		resourceManager->Update();
+		inputHandler->Update(sceneManager->GetCurrentScene()->GetCamera(0));
+
 		Draw();
 	}
 }
