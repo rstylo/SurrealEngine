@@ -7,21 +7,19 @@
 class Keyboard
 {
 public:
-	Keyboard::Keyboard(HWND*, LPDIRECTINPUT);
+	Keyboard(HWND*, LPDIRECTINPUT);
 	virtual ~Keyboard();
 	bool Init();
 
 	virtual void SaveReleaseDevice();
-
-	char CheckKeyPressed();
-	
+	byte* CheckKeyPressed();
 	virtual bool DoAcquire();
 
 private:
 	HWND* wnd;
 	LPDIRECTINPUT dInput;
 	LPDIRECTINPUTDEVICE dDevice;
-	char keybuffer[256];
+	byte keybuffer[256];
 };
 
 #endif

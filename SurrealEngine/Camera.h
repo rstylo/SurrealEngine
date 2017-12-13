@@ -13,6 +13,7 @@ public:
 	virtual void LookAt(D3DXVECTOR3);
 	virtual void Update();
 	virtual void MoveTo(D3DXVECTOR3);
+	void Move(float x, float y);
 	virtual void MoveLeft();
 	virtual void MoveRight();
 	virtual void MoveForwards();

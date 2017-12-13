@@ -57,9 +57,11 @@ void Camera::LookAt(D3DXVECTOR3 _lookAt)
 
 void Camera::Update()
 {
+	/*
 	rotation.x += 0.01f;
 	rotation.y += 0.01f;
 	rotation.z += 0.01f;
+	*/
 }
 
 void Camera::MoveTo(D3DXVECTOR3)
@@ -67,22 +69,28 @@ void Camera::MoveTo(D3DXVECTOR3)
 
 }
 
+void Camera::Move(float x, float y)
+{
+	rotation.y += x/50;
+	rotation.x += y/50;
+}
+
 void Camera::MoveLeft()
 {
-	lookAt.x -= 0.05f;
+	rotation.y += 0.05f;
 }
 
 void Camera::MoveRight()
 {
-	lookAt.x += 0.05f;
+	rotation.y -= 0.05f;
 }
 
 void Camera::MoveForwards()
 {
-	eye.z += 0.05f;
+	rotation.x -= 0.05f;
 }
 
 void Camera::MoveBackwards()
 {
-	eye.z -= 0.05f;
+	rotation.x += 0.05f;
 }

@@ -62,8 +62,7 @@ bool Terrain::Init(LPDIRECT3DDEVICE9 device,  const int size)
 void Terrain::Draw(LPDIRECT3DDEVICE9 device)
 {
 	for (auto vertexBuffer = vertexBuffers.begin(); vertexBuffer != vertexBuffers.end(); vertexBuffer++)	//teken alle vertex buffers
-	{
-		
+	{	
 		device->SetStreamSource(0, (*vertexBuffer), 0, sizeof(xyzColorVertex));	
 		device->SetFVF(FVF_VERTEXSTRUCTURE);
 		device->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 300);												//<- 3 per quad in de strip

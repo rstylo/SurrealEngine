@@ -1,14 +1,11 @@
 #include "Keyboard.h"
 #include <iostream>
 
-#define KEYDOWN(keybuffer, key) (keybuffer[key] & 0x80)
-
 Keyboard::Keyboard(HWND* _wnd, LPDIRECTINPUT _dInput)
 {
 	dInput = _dInput;
 	dDevice = NULL;
 	wnd = _wnd;
-	Init();
 }
 
 Keyboard::~Keyboard()
@@ -42,41 +39,21 @@ bool Keyboard::Init()
 
 void Keyboard::SaveReleaseDevice()
 {
-	if (dInput)
+	if (dDevice)
 	{
-		if (dDevice)
-		{
-			dDevice->Unacquire();
-			dDevice->Release();
-			dDevice = NULL;
-		}
-		dInput->Release();
-		dInput = NULL;
+		dDevice->Unacquire();
+		dDevice->Release();
+		dDevice = NULL;
 	}
 }
 
 
-char Keyboard::CheckKeyPressed()
+byte* Keyboard::CheckKeyPressed()
 {
-	DoAcquire();
-	dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer);
-	if (keybuffer[DIK_A] & 0x80)
-		return 'a';
-	if (keybuffer[DIK_W] & 0x80)
-		return 'w';
-	if (keybuffer[DIK_S] & 0x80)
-		return 's';
-	if (keybuffer[DIK_D] & 0x80)
-		return 'd';
-	if (keybuffer[DIK_UP] & 0x80)
-		return 'w';
-	if (keybuffer[DIK_LEFT] & 0x80)
-		return 'a';
-	if (keybuffer[DIK_RIGHT] & 0x80)
-		return 'd';
-	if (keybuffer[DIK_DOWN] & 0x80)
-		return 'd';
-	return NULL;
+	
+	if(FAILED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer)));
+		DoAcquire();
+	return keybuffer;
 }
 
 bool Keyboard::DoAcquire()
