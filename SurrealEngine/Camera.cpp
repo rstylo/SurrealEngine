@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include <iostream>
 
 Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation)
 {
@@ -16,6 +17,10 @@ Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation)
 	rotation.y = _rotation.y;
 	rotation.z = _rotation.z;
 
+	translation.x = 0;
+	translation.y = 0;
+	translation.z = 0;
+
 	up.x = 0.0f;
 	up.y = 1.0f;
 	up.z = 0.0f;
@@ -28,15 +33,26 @@ Camera::~Camera()
 
 void Camera::SetupView(LPDIRECT3DDEVICE9 _device)
 {
+	D3DXMATRIXA16 trans;
+
+	D3DXMatrixTranslation(&trans, translation.x, translation.y, translation.z);
+	D3DXMATRIX worldMtrx = trans;
+	_device->SetTransform(D3DTS_WORLD, &worldMtrx);
+
 	D3DXMATRIXA16 rotX;
 	D3DXMATRIXA16 rotY;
 	D3DXMATRIXA16 rotZ;
+
+	if (rotation.y > 2*D3DX_PI)
+		rotation.y = 0;
+	if (rotation.y < 0)
+		rotation.y = 2 * D3DX_PI;
 
 	D3DXMatrixRotationX(&rotX, rotation.x);
 	D3DXMatrixRotationY(&rotY, rotation.y);
 	D3DXMatrixRotationZ(&rotZ, rotation.z);
 
-	D3DXMATRIX worldMtrx = rotX *rotY * rotZ;
+	worldMtrx *= rotX *rotY * rotZ;
 	_device->SetTransform(D3DTS_WORLD, &worldMtrx);
 
 	D3DXMATRIX viewMtrx;
@@ -69,28 +85,45 @@ void Camera::MoveTo(D3DXVECTOR3)
 
 }
 
-void Camera::Move(float x, float y)
+void Camera::Rotate(float x, float y)
 {
-	rotation.y += x/50;
-	rotation.x += y/50;
+	rotation.y -= y*2*D3DX_PI/100;	
 }
 
 void Camera::MoveLeft()
 {
-	rotation.y += 0.05f;
+	float speed = 0.30f;
+	translation.z -= speed*cos(rotation.y+0.5*D3DX_PI);
+	translation.x += speed*sin(rotation.y+ 0.5*D3DX_PI);
 }
 
 void Camera::MoveRight()
 {
-	rotation.y -= 0.05f;
+	float speed = 0.30f;
+	translation.z -= speed*cos(rotation.y - 0.5*D3DX_PI);
+	translation.x += speed*sin(rotation.y - 0.5*D3DX_PI);
 }
 
 void Camera::MoveForwards()
 {
-	rotation.x -= 0.05f;
+	float speed = 0.30f;
+	translation.z -= speed*cos(rotation.y);
+	translation.x += speed*sin(rotation.y);
 }
 
 void Camera::MoveBackwards()
 {
-	rotation.x += 0.05f;
+	float speed = 0.30f;
+	translation.z += speed*cos(rotation.y);
+	translation.x -= speed*sin(rotation.y);
+}
+
+void Camera::MoveUp()
+{
+	translation.y -= 0.2f;
+}
+
+void Camera::MoveDown()
+{
+	translation.y += 0.2f;
 }

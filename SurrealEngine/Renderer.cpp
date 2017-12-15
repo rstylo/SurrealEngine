@@ -17,7 +17,6 @@ It decrease the reference count of the specified interface.
 
 
 #include "Renderer.h"
-#pragma comment(lib, "D3d9.lib")
 
 
 
@@ -102,5 +101,5 @@ void Renderer::End() {
 }
 
 void Renderer::Present() {
-	device->Present(NULL, NULL, NULL, NULL);	//waarom 4 nullen niet 6 zoals bij leraar?
+	device->Present(NULL, NULL, NULL, NULL);
 }

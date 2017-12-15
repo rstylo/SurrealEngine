@@ -3,10 +3,12 @@
 #include "Keyboard.h"
 #include "Wnd.h"
 #include "Camera.h"
-#include <iostream>
+#include <cstdlib>
 
 InputHandler::InputHandler(HWND* wnd)
 {
+	byte* keybuffer = NULL;
+	MouseValues* mouseValues = NULL;
 	if (Init()) {
 		mouse = new Mouse(wnd, dInput);
 		keyboard = new Keyboard(wnd, dInput);
@@ -73,6 +75,9 @@ void InputHandler::HandleKeys(Camera* cam)
 		cam->MoveBackwards();
 	if (keybuffer[DIK_D] & 0x80)
 		cam->MoveRight();
+	if (keybuffer[DIK_C] & 0x80)
+		cam->MoveDown();
+
 	if (keybuffer[DIK_UP] & 0x80)
 		cam->MoveForwards();
 	if (keybuffer[DIK_LEFT] & 0x80)
@@ -81,18 +86,18 @@ void InputHandler::HandleKeys(Camera* cam)
 		cam->MoveRight();
 	if (keybuffer[DIK_DOWN] & 0x80)
 		cam->MoveBackwards();
+	
+	if (keybuffer[DIK_SPACE] & 0x80)
+		cam->MoveUp();
+	
+	if (keybuffer[DIK_ESCAPE] & 0x80) {
+		exit(0);
+	}
 }
 
 void InputHandler::HandleMouse(Camera* cam)
 {
+	cam->Rotate(0, mouseValues->dX);
 	if (mouseValues->button0)
 		cam->MoveForwards();
-	if (mouseValues->button1) {
-		cam->Move(mouseValues->dX, 0);
-//		std::cout << "button pressed" << std::endl;
-	}
-	if ((mouseValues->button1) == false) {
-		cam->Move(0, 0);
-//		std::cout << "button not pressed" << std::endl;
-	}
 }

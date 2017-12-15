@@ -29,6 +29,12 @@ Kernel::~Kernel()
 		delete resourceManager;
 		resourceManager = NULL;
 	}
+
+	if (inputHandler != NULL)
+	{
+		delete inputHandler;
+		inputHandler = NULL;
+	}
 }
 
 bool Kernel::Init(bool windowed) 

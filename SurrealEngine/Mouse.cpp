@@ -38,7 +38,7 @@ bool Mouse::Init() {
 		return false;
 	}
 
-	result = dDevice->SetCooperativeLevel(*wnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+	result = dDevice->SetCooperativeLevel(*wnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
 	if (FAILED(result))
 	{
 		return false;
@@ -54,36 +54,51 @@ bool Mouse::Init() {
 
 
 MouseValues* Mouse::UpdateValues() {
-	DWORD elements = 1;
-	DIDEVICEOBJECTDATA od;
-	
-	if (FAILED(dDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), &od, &elements, 0))) {
-		mouseValues.dX = 0;
-		mouseValues.dY = 0;
+	DWORD elements = 6;
+	mouseValues.dX = 0;
+	mouseValues.dY = 0;
+
+	if (FAILED(dDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), od, &elements, 0))) {
 		mouseValues.button0 = false;
 		mouseValues.button1 = false;
 		DoAcquire();
-		dDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), &od, &elements, 0);
+		dDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), od, &elements, 0);
 	}
-		
 
-	switch (od.dwOfs)
-	{
-	case DIMOFS_X:
-		mouseValues.x += static_cast<long>(od.dwData);
-		mouseValues.dX = static_cast<long>(od.dwData);
-		break;
-	case DIMOFS_Y:
-		mouseValues.y += static_cast<long>(od.dwData);
-		mouseValues.dY = static_cast<long>(od.dwData);
-		break;
-	case DIMOFS_BUTTON0:
-		mouseValues.button0 = (static_cast<long>(od.dwData) == 0) ? false : true;
-		break;
-	case DIMOFS_BUTTON1:
-		mouseValues.button1 = (static_cast<long>(od.dwData) == 0) ? false : true;
-		break;
+	for (int i = 0; i < elements; i++) {
+		if (od[i].dwOfs == DIMOFS_X) {
+			mouseValues.x += static_cast<long>(od[i].dwData);
+			mouseValues.dX = static_cast<long>(od[i].dwData);
+		}
+		if (od[i].dwOfs == DIMOFS_Y) {
+			mouseValues.y += static_cast<long>(od[i].dwData);
+			mouseValues.dY = static_cast<long>(od[i].dwData);
+		}
+		if (od[i].dwOfs == DIMOFS_BUTTON0) {
+			mouseValues.button0 = (od[i].dwData & 0x80) ? true : false;
+		}
+		if (od[i].dwOfs == DIMOFS_BUTTON1) {
+			mouseValues.button1 = (od[i].dwData & 0x80) ? true : false;
+		}
+		/*switch (od[i].dwOfs)
+		{
+		case DIMOFS_X:
+			mouseValues.x += static_cast<long>(od[i].dwData);
+			mouseValues.dX = static_cast<long>(od[i].dwData);
+			break;
+		case DIMOFS_Y:
+			mouseValues.y += static_cast<long>(od[i].dwData);
+			mouseValues.dY = static_cast<long>(od[i].dwData);
+			break;
+		case DIMOFS_BUTTON0:
+			mouseValues.button0 = (static_cast<long>(od[i].dwData) == 0) ? false : true;
+			break;
+		case DIMOFS_BUTTON1:
+			mouseValues.button1 = (static_cast<long>(od[i].dwData) == 0) ? false : true;
+			break;
+		}*/
 	}
+
 	return &mouseValues;
 	
 }

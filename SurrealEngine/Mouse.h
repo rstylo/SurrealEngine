@@ -24,6 +24,8 @@ private:
 	DIPROPDWORD dipdw;
 	char mousebuffer[8];
 	MouseValues mouseValues;
+
+	DIDEVICEOBJECTDATA od[6];
 };
 
 #endif
