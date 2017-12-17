@@ -1,10 +1,4 @@
 ﻿  InputHandler.cpp
   d:\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-c:\users\ilhan\documents\3d engine\surrealengine\inputhandler.cpp(101): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Camera.cpp
-c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(96): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(97): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(103): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(104): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
+c:\users\ilhan\documents\3d engine\surrealengine\inputhandler.cpp(116): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   SurrealEngine.vcxproj -> C:\Users\ilhan\Documents\3d engine\Debug\SurrealEngine.exe

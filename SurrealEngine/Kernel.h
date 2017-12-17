@@ -5,6 +5,7 @@
 #include <d3dx9.h>
 #include <string>
 #include <sstream>
+#include "DirectXRenderer.h"
 
 class Renderer;
 class Wnd;
@@ -24,14 +25,15 @@ public:
 	void Draw();
 
 public:
-	std::pair<Wnd*, Renderer*> gameDisplay;								
-	std::pair<Wnd*, Renderer*> devDisplay;
+	Wnd* gameDisplay;								
+	Wnd* devDisplay;
 private:
 
 	bool initialized;
-
+	Renderer* renderer;
 	SceneManager* sceneManager;
 	ResourceManager* resourceManager;
+	LPDIRECT3DDEVICE9* device;
 
 	InputHandler* inputHandler;
 

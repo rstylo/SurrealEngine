@@ -16,7 +16,9 @@ public:
 	bool Init();
 	void SaveReleaseDevice();
 	virtual bool DoAcquire();
-	MouseValues* UpdateValues();
+	virtual bool UpdateValues();
+	virtual MouseValues* getValues();
+
 private:
 	HWND* wnd;
 	LPDIRECTINPUT dInput;
@@ -26,6 +28,7 @@ private:
 	MouseValues mouseValues;
 
 	DIDEVICEOBJECTDATA od[6];
+	
 };
 
 #endif

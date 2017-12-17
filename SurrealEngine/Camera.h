@@ -3,15 +3,17 @@
 
 #include <d3dx9.h>
 
+class InputHandler;
+
 class Camera
 {
 public:
-	Camera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3);
+	Camera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, InputHandler*);
 	virtual ~Camera();
 
 	virtual void SetupView(LPDIRECT3DDEVICE9);
 	virtual void LookAt(D3DXVECTOR3);
-	virtual void Update();
+	virtual void Update(int cam);
 	virtual void MoveTo(D3DXVECTOR3);
 	void Rotate(float, float);
 	virtual void MoveLeft();
@@ -31,6 +33,8 @@ private:
 	D3DXVECTOR3 eye;
 	D3DXVECTOR3 lookAt;
 	D3DXVECTOR3 up;
+
+	InputHandler* inputHandler;
 
 
 };

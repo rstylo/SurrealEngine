@@ -3,9 +3,9 @@
 #include "Entity.h"
 
 
-SceneManager::SceneManager()
+SceneManager::SceneManager(InputHandler* _inputHandler)
 {
-	Scene* startScene = new Scene(D3DXVECTOR3(0 ,5 ,-5), D3DXVECTOR3(0, 4, 0));
+	Scene* startScene = new Scene(D3DXVECTOR3(0 ,5 ,-5), D3DXVECTOR3(0, 4, 0), _inputHandler);
 	currentScene = startScene;
 }
 

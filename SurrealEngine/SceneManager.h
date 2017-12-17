@@ -7,6 +7,7 @@
 #include <d3dx9.h>
 #include <cstdint>
 
+class InputHandler;
 class Scene;
 class Renderer;
 class Entity;
@@ -14,7 +15,7 @@ class Entity;
 class SceneManager
 {
 public:
-	SceneManager();
+	SceneManager(InputHandler*);
 	virtual ~SceneManager();
 
 	virtual void Update();

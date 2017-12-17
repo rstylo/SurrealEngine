@@ -10,6 +10,7 @@ Keyboard::Keyboard(HWND* _wnd, LPDIRECTINPUT _dInput)
 
 Keyboard::~Keyboard()
 {
+	SaveReleaseDevice();
 }
 
 bool Keyboard::Init()
@@ -48,18 +49,24 @@ void Keyboard::SaveReleaseDevice()
 }
 
 
-byte* Keyboard::CheckKeyPressed()
+bool Keyboard::CheckKeyPressed()
 {
-	
-	if(FAILED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer)));
+	if (FAILED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer))) {
 		DoAcquire();
+		if (FAILED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer)))
+			return true;
+	}
+	return false;
+}
+
+byte* Keyboard::GetKeyBuffer()
+{
 	return keybuffer;
 }
 
 bool Keyboard::DoAcquire()
 {	
-	int times = 5;
-	for (int i = 0; i < times; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		if (SUCCEEDED(dDevice->Acquire()))
 		{

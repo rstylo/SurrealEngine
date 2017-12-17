@@ -3,7 +3,7 @@
 #include "Camera.h"
 
 
-Scene::Scene(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt)
+Scene::Scene(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, InputHandler* _inputHandler)
 {
 
 	id = reinterpret_cast<uint32_t>(this);
@@ -12,8 +12,8 @@ Scene::Scene(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt)
 	terrain = new Terrain();
 	
 
-	AddCamera(0, _eye, _lookAt, D3DXVECTOR3(0,0,0));										//game camera
-	AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));		//dev camera
+	AddCamera(0, _eye, _lookAt, D3DXVECTOR3(0,0,0), _inputHandler);										//game camera
+	AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), _inputHandler);		//dev camera
 }
 
 
@@ -61,17 +61,17 @@ void Scene::Draw(LPDIRECT3DDEVICE9 _device)
 {
 	if (terrain != NULL)
 	{
-		//cameras[0]->Update();					//hoort hier niet
-		//cameras[1]->Update();					//hoort hier niet
+		cameras[0]->Update(0);
+		cameras[1]->Update(1);
 
 		terrain->Draw(_device);
 	}
 }
 
-void Scene::AddCamera(int cam, D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation)
+void Scene::AddCamera(int cam, D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, InputHandler* _inputHandler)
 {
 	if (cameras.find(cam) == cameras.end())
-		cameras[cam] = new Camera(_eye, _lookAt, _rotation);
+		cameras[cam] = new Camera(_eye, _lookAt, _rotation, _inputHandler);
 	else
 		printf("camera %d already exists!!", cam);
 }

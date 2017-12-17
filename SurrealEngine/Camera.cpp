@@ -1,6 +1,7 @@
 #include "Camera.h"
+#include "InputHandler.h"
 
-Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation)
+Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, InputHandler* _inputHandler)
 {
 	float twoPi = D3DX_PI; //handig om een eigen util/math klasse te maken waar twopi al in is gedefineerd
 
@@ -23,6 +24,8 @@ Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation)
 	up.x = 0.0f;
 	up.y = 1.0f;
 	up.z = 0.0f;
+
+	inputHandler = _inputHandler;
 }
 
 
@@ -41,11 +44,6 @@ void Camera::SetupView(LPDIRECT3DDEVICE9 _device)
 	D3DXMATRIXA16 rotX;
 	D3DXMATRIXA16 rotY;
 	D3DXMATRIXA16 rotZ;
-
-	if (rotation.y > 2*D3DX_PI)
-		rotation.y = 0;
-	if (rotation.y < 0)
-		rotation.y = 2 * D3DX_PI;
 
 	D3DXMatrixRotationX(&rotX, rotation.x);
 	D3DXMatrixRotationY(&rotY, rotation.y);
@@ -70,13 +68,9 @@ void Camera::LookAt(D3DXVECTOR3 _lookAt)
 	lookAt = _lookAt;
 }
 
-void Camera::Update()
+void Camera::Update(int cam)
 {
-	/*
-	rotation.x += 0.01f;
-	rotation.y += 0.01f;
-	rotation.z += 0.01f;
-	*/
+	inputHandler->Update(this,cam);
 }
 
 void Camera::MoveTo(D3DXVECTOR3)
@@ -87,6 +81,8 @@ void Camera::MoveTo(D3DXVECTOR3)
 void Camera::Rotate(float x, float y)
 {
 	rotation.y -= y*2*D3DX_PI/100;	
+	rotation.z += 0.1f*x*cos(rotation.y);
+	rotation.x += 0.1f*x*sin(rotation.y);
 }
 
 void Camera::MoveLeft()

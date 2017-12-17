@@ -12,7 +12,8 @@ public:
 	bool Init();
 
 	virtual void SaveReleaseDevice();
-	byte* CheckKeyPressed();
+	bool CheckKeyPressed();
+	virtual byte * GetKeyBuffer();
 	virtual bool DoAcquire();
 
 private:

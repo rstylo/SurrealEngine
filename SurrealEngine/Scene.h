@@ -9,11 +9,12 @@
 
 class Terrain;
 class Camera;
+class InputHandler;
 
 class Scene
 {
 public:
-	Scene(D3DXVECTOR3, D3DXVECTOR3);
+	Scene(D3DXVECTOR3, D3DXVECTOR3, InputHandler*);
 	virtual ~Scene();
 
 	virtual void SetupMatrices(LPDIRECT3DDEVICE9, int);
@@ -22,7 +23,7 @@ public:
 	virtual uint32_t GetId();
 	virtual Camera* GetCamera(int);
 
-	virtual void AddCamera(int, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3);
+	virtual void AddCamera(int, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, InputHandler*);
 	
 private:
 	uint32_t id;

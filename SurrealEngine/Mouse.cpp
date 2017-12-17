@@ -1,4 +1,4 @@
-#include "Mouse.h"
+#include "Mouse.h" 
 #include <iostream>
 
 Mouse::Mouse(HWND* _wnd, LPDIRECTINPUT _dInput)
@@ -17,6 +17,7 @@ Mouse::Mouse(HWND* _wnd, LPDIRECTINPUT _dInput)
 
 Mouse::~Mouse()
 {
+	SaveReleaseDevice();
 }
 
 bool Mouse::Init() {
@@ -53,7 +54,7 @@ bool Mouse::Init() {
 }
 
 
-MouseValues* Mouse::UpdateValues() {
+bool Mouse::UpdateValues() {
 	DWORD elements = 6;
 	mouseValues.dX = 0;
 	mouseValues.dY = 0;
@@ -62,7 +63,8 @@ MouseValues* Mouse::UpdateValues() {
 		mouseValues.button0 = false;
 		mouseValues.button1 = false;
 		DoAcquire();
-		dDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), od, &elements, 0);
+		if (FAILED(dDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), od, &elements, 0)))
+			return false;
 	}
 
 	for (int i = 0; i < elements; i++) {
@@ -80,27 +82,15 @@ MouseValues* Mouse::UpdateValues() {
 		if (od[i].dwOfs == DIMOFS_BUTTON1) {
 			mouseValues.button1 = (od[i].dwData & 0x80) ? true : false;
 		}
-		/*switch (od[i].dwOfs)
-		{
-		case DIMOFS_X:
-			mouseValues.x += static_cast<long>(od[i].dwData);
-			mouseValues.dX = static_cast<long>(od[i].dwData);
-			break;
-		case DIMOFS_Y:
-			mouseValues.y += static_cast<long>(od[i].dwData);
-			mouseValues.dY = static_cast<long>(od[i].dwData);
-			break;
-		case DIMOFS_BUTTON0:
-			mouseValues.button0 = (static_cast<long>(od[i].dwData) == 0) ? false : true;
-			break;
-		case DIMOFS_BUTTON1:
-			mouseValues.button1 = (static_cast<long>(od[i].dwData) == 0) ? false : true;
-			break;
-		}*/
 	}
-
-	return &mouseValues;
 	
+	return true;
+	
+}
+
+MouseValues * Mouse::getValues()
+{
+	return &mouseValues;
 }
 
 void Mouse::SaveReleaseDevice()
@@ -115,8 +105,7 @@ void Mouse::SaveReleaseDevice()
 
 bool Mouse::DoAcquire()
 {
-	int times = 5;
-	for (int i = 0; i < times; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		if (SUCCEEDED(dDevice->Acquire()))
 		{
