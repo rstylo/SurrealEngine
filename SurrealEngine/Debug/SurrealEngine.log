@@ -1,4 +1,2 @@
-﻿  InputHandler.cpp
-  d:\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-c:\users\ilhan\documents\3d engine\surrealengine\inputhandler.cpp(116): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  DirectXRenderer.cpp
   SurrealEngine.vcxproj -> C:\Users\ilhan\Documents\3d engine\Debug\SurrealEngine.exe

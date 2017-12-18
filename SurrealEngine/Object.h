@@ -2,35 +2,31 @@
 #define OBJECT_H_
 
 #include <d3dx9.h>
-#include <map>
+#include <list>
+#include <string>
 
 #define FVF_VERTEXSTRUCTURE (D3DFVF_XYZ|D3DFVF_DIFFUSE) //flexible vertex format
 
+struct ObjectVertex
+{
+	FLOAT x, y, z;      // 3d positie
+	DWORD color;        // kleur
+};
 
 class Object
 {
 public:
-	Object();
+	Object(int, int);
 	virtual ~Object();
 
-	virtual bool Init(LPDIRECT3DDEVICE9, float, float, float, float);
-	virtual void Draw(LPDIRECT3DDEVICE9);
-	
+	virtual bool EditObject(LPDIRECT3DDEVICE9, float, float, float, float, float, float) = 0;
+	void Draw(LPDIRECT3DDEVICE9);
+
+protected:
+	int numVertices;
+	int primCount;
 	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
 	LPDIRECT3DINDEXBUFFER9 indexBuffer;
-	//LPDIRECT3DTEXTURE9 texture;
-
-	//D3DXVECTOR3 position;
-	//D3DXVECTOR3 rotation;
-	//D3DXVECTOR3 scale;
-	
-
-private:
-	struct ObjectVertex
-	{
-		FLOAT x, y, z;      // 3d positie
-		DWORD color;        // kleur
-	};
 };
 
 #endif // !OBJECT_H_

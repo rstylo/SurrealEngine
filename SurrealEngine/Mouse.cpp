@@ -1,7 +1,7 @@
 #include "Mouse.h" 
 #include <iostream>
 
-Mouse::Mouse(HWND* _wnd, LPDIRECTINPUT _dInput)
+Mouse::Mouse(LPDIRECTINPUT _dInput)
 {
 	mouseValues = { 0, 0, 0, 0, false, false };
 	dipdw.diph.dwSize = sizeof(DIPROPDWORD);
@@ -9,7 +9,6 @@ Mouse::Mouse(HWND* _wnd, LPDIRECTINPUT _dInput)
 	dipdw.diph.dwObj = 0;
 	dipdw.diph.dwHow = DIPH_DEVICE;
 	dipdw.dwData = 8;
-	wnd = _wnd;
 	dInput = _dInput;
 	dDevice = NULL;
 }
@@ -20,7 +19,7 @@ Mouse::~Mouse()
 	SaveReleaseDevice();
 }
 
-bool Mouse::Init() {
+bool Mouse::Init(HWND* _hwnd) {
 	HRESULT result = DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (VOID**)&dInput, NULL);
 	if (FAILED(result))
 	{
@@ -39,9 +38,9 @@ bool Mouse::Init() {
 		return false;
 	}
 
-	result = dDevice->SetCooperativeLevel(*wnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
-	if (FAILED(result))
+	if (!SUCCEEDED(dDevice->SetCooperativeLevel(*_hwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
 	{
+		SaveReleaseDevice();
 		return false;
 	}
 
@@ -53,6 +52,17 @@ bool Mouse::Init() {
 	return true;
 }
 
+bool Mouse::SetWindow(HWND* _hwnd)
+{
+	if(dDevice != NULL)
+	if(!SUCCEEDED(dDevice->SetCooperativeLevel(*_hwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
+	{
+		SaveReleaseDevice();
+		return false;
+	}
+
+	return true;
+}
 
 bool Mouse::UpdateValues() {
 	DWORD elements = 6;
@@ -102,6 +112,8 @@ void Mouse::SaveReleaseDevice()
 		dDevice = NULL;
 	}
 }
+
+
 
 bool Mouse::DoAcquire()
 {

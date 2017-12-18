@@ -57,6 +57,11 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 	presParams.BackBufferFormat = D3DFMT_UNKNOWN;
 	presParams.MultiSampleType = D3DMULTISAMPLE_NONE;		// "anti ailising"
 	presParams.MultiSampleQuality = 0;
+
+	presParams.SwapEffect = D3DSWAPEFFECT_COPY;
+	presParams.EnableAutoDepthStencil = TRUE;
+	presParams.AutoDepthStencilFormat = D3DFMT_D16;
+
 	//presParams.Flags = 0;
 	//presParams.EnableAutoDepthStencil = true;
 	//presParams.AutoDepthStencilFormat = D3DFMT_D24S8;
@@ -72,6 +77,7 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 
 	// Turn off culling, so we see the front and back of the triangle
 	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 
 
 	// Turn off D3D lighting, since we are providing our own vertex colors
@@ -85,7 +91,7 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 void DirectXRenderer::Clear(D3DCOLOR color)
 {
 	device->Clear(0, NULL, D3DCLEAR_TARGET, color, 1.0f, 0);	//backbuffer clear 
-
+	device->Clear(0, NULL, D3DCLEAR_ZBUFFER, color, 1.0f, 0);
 }
 
 bool DirectXRenderer::Begin() {

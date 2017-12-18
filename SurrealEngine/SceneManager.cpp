@@ -5,8 +5,13 @@
 
 SceneManager::SceneManager(InputHandler* _inputHandler)
 {
-	Scene* startScene = new Scene(D3DXVECTOR3(0 ,5 ,-5), D3DXVECTOR3(0, 4, 0), _inputHandler);
+	Scene* startScene = new Scene();
 	currentScene = startScene;
+	
+	startScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, -50, 0), _inputHandler); //game camera
+	startScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, -100, 0), _inputHandler); //dev camera
+
+	//startScene->AddEntity(new Entity(1, 5, 1));
 }
 
 
@@ -18,18 +23,12 @@ SceneManager::~SceneManager()
 	}
 
 	scenes.clear();
-
-	for (auto it = entities.begin(); it != entities.end(); it++)		//iterate door alle entities
-	{
-		delete it->second;												//verwijder alle values
-	}
-	entities.clear();													//clear de map
-
 }
 
 void SceneManager::AddScene(Scene* _scene)
 {
-	if (scenes.find(_scene->GetId()) != scenes.end()) return;
+	if (scenes.find(_scene->GetId()) != scenes.end()) 
+		return;
 	scenes[_scene->GetId()] = _scene;
 	currentScene = _scene;
 
@@ -44,6 +43,12 @@ Scene* SceneManager::GetScene(uint32_t _uuid)
 }
 void SceneManager::Update()
 {
+	if (currentScene != NULL)
+	{
+
+		currentScene->Update();
+
+	}
 }
 
 void SceneManager::Draw(LPDIRECT3DDEVICE9 device, int cam)
@@ -53,12 +58,6 @@ void SceneManager::Draw(LPDIRECT3DDEVICE9 device, int cam)
 		currentScene->SetupMatrices(device, cam);
 		currentScene->Draw(device);
 	}
-
-	for (auto it = entities.begin(); it != entities.end(); it++)
-	{
-		it->second->Draw(device);
-	}
-
 	
 }
 
@@ -72,23 +71,3 @@ void SceneManager::SetupScene(LPDIRECT3DDEVICE9 device)
 	}
 }
 
-void SceneManager::AddEntity(Entity* _entity)
-{
-	if (entities.find(_entity->GetId()) != entities.end())				//check of er niet een identieke entity al bestaat, door alleen de key die unqiue is te vergelijken
-		return;
-	entities[_entity->GetId()] = _entity;								//in geval van geen key zal de enty toegevoegd worden met zijn eigen id als key
-
-}
-
-Entity* SceneManager::GetEntity(uint32_t _uuid)
-{
-	if (entities.find(_uuid) != entities.end())
-		return entities.find(_uuid)->second;
-
-	return NULL;
-}
-
-Scene * SceneManager::GetCurrentScene()
-{
-	return currentScene;
-}

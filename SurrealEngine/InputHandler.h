@@ -4,6 +4,7 @@
 #include <string>
 #include <d3d9.h>
 #include <dinput.h>
+#include <map>
 
 struct MouseValues {
 	long x;
@@ -21,31 +22,31 @@ class Camera;
 class InputHandler
 {
 public:
-	InputHandler(HWND*);
+	InputHandler();
 	virtual ~InputHandler();
-	virtual void AddDevice(HWND*);
+
+
+	virtual void SetWindow(HWND);
+	virtual HWND* GetWindow();
+
 	virtual void SaveReleaseDevice();
-	virtual bool Init();
-	virtual void Update(Camera*,int);
-	virtual void HandleKeys(Camera*,int);
-	virtual void HandleMouse(Camera*,int);
-	virtual bool SetWnd(int);
+	virtual bool Init(HWND*);
+
+	virtual bool CheckKeyboardPressed(char);
+	virtual bool CheckMousePressed(int);
+
 
 private:
-	Mouse* mouse[5];
-	Keyboard* keyboard[5];
-	Camera* camera[5];
-	HWND* wnd[5];
-	int amount;
-	int window;
+	Keyboard* keyboard;
+    Mouse* mouse;
 
-	HWND* currentWindow;
+	byte* keybuffer;
+	MouseValues* mouseValues;
 
-	byte* keybuffer[5];
-	
+	HWND* CurrentWindow;
 	LPDIRECTINPUT dInput;
 
-	MouseValues* mouseValues[5];
+	
 };
 
 #endif

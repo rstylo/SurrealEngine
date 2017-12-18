@@ -1,6 +1,6 @@
 #include "Entity.h"
-//#include "Resource.h"
 #include "Resource.h"
+#include "RectObj.h"
 
 
 
@@ -11,19 +11,33 @@ Entity::Entity(float x, float y, float z)
 	position.x = x;
 	position.y = y;
 	position.z = z;
+
+	//my3dObject = new RectObj();
+
 }
 
 
 Entity::~Entity()
 {
+	if (my3dObject != NULL) {
+		my3dObject = NULL;
+		delete my3dObject;
+	}
 }
 
 void Entity::Draw(LPDIRECT3DDEVICE9 device)									//de entity draw functie draw all zijn resources in plaatst van dit via de resource manager te doen
 {
+	if (my3dObject != NULL)
+	{
+		my3dObject->EditObject(device, position.x, position.y, position.z, 2, 2, 2);						//hoort hier niet
+		my3dObject->Draw(device);
+	}
 	for (auto it = myResources.begin(); it != myResources.end(); it++)
 	{
+
 		(*it)->Draw();
 	}
+
 }
 
 void Entity::AddResource(Resource* _resource)				
@@ -42,7 +56,7 @@ void Entity::AddResource(Resource* _resource)
 }
 void Entity::Update()
 {
-
+	
 }
 uint32_t Entity::GetId()							
 {

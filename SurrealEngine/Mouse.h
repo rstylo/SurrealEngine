@@ -10,17 +10,18 @@ class Mouse
 	
 
 public:
-	Mouse(HWND*, LPDIRECTINPUT);
+	Mouse(LPDIRECTINPUT);
 	virtual ~Mouse();
 
-	bool Init();
+	bool Init(HWND*);
 	void SaveReleaseDevice();
+	virtual bool SetWindow(HWND*);
 	virtual bool DoAcquire();
 	virtual bool UpdateValues();
 	virtual MouseValues* getValues();
 
 private:
-	HWND* wnd;
+
 	LPDIRECTINPUT dInput;
 	LPDIRECTINPUTDEVICE dDevice;
 	DIPROPDWORD dipdw;

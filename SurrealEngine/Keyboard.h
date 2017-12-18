@@ -7,17 +7,16 @@
 class Keyboard
 {
 public:
-	Keyboard(HWND*, LPDIRECTINPUT);
+	Keyboard(LPDIRECTINPUT);
 	virtual ~Keyboard();
 	bool Init();
 
 	virtual void SaveReleaseDevice();
-	bool CheckKeyPressed();
-	virtual byte * GetKeyBuffer();
+	virtual bool CheckKeyPressed(byte);
+	virtual bool SetWindow(HWND* _hwnd);
 	virtual bool DoAcquire();
 
 private:
-	HWND* wnd;
 	LPDIRECTINPUT dInput;
 	LPDIRECTINPUTDEVICE dDevice;
 	byte keybuffer[256];

@@ -42,33 +42,34 @@ bool Kernel::Init(bool windowed)
 {
 
 	
-	Wnd* gameWnd = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
-	Wnd* devWnd = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
+	gameDisplay = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
+	devDisplay = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
 	
 	renderer = new DirectXRenderer();												
 
-	if (gameWnd->Init(0, 0) && devWnd->Init(1280, 0))									//initialiseer beide windows
+	if (gameDisplay->Init(0, 0) && devDisplay->Init(1280, 0))									//initialiseer beide windows
 	{
 		printf( "GameWindow and devWindow succefully initialised... \n" );
-		if (renderer->Init(gameWnd->hWnd, true))
+		if (renderer->Init(gameDisplay->hWnd, true))
 		{
 			printf("GameRenderer and developersWindow succefully initialised... \n");
 
-			gameDisplay = gameWnd;												//insert gamewnd en render in pair gameDisplay
+			inputHandler = new InputHandler();
+			if (inputHandler->Init(&gameDisplay->hWnd)) {
+				inputHandler->SetWindow(gameDisplay->hWnd);
+				//inputHandler->SetWindow(devDisplay->hWnd);
+				printf("Input hander succefully initialized... \n");
 
-			devDisplay = devWnd;													//insert devwnd en render in pair devDisplay
+				sceneManager = new SceneManager(inputHandler);											//aanmaken van scenemanager
+				resourceManager = new ResourceManager();
 
-			inputHandler = new InputHandler(&gameWnd->hWnd);
-			inputHandler->AddDevice(&devWnd->hWnd);
-			sceneManager = new SceneManager(inputHandler);											//aanmaken van scenemanager
-			resourceManager = new ResourceManager();
-			
-			device = renderer->GetDevice();
+				device = renderer->GetDevice();
 
-			sceneManager->SetupScene(*device);									
+				sceneManager->SetupScene(*device);
 
-			initialized = true;
-			return true;
+				initialized = true;
+				return true;
+			}
 		}
 	}
 
@@ -84,7 +85,7 @@ void Kernel::Draw()
 	{
 		//gameView
 		renderer->Clear(D3DCOLOR_XRGB(0, 255, 255));
-		if (renderer->Begin() && inputHandler->SetWnd(0))
+		if (renderer->Begin())
 		{
 			sceneManager->Draw(*device, 0);
 			renderer->End();
@@ -95,7 +96,7 @@ void Kernel::Draw()
 
 		//dev view
 		renderer->Clear(D3DCOLOR_XRGB(0, 255, 255));
-		if (renderer->Begin() && inputHandler->SetWnd(1))
+		if (renderer->Begin())
 		{
 			sceneManager->Draw(*device, 1);
 			renderer->End();
@@ -110,6 +111,7 @@ void Kernel::Draw()
 void Kernel::Update() {
 	while (gameDisplay->Run() && devDisplay->Run()) 
 	{	
+
 		sceneManager->Update();
 		resourceManager->Update();
 

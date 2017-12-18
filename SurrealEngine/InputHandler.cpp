@@ -6,65 +6,134 @@
 #include <cstdlib>
 #include <iostream>
 
-InputHandler::InputHandler(HWND* _wnd)
+InputHandler::InputHandler()
 {
-	amount = 0;
-	window = 0;
-	byte* keybuffer = NULL;
 	MouseValues* mouseValues = NULL;
-	
-
-	if (Init()) {
-		AddDevice(_wnd);
-		currentWindow = _wnd;
-		if (!(mouse[0]->Init() && keyboard[0]->Init()))
-			SaveReleaseDevice();
-	}
 }
 
 
 InputHandler::~InputHandler()
 {
 	SaveReleaseDevice();
-	delete keyboard[0];
-	keyboard[0] = NULL;
-	delete mouse[0];
-	mouse[0] = NULL;
+	if (keyboard != NULL) 
+	{
+		delete keyboard;
+		keyboard = NULL;
+	}
+	if (mouse != NULL) 
+	{
+		delete mouse;
+		mouse = NULL;
+	}
 }
 
-void InputHandler::AddDevice(HWND* _wnd) {
-	mouse[amount] = new Mouse(_wnd, dInput);
-	keyboard[amount] = new Keyboard(_wnd, dInput);
-	mouse[amount]->Init();
-	keyboard[amount]->Init();
-	mouseValues[amount] = mouse[amount]->getValues();
-	keybuffer[amount] = keyboard[amount]->GetKeyBuffer();
-	wnd[amount] = _wnd;
-	SetFocus(*wnd[0]);
-	amount++;
+bool InputHandler::Init(HWND* _hwnd)
+{
+	if FAILED(DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dInput, NULL))
+	{
+		return false;
+	}
+
+	mouse = new Mouse(dInput);
+	keyboard = new Keyboard(dInput);
+	CurrentWindow = _hwnd;
+	if (!(mouse->Init(_hwnd) && keyboard->Init()))
+	{
+		printf("failed initializing keyboard/mouse");
+		SaveReleaseDevice();
+	}
+
+
+	return true;
+}
+
+void InputHandler::SetWindow(HWND _hwnd) 
+{
+	if (CurrentWindow != &_hwnd) {
+		mouse->SetWindow(&_hwnd);
+		keyboard->SetWindow(&_hwnd);
+	}
+}
+
+HWND * InputHandler::GetWindow()
+{
+	return CurrentWindow;
 }
 
 void InputHandler::SaveReleaseDevice()
 {
 	if (dInput)
 	{
-		mouse[0]->SaveReleaseDevice();
-		keyboard[0]->SaveReleaseDevice();
+		mouse->SaveReleaseDevice();
+		keyboard->SaveReleaseDevice();
 		dInput->Release();
 		dInput = NULL;
 	}
 }
 
-bool InputHandler::Init()
+bool InputHandler::CheckKeyboardPressed(char _key)
 {
-	if FAILED(DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dInput, NULL))
+
+	switch (_key) 
 	{
-		return false;
+	case 'a':
+		return keyboard->CheckKeyPressed(DIK_A);
+	case 's':
+		return keyboard->CheckKeyPressed(DIK_S);
+	case 'd':
+		return keyboard->CheckKeyPressed(DIK_D);
+	case 'w':
+		return keyboard->CheckKeyPressed(DIK_W);
+	case '.':
+		return keyboard->CheckKeyPressed(DIK_SPACE);
+	case 'c':
+		return keyboard->CheckKeyPressed(DIK_C);
+	case 'e':
+		return keyboard->CheckKeyPressed(DIK_E);
+	case 'q':
+		return keyboard->CheckKeyPressed(DIK_Q);
 	}
-	return true;
+
+	return false;
 }
 
-void InputHandler::Update(Camera* cam, int wndn)
+bool InputHandler::CheckMousePressed(int)
+{
+	//mouse->UpdateValues();
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+MouseValues* InputHandler::Checkmouse(int wndn)
+{
+	if (mouse[window]->UpdateValues()) {
+		return mouseValues[wndn];
+	}
+}
+
+
+void InputHandler::CheckKey(char key, int wndn) {
+
+
+}
+
+void InputHandler::CheckKey(Char key, int wndn)
 {
 	//mouse handling
 	if (mouse[window] != NULL) {
@@ -82,7 +151,7 @@ void InputHandler::Update(Camera* cam, int wndn)
 	}
 }
 
-void InputHandler::HandleKeys(Camera* cam,int wndn)
+void InputHandler::HandleKeys(char key,int wndn)
 {
 	if (keybuffer[wndn][DIK_A] & 0x80)
 		cam->MoveLeft();
@@ -107,6 +176,8 @@ void InputHandler::HandleKeys(Camera* cam,int wndn)
 	if (keybuffer[wndn][DIK_SPACE] & 0x80)
 		cam->MoveUp();
 
+	if (keybuffer[wndn][DIK_U] & 0x80)
+
 	if (keybuffer[wndn][DIK_ESCAPE] & 0x80)
 		exit(0);
 }
@@ -118,8 +189,11 @@ void InputHandler::HandleMouse(Camera* cam, int wndn)
 		cam->MoveForwards();
 }
 
+
+
 bool InputHandler::SetWnd(int _window)
 {
 	window = _window;
 	return true;
 }
+*/

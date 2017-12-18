@@ -9,30 +9,38 @@
 
 class Terrain;
 class Camera;
+class Entity;
 class InputHandler;
 
 class Scene
 {
 public:
-	Scene(D3DXVECTOR3, D3DXVECTOR3, InputHandler*);
+	Scene();
 	virtual ~Scene();
+
+	virtual uint32_t GetId();
 
 	virtual void SetupMatrices(LPDIRECT3DDEVICE9, int);
 	virtual void Draw(LPDIRECT3DDEVICE9);
-	virtual void SetupTerrain(LPDIRECT3DDEVICE9);
-	virtual uint32_t GetId();
-	virtual Camera* GetCamera(int);
+	virtual void Update();
 
-	virtual void AddCamera(int, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, InputHandler*);
+	virtual void SetupTerrain(LPDIRECT3DDEVICE9);
+	
+
+	virtual void AddEntity(Entity*);
+	virtual Entity* GetEntity(uint32_t);
+
+	virtual void AddCamera(int, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, InputHandler*);
 	
 private:
 	uint32_t id;
-
 
 private:
 	Terrain* terrain;
 
 	std::map<int, Camera*> cameras;
+	std::map<uint32_t, Entity*> entities;
+
 
 };
 

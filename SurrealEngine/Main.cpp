@@ -8,7 +8,10 @@ int main()
 	Kernel kernel;									
 
 	if (kernel.Init(true))
+		while(1)
+		{
 			kernel.Update();
+		}
 
 	return 0;
 }

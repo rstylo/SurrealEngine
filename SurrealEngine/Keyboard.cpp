@@ -1,11 +1,11 @@
 #include "Keyboard.h"
 #include <iostream>
 
-Keyboard::Keyboard(HWND* _wnd, LPDIRECTINPUT _dInput)
+Keyboard::Keyboard(LPDIRECTINPUT _dInput)
 {
 	dInput = _dInput;
 	dDevice = NULL;
-	wnd = _wnd;
+
 }
 
 Keyboard::~Keyboard()
@@ -28,14 +28,22 @@ bool Keyboard::Init()
 		SaveReleaseDevice();
 		return false;
 	}
-
-	hr = dDevice->SetCooperativeLevel(*wnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
-	if FAILED(hr)
-	{
-		SaveReleaseDevice();
-		return false;
-	}
 	return true;
+}
+
+bool Keyboard::SetWindow(HWND* _hwnd)
+{
+	if (dDevice != NULL) {
+		dDevice->Unacquire();
+		if (!SUCCEEDED(dDevice->SetCooperativeLevel(*_hwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
+		{
+			SaveReleaseDevice();
+			return false;
+		}
+
+		return true;
+	}
+	return false;
 }
 
 void Keyboard::SaveReleaseDevice()
@@ -49,19 +57,21 @@ void Keyboard::SaveReleaseDevice()
 }
 
 
-bool Keyboard::CheckKeyPressed()
+bool Keyboard::CheckKeyPressed(byte _key)
 {
-	if (FAILED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer))) {
-		DoAcquire();
-		if (FAILED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer)))
+	if (dDevice != NULL)
+	{
+		if (!SUCCEEDED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer))) {
+			DoAcquire();
+			if (!SUCCEEDED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer)))
+				return false;
+		}
+		if (keybuffer[_key] & 0x80) {
 			return true;
+		}
 	}
 	return false;
-}
 
-byte* Keyboard::GetKeyBuffer()
-{
-	return keybuffer;
 }
 
 bool Keyboard::DoAcquire()

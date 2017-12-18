@@ -17,9 +17,9 @@ Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3D
 	rotation.y = _rotation.y;
 	rotation.z = _rotation.z;
 
-	translation.x = _translation.x;
-	translation.y = _translation.y;
-	translation.z = _translation.z;
+	position.x = _translation.x;
+	position.y = _translation.y;
+	position.z = _translation.z;
 
 	up.x = 0.0f;
 	up.y = 1.0f;
@@ -37,7 +37,7 @@ void Camera::SetupView(LPDIRECT3DDEVICE9 _device)
 {
 	D3DXMATRIXA16 trans;
 
-	D3DXMatrixTranslation(&trans, translation.x, translation.y, translation.z);
+	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
 	D3DXMATRIX worldMtrx = trans;
 	_device->SetTransform(D3DTS_WORLD, &worldMtrx);
 
@@ -68,11 +68,34 @@ void Camera::LookAt(D3DXVECTOR3 _lookAt)
 	lookAt = _lookAt;
 }
 
-void Camera::Update(int _window)
+void Camera::Update()
 {
-	inputHandler->Update(this,_window);
-	GetMouse(_window);
-	GetKeyPressed(_window);
+	if (inputHandler->CheckKeyboardPressed('a')) {
+		MoveLeft();
+	}
+	if (inputHandler->CheckKeyboardPressed('s')) {
+		MoveBackwards();
+	}
+	if (inputHandler->CheckKeyboardPressed('d')) {
+		MoveRight();
+	}
+	if (inputHandler->CheckKeyboardPressed('w')) {
+		MoveForwards();
+	}
+	if (inputHandler->CheckKeyboardPressed('.')) {
+		MoveUp();
+	}
+	if (inputHandler->CheckKeyboardPressed('c')) {
+		MoveDown();
+	}
+	if (inputHandler->CheckKeyboardPressed('e')) {
+		Rotate(0, 1);
+	}
+	if (inputHandler->CheckKeyboardPressed('q')) {
+		Rotate(0, -1);
+	}
+	if (inputHandler->CheckMousePressed(0)) {
+	}
 }
 
 void Camera::MoveTo(D3DXVECTOR3)
@@ -90,80 +113,38 @@ void Camera::Rotate(float x, float y)
 void Camera::MoveLeft()
 {
 	float speed = 3.0f;
-	translation.z -= speed*cos(rotation.y+0.5*D3DX_PI);
-	translation.x += speed*sin(rotation.y+ 0.5*D3DX_PI);
+	position.z -= speed*cos(rotation.y+0.5*D3DX_PI);
+	position.x += speed*sin(rotation.y+ 0.5*D3DX_PI);
 }
 
 void Camera::MoveRight()
 {
 	float speed = 3.0f;
-	translation.z -= speed*cos(rotation.y - 0.5*D3DX_PI);
-	translation.x += speed*sin(rotation.y - 0.5*D3DX_PI);
+	position.z -= speed*cos(rotation.y - 0.5*D3DX_PI);
+	position.x += speed*sin(rotation.y - 0.5*D3DX_PI);
 }
 
 void Camera::MoveForwards()
 {
 	float speed = 3.0f;
-	translation.z -= speed*cos(rotation.y);
-	translation.x += speed*sin(rotation.y);
+	position.z -= speed*cos(rotation.y);
+	position.x += speed*sin(rotation.y);
 }
 
 void Camera::MoveBackwards()
 {
 	float speed = 3.0f;
-	translation.z += speed*cos(rotation.y);
-	translation.x -= speed*sin(rotation.y);
+	position.z += speed*cos(rotation.y);
+	position.x -= speed*sin(rotation.y);
 }
 
 void Camera::MoveUp()
 {
-	translation.y -= 2.0f;
+	position.y -= 2.0f;
 }
 
 void Camera::MoveDown()
 {
-	translation.y += 2.0f;
+	position.y += 2.0f;
 }
 
-void Camera::GetKeyPressed()
-{
-	if (inputHandler->HandleKeys('A')) {
-
-	}
-
-	if (keybuffer[wndn][DIK_A] & 0x80)
-		cam->MoveLeft();
-	if (keybuffer[wndn][DIK_W] & 0x80)
-		cam->MoveForwards();
-	if (keybuffer[wndn][DIK_S] & 0x80)
-		cam->MoveBackwards();
-	if (keybuffer[wndn][DIK_D] & 0x80)
-		cam->MoveRight();
-	if (keybuffer[wndn][DIK_C] & 0x80)
-		cam->MoveDown();
-
-	if (keybuffer[wndn][DIK_UP] & 0x80)
-		cam->MoveForwards();
-	if (keybuffer[wndn][DIK_LEFT] & 0x80)
-		cam->MoveLeft();
-	if (keybuffer[wndn][DIK_RIGHT] & 0x80)
-		cam->MoveRight();
-	if (keybuffer[wndn][DIK_DOWN] & 0x80)
-		cam->MoveBackwards();
-
-	if (keybuffer[wndn][DIK_SPACE] & 0x80)
-		cam->MoveUp();
-
-	if (keybuffer[wndn][DIK_U] & 0x80)
-
-		if (keybuffer[wndn][DIK_ESCAPE] & 0x80)
-			exit(0);
-}
-
-void Camera::GetMouse(int _wndn)
-{
-	MouseValues* test = inputHandler->Checkmouse(_wndn);
-	Rotate(0, mouseValues[wndn]->dX);
-	if (mouseValues[wndn]->button0)
-		cam->MoveForwards();
-}
