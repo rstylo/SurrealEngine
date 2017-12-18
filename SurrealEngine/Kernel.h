@@ -42,5 +42,3 @@ private:
 
 };
 #endif // KERNEL_H_
-
-
