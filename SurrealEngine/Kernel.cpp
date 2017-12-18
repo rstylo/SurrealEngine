@@ -42,8 +42,8 @@ bool Kernel::Init(bool windowed)
 {
 
 	
-	Wnd* gameWnd = new Wnd(L"GameWindow", L"Game window", 1280, 720);						//window die de view van de game geeft
-	Wnd* devWnd = new Wnd(L"DevWindow", L"Dev window", 640, 420);							//window die view van een andere persoctive geeft
+	Wnd* gameWnd = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
+	Wnd* devWnd = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
 	
 	renderer = new DirectXRenderer();												
 
@@ -74,7 +74,7 @@ bool Kernel::Init(bool windowed)
 
 	
 
-	MessageBox(NULL, L"failed initializing Game class", NULL, NULL);
+	MessageBox(NULL, "failed initializing Game class", NULL, NULL);
 	return false;
 }
 

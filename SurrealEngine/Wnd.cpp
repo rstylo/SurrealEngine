@@ -1,3 +1,4 @@
+//#include "stdafx.h"
 #include "Wnd.h"
 
 
@@ -11,13 +12,35 @@ LRESULT CALLBACK Wnd::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 		return 0;
 	}
+	/*case WM_INPUT:
+	{
+		UINT dwSize;
+
+		GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
+
+		LPBYTE byte = new BYTE[dwSize];
+		if (byte = NULL)
+		{
+			return 0;
+		}
+
+		GetRawInputData((HRAWINPUT)lParam, RID_INPUT, byte, &dwSize, sizeof(RAWINPUTHEADER));
+
+		RAWINPUT* raw = (RAWINPUT*)byte;
+
+		if (raw->header.dwType == RIM_TYPEKEYBOARD)
+			if (raw->data.keyboard.Message == WM_KEYDOWN || (raw->data.keyboard.Message == WM_SYSKEYDOWN))
+			{
+				printf("key %d was pressed! \n", std::to_string(raw->data.keyboard.VKey));
+			}
+	}*/
 	break;
 	}
 
 	return DefWindowProc(hWnd, message, wParam, lParam);																	//anders default window procedure
 }
 
-Wnd::Wnd(LPCWSTR className, LPCWSTR windowTitle, int width, int height)
+Wnd::Wnd(LPSTR className, LPSTR windowTitle, int width, int height)
 	:hInstance(GetModuleHandle(0)), nCmdShow(SW_SHOWDEFAULT), className(className), windowTitle(windowTitle), width(width), height(height)
 {
 }
@@ -55,7 +78,7 @@ bool Wnd::Init(int startX, int startY)
 	if (RegisterClassEx(&windowClassEx) == false)																				//is klasse ex geregistreed?
 	{
 		initialized = false;
-		MessageBox(NULL,L"Failed creating window!!", NULL, NULL);
+		MessageBox(NULL,"Failed creating window!!", NULL, NULL);
 		return false;
 	}
 

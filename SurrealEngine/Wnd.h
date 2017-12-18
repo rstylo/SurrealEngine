@@ -1,12 +1,13 @@
 #ifndef WND_H_
 #define WND_H_
 #include <Windows.h>
-
+#include <string>
+#include <iostream>
 
 class Wnd
 {
 public:
-	Wnd(LPCWSTR, LPCWSTR, int, int);
+	Wnd(LPSTR, LPSTR, int, int);
 	~Wnd();
 
 	bool Init();
@@ -22,13 +23,12 @@ public:
 private:
 	HINSTANCE hInstance;
 	int nCmdShow;
-	LPCWSTR className;
-	LPCWSTR windowTitle;
+	LPSTR className;
+	LPSTR windowTitle;
 	int width;
 	int height;
-	WPARAM wParam;
-	LPARAM lParam;
-
+	//WPARAM wParam;
+	//LPARAM lParam;
 	bool initialized;
 };
 

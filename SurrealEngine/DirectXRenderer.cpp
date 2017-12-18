@@ -66,7 +66,7 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 
 	if (!SUCCEEDED(direct3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &presParams, &device))) //mixed vortex = gecompineerd hardware n software 3d berekeningen
 	{
-		MessageBox(NULL, L"issue creating gfx device", NULL, NULL);
+		MessageBox(NULL, "issue creating gfx device", NULL, NULL);
 		return false;
 	}
 
