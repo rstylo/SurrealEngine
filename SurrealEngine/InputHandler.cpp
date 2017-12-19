@@ -47,6 +47,12 @@ bool InputHandler::Init(HWND* _hwnd)
 	return true;
 }
 
+void InputHandler::Update()
+{
+	mouse->UpdateValues();
+	keyboard->UpdateKeyBuffer();
+}
+
 void InputHandler::SetWindow(HWND _hwnd) 
 {
 	if (CurrentWindow != &_hwnd) {
@@ -73,7 +79,6 @@ void InputHandler::SaveReleaseDevice()
 
 bool InputHandler::CheckKeyboardPressed(char _key)
 {
-
 	switch (_key) 
 	{
 	case 'a':
@@ -97,10 +102,25 @@ bool InputHandler::CheckKeyboardPressed(char _key)
 	return false;
 }
 
-bool InputHandler::CheckMousePressed(int)
+bool InputHandler::CheckMousePressed(int button)
 {
-	//mouse->UpdateValues();
-	return false;
+	switch (button) {
+	case 0:
+		return mouse->GetValues()->button0;
+	case 1:
+		return mouse->GetValues()->button1;
+	}
+}
+
+int InputHandler::CheckMouseValues(char position)
+{
+	switch (position) {
+	case 'x':
+		return mouse->GetValues()->dX;
+	case 'y':
+		return mouse->GetValues()->dY;
+	}
+	return 0;
 }
 
 

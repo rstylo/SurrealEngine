@@ -98,7 +98,7 @@ bool Mouse::UpdateValues() {
 	
 }
 
-MouseValues * Mouse::getValues()
+MouseValues * Mouse::GetValues()
 {
 	return &mouseValues;
 }

@@ -111,10 +111,9 @@ void Kernel::Draw()
 void Kernel::Update() {
 	while (gameDisplay->Run() && devDisplay->Run()) 
 	{	
-
 		sceneManager->Update();
 		resourceManager->Update();
-
+		inputHandler->Update();
 		Draw();
 	}
 }

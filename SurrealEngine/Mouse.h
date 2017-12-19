@@ -18,7 +18,7 @@ public:
 	virtual bool SetWindow(HWND*);
 	virtual bool DoAcquire();
 	virtual bool UpdateValues();
-	virtual MouseValues* getValues();
+	virtual MouseValues* GetValues();
 
 private:
 

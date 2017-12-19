@@ -12,6 +12,7 @@ public:
 	bool Init();
 
 	virtual void SaveReleaseDevice();
+	virtual bool UpdateKeyBuffer();
 	virtual bool CheckKeyPressed(byte);
 	virtual bool SetWindow(HWND* _hwnd);
 	virtual bool DoAcquire();

@@ -56,8 +56,7 @@ void Keyboard::SaveReleaseDevice()
 	}
 }
 
-
-bool Keyboard::CheckKeyPressed(byte _key)
+bool Keyboard::UpdateKeyBuffer()
 {
 	if (dDevice != NULL)
 	{
@@ -66,12 +65,17 @@ bool Keyboard::CheckKeyPressed(byte _key)
 			if (!SUCCEEDED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer)))
 				return false;
 		}
-		if (keybuffer[_key] & 0x80) {
-			return true;
-		}
 	}
-	return false;
+	return true;
+}
 
+
+bool Keyboard::CheckKeyPressed(byte _key)
+{
+	if (keybuffer[_key] & 0x80)
+		return true;
+	else
+		return false;
 }
 
 bool Keyboard::DoAcquire()

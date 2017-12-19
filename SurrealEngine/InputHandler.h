@@ -32,8 +32,11 @@ public:
 	virtual void SaveReleaseDevice();
 	virtual bool Init(HWND*);
 
+	virtual void Update();
+
 	virtual bool CheckKeyboardPressed(char);
 	virtual bool CheckMousePressed(int);
+	virtual int CheckMouseValues(char);
 
 
 private:

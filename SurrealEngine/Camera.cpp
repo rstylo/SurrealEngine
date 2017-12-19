@@ -94,6 +94,8 @@ void Camera::Update()
 	if (inputHandler->CheckKeyboardPressed('q')) {
 		Rotate(0, -1);
 	}
+	Rotate(0, inputHandler->CheckMouseValues('x'));
+
 	if (inputHandler->CheckMousePressed(0)) {
 	}
 }
@@ -105,35 +107,35 @@ void Camera::MoveTo(D3DXVECTOR3)
 
 void Camera::Rotate(float x, float y)
 {
-	rotation.y -= y*2*D3DX_PI/100;	
+	rotation.y -= y*2*D3DX_PI/200;	
 	rotation.z += 0.1f*x*cos(rotation.y);
 	rotation.x += 0.1f*x*sin(rotation.y);
 }
 
 void Camera::MoveLeft()
 {
-	float speed = 3.0f;
+	float speed = 1.0f;
 	position.z -= speed*cos(rotation.y+0.5*D3DX_PI);
 	position.x += speed*sin(rotation.y+ 0.5*D3DX_PI);
 }
 
 void Camera::MoveRight()
 {
-	float speed = 3.0f;
+	float speed = 1.0f;
 	position.z -= speed*cos(rotation.y - 0.5*D3DX_PI);
 	position.x += speed*sin(rotation.y - 0.5*D3DX_PI);
 }
 
 void Camera::MoveForwards()
 {
-	float speed = 3.0f;
+	float speed = 1.0f;
 	position.z -= speed*cos(rotation.y);
 	position.x += speed*sin(rotation.y);
 }
 
 void Camera::MoveBackwards()
 {
-	float speed = 3.0f;
+	float speed = 1.0f;
 	position.z += speed*cos(rotation.y);
 	position.x -= speed*sin(rotation.y);
 }
