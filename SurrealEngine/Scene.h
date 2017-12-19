@@ -30,7 +30,7 @@ public:
 	virtual void AddEntity(Entity*);
 	virtual Entity* GetEntity(uint32_t);
 
-	virtual void AddCamera(int, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, InputHandler*);
+	virtual void AddCamera(int, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, HWND*, InputHandler*);
 	
 private:
 	uint32_t id;

@@ -5,9 +5,17 @@
 #include <dinput.h>
 #include "InputHandler.h"
 
+struct MouseValues {
+	long x;
+	long y;
+	int dX;
+	int dY;
+	bool button0;
+	bool button1;
+};
+
 class Mouse
 {
-	
 
 public:
 	Mouse(LPDIRECTINPUT);

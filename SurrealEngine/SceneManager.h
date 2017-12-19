@@ -13,9 +13,10 @@ class Renderer;
 class SceneManager
 {
 public:
-	SceneManager(InputHandler*);
+	SceneManager();
 	virtual ~SceneManager();
 
+	virtual void Init(InputHandler*, HWND*, HWND*);
 	virtual void Update();
 	virtual void Draw(LPDIRECT3DDEVICE9, int);
 

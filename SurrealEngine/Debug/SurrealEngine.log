@@ -1,11 +1,8 @@
-﻿  Kernel.cpp
+﻿  Camera.cpp
   d:\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  Camera.cpp
-  d:\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(97): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(118): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(119): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(125): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(126): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
+c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(99): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(122): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(123): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(129): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\ilhan\documents\3d engine\surrealengine\camera.cpp(130): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
   SurrealEngine.vcxproj -> C:\Users\ilhan\Documents\3d engine\Debug\SurrealEngine.exe

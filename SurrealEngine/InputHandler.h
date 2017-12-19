@@ -6,15 +6,6 @@
 #include <dinput.h>
 #include <map>
 
-struct MouseValues {
-	long x;
-	long y;
-	int dX;
-	int dY;
-	bool button0;
-	bool button1;
-};
-
 class Mouse;
 class Keyboard;
 class Camera;
@@ -26,7 +17,7 @@ public:
 	virtual ~InputHandler();
 
 
-	virtual void SetWindow(HWND);
+	virtual void SetWindow(HWND*);
 	virtual HWND* GetWindow();
 
 	virtual void SaveReleaseDevice();
@@ -42,9 +33,6 @@ public:
 private:
 	Keyboard* keyboard;
     Mouse* mouse;
-
-	byte* keybuffer;
-	MouseValues* mouseValues;
 
 	HWND* CurrentWindow;
 	LPDIRECTINPUT dInput;

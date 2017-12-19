@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "InputHandler.h"
 
-Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3DXVECTOR3 _translation, InputHandler* _inputHandler)
+Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3DXVECTOR3 _translation, HWND* _hwnd, InputHandler* _inputHandler)
 {
 	float twoPi = D3DX_PI; //handig om een eigen util/math klasse te maken waar twopi al in is gedefineerd
 
@@ -25,6 +25,7 @@ Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3D
 	up.y = 1.0f;
 	up.z = 0.0f;
 
+	hwnd = _hwnd;
 	inputHandler = _inputHandler;
 }
 
@@ -70,33 +71,35 @@ void Camera::LookAt(D3DXVECTOR3 _lookAt)
 
 void Camera::Update()
 {
-	if (inputHandler->CheckKeyboardPressed('a')) {
-		MoveLeft();
-	}
-	if (inputHandler->CheckKeyboardPressed('s')) {
-		MoveBackwards();
-	}
-	if (inputHandler->CheckKeyboardPressed('d')) {
-		MoveRight();
-	}
-	if (inputHandler->CheckKeyboardPressed('w')) {
-		MoveForwards();
-	}
-	if (inputHandler->CheckKeyboardPressed('.')) {
-		MoveUp();
-	}
-	if (inputHandler->CheckKeyboardPressed('c')) {
-		MoveDown();
-	}
-	if (inputHandler->CheckKeyboardPressed('e')) {
-		Rotate(0, 1);
-	}
-	if (inputHandler->CheckKeyboardPressed('q')) {
-		Rotate(0, -1);
-	}
-	Rotate(0, inputHandler->CheckMouseValues('x'));
+	if (*hwnd == GetFocus()) {
+		if (inputHandler->CheckKeyboardPressed('a')) {
+			MoveLeft();
+		}
+		if (inputHandler->CheckKeyboardPressed('s')) {
+			MoveBackwards();
+		}
+		if (inputHandler->CheckKeyboardPressed('d')) {
+			MoveRight();
+		}
+		if (inputHandler->CheckKeyboardPressed('w')) {
+			MoveForwards();
+		}
+		if (inputHandler->CheckKeyboardPressed('.')) {
+			MoveUp();
+		}
+		if (inputHandler->CheckKeyboardPressed('c')) {
+			MoveDown();
+		}
+		if (inputHandler->CheckKeyboardPressed('e')) {
+			Rotate(0, 5);
+		}
+		if (inputHandler->CheckKeyboardPressed('q')) {
+			Rotate(0, -5);
+		}
+		Rotate(0, inputHandler->CheckMouseValues('x'));
 
-	if (inputHandler->CheckMousePressed(0)) {
+		if (inputHandler->CheckMousePressed(0)) {
+		}
 	}
 }
 
@@ -107,9 +110,10 @@ void Camera::MoveTo(D3DXVECTOR3)
 
 void Camera::Rotate(float x, float y)
 {
-	rotation.y -= y*2*D3DX_PI/200;	
-	rotation.z += 0.1f*x*cos(rotation.y);
-	rotation.x += 0.1f*x*sin(rotation.y);
+	float speed = 2;
+	rotation.y -= speed*y*2*D3DX_PI/1000;	
+	//rotation.z += 0.1f*x*cos(rotation.y);
+	//rotation.x += 0.1f*x*sin(rotation.y);
 }
 
 void Camera::MoveLeft()

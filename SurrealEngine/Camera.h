@@ -7,7 +7,7 @@
 class Camera
 {
 public:
-	Camera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, InputHandler*);
+	Camera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3,HWND* ,InputHandler*);
 	virtual ~Camera();
 
 	virtual void SetupView(LPDIRECT3DDEVICE9);
@@ -31,6 +31,7 @@ private:
 	D3DXVECTOR3 lookAt;
 	D3DXVECTOR3 up;
 
+	HWND* hwnd;
 	InputHandler* inputHandler;
 
 

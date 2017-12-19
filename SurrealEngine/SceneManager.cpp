@@ -3,13 +3,12 @@
 #include "Entity.h"
 
 
-SceneManager::SceneManager(InputHandler* _inputHandler)
+SceneManager::SceneManager()
 {
 	Scene* startScene = new Scene();
 	currentScene = startScene;
 	
-	startScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, -50, 0), _inputHandler); //game camera
-	startScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, -100, 0), _inputHandler); //dev camera
+	
 
 	//startScene->AddEntity(new Entity(1, 5, 1));
 }
@@ -23,6 +22,12 @@ SceneManager::~SceneManager()
 	}
 
 	scenes.clear();
+}
+
+void SceneManager::Init(InputHandler* _inputHandler, HWND* _hwnd, HWND* _hwnd2)
+{
+	currentScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, -50, 0), _hwnd, _inputHandler); //game camera
+	currentScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, -100, 0), _hwnd2, _inputHandler); //dev camera
 }
 
 void SceneManager::AddScene(Scene* _scene)
@@ -41,6 +46,7 @@ Scene* SceneManager::GetScene(uint32_t _uuid)
 
 	return NULL;
 }
+
 void SceneManager::Update()
 {
 	if (currentScene != NULL)

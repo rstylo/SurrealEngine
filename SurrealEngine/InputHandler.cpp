@@ -37,6 +37,7 @@ bool InputHandler::Init(HWND* _hwnd)
 	mouse = new Mouse(dInput);
 	keyboard = new Keyboard(dInput);
 	CurrentWindow = _hwnd;
+	SetFocus(*_hwnd);
 	if (!(mouse->Init(_hwnd) && keyboard->Init()))
 	{
 		printf("failed initializing keyboard/mouse");
@@ -53,11 +54,12 @@ void InputHandler::Update()
 	keyboard->UpdateKeyBuffer();
 }
 
-void InputHandler::SetWindow(HWND _hwnd) 
+void InputHandler::SetWindow(HWND* _hwnd) 
 {
-	if (CurrentWindow != &_hwnd) {
-		mouse->SetWindow(&_hwnd);
-		keyboard->SetWindow(&_hwnd);
+	if (CurrentWindow != _hwnd) {
+		mouse->SetWindow(_hwnd);
+		keyboard->SetWindow(_hwnd);
+		CurrentWindow = _hwnd;
 	}
 }
 

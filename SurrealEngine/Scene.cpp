@@ -76,10 +76,10 @@ void Scene::Draw(LPDIRECT3DDEVICE9 _device)
 	}
 }
 
-void Scene::AddCamera(int cam, D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3DXVECTOR3 _position, InputHandler* _inputHandler)
+void Scene::AddCamera(int cam, D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3DXVECTOR3 _position, HWND* _hwnd, InputHandler* _inputHandler)
 {
 	if (cameras.find(cam) == cameras.end())
-		cameras[cam] = new Camera(_eye, _lookAt, _rotation, _position, _inputHandler);
+		cameras[cam] = new Camera(_eye, _lookAt, _rotation, _position, _hwnd, _inputHandler);
 	else
 		printf("camera %d already exists!! \n", cam);
 }

@@ -56,15 +56,15 @@ bool Kernel::Init(bool windowed)
 
 			inputHandler = new InputHandler();
 			if (inputHandler->Init(&gameDisplay->hWnd)) {
-				inputHandler->SetWindow(gameDisplay->hWnd);
-				//inputHandler->SetWindow(devDisplay->hWnd);
-				printf("Input hander succefully initialized... \n");
+				inputHandler->SetWindow(&gameDisplay->hWnd);
+				printf("Input handler succefully initialized... \n");
 
-				sceneManager = new SceneManager(inputHandler);											//aanmaken van scenemanager
+				sceneManager = new SceneManager();											//aanmaken van scenemanager
 				resourceManager = new ResourceManager();
 
+				
 				device = renderer->GetDevice();
-
+				sceneManager->Init(inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
 				sceneManager->SetupScene(*device);
 
 				initialized = true;
@@ -106,11 +106,15 @@ void Kernel::Draw()
 	}
 }
 
-
-
 void Kernel::Update() {
 	while (gameDisplay->Run() && devDisplay->Run()) 
 	{	
+		if (*inputHandler->GetWindow() != GetFocus()) {
+			if (devDisplay->hWnd == GetFocus())
+				inputHandler->SetWindow(&devDisplay->hWnd);
+			else if (gameDisplay->hWnd == GetFocus())
+				inputHandler->SetWindow(&gameDisplay->hWnd);
+		}
 		sceneManager->Update();
 		resourceManager->Update();
 		inputHandler->Update();
