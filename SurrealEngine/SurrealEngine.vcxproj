@@ -33,6 +33,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Terrain.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Wnd.h" />
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +52,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Terrain.cpp" />
-    <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Wnd.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

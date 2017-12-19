@@ -26,6 +26,9 @@ public:
 
 	LPDIRECT3DDEVICE9* device;
 
+	Resource* testMesh;
+	Resource* testTexture;
+
 
 };
 

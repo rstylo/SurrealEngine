@@ -1,10 +1,12 @@
 #include "Mesh.h"
-#include <iostream>
 #include <d3dx9.h>
 
 Mesh::Mesh(LPDIRECT3DDEVICE9* _device) : Resource()
 {
-	g_pd3dDevice = *_device;
+	device = *_device;
+	mesh = NULL;
+	dwNumMaterials = NULL;
+	meshMaterials = 0L;
 }
 
 Mesh::~Mesh()
@@ -12,9 +14,9 @@ Mesh::~Mesh()
 
 }
 
-void Mesh::Create(std::string _name)
+void Mesh::Create(std::string name)
 {
-	if (!SetMesh(_name))
+	if (!SetMesh(name))
 	{
 		MessageBox(NULL, "Mesh not Loaded", NULL, NULL);
 	}
@@ -23,38 +25,40 @@ void Mesh::Create(std::string _name)
 
 boolean Mesh::SetMesh(std::string _fileName)
 {
+
+	if (device == NULL)
+	{
+		MessageBox(NULL, "could not find mesh", NULL, NULL);
+	}
 	std::string file = "Assets\\" + _fileName;
 
-	std::cout << file.c_str() << std::endl;
-
-	LPD3DXBUFFER pD3DXMtrlBuffer;
+	LPD3DXBUFFER vertexBuffer; //data buffer, storing vertex
 
 	// Load the mesh from the specified file
-	if (FAILED(D3DXLoadMeshFromX(file.c_str(), D3DXMESH_SYSTEMMEM, g_pd3dDevice, NULL, &pD3DXMtrlBuffer, NULL, &g_dwNumMaterials, &g_pMesh)))
+	if (FAILED(D3DXLoadMeshFromX(file.c_str(), D3DXMESH_SYSTEMMEM, device, NULL, &vertexBuffer, NULL, &dwNumMaterials, &mesh)))
 	{
-		MessageBox(NULL, "could not find file", "SurrealEngine", NULL);
+		MessageBox(NULL, "could not find mesh", NULL, NULL);
 		return FALSE;
 	}
 
-	D3DXMATERIAL* d3dxMaterials = (D3DXMATERIAL*)pD3DXMtrlBuffer->GetBufferPointer();
-	g_pMeshMaterials = new D3DMATERIAL9[g_dwNumMaterials];
-	if (g_pMeshMaterials == NULL)
+	D3DXMATERIAL* d3dxMaterials = (D3DXMATERIAL*)vertexBuffer->GetBufferPointer();
+	meshMaterials = new D3DMATERIAL9[dwNumMaterials];
+	if (meshMaterials == NULL)
 	{
-		MessageBox(NULL, "Mesh is null", "SurrealEngine", NULL);
+		MessageBox(NULL, "Mesh is null", NULL, NULL);
 		return FALSE;
 	}
 	
-	for (DWORD i = 0; i < g_dwNumMaterials; i++)
+	for (DWORD i = 0; i < dwNumMaterials; i++)
 	{
 		// Copy the material
-		g_pMeshMaterials[i] = d3dxMaterials[i].MatD3D;
+		meshMaterials[i] = d3dxMaterials[i].MatD3D;
 
 		// Set the ambient color for the material (D3DX does not do this)
-		g_pMeshMaterials[i].Ambient = g_pMeshMaterials[i].Diffuse;
-
+		meshMaterials[i].Ambient = meshMaterials[i].Diffuse;
 	}
 
-	pD3DXMtrlBuffer->Release();
+	vertexBuffer->Release();
 
 	return TRUE;
 }
@@ -62,12 +66,14 @@ boolean Mesh::SetMesh(std::string _fileName)
 
 void Mesh::Draw()
 {
-	for (DWORD i = 0; i < g_dwNumMaterials; i++)
+	for (DWORD i = 0; i < dwNumMaterials; i++)
 	{
 		// Set the material and texture for this subset
-		g_pd3dDevice->SetMaterial(&g_pMeshMaterials[i]);
+		device->SetMaterial(&meshMaterials[i]);
 
 		// Draw the mesh subset
-		g_pMesh->DrawSubset(i);
+		mesh->DrawSubset(i);
 	}
+
+	device->EndScene();
 }

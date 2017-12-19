@@ -1,14 +1,20 @@
 #include "ResourceManager.h"
 #include "Resource.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 
 ResourceManager::ResourceManager(LPDIRECT3DDEVICE9* _device)
 {
 	device = _device;
-	//make a test mesh resource
-	Resource* testMesh = new Mesh(device);
+
+	//make a test mesh
+	testMesh = new Mesh(device);
 	testMesh->Create("tiger.x");
+
+	//make a test texture
+	testTexture = new Texture(device);
+	testTexture->Create("tiger.bmp");
 }
 
 
@@ -37,10 +43,16 @@ Resource* ResourceManager::GetResource(uint32_t _uuid)
 
 	return NULL;
 }
+
+
 void ResourceManager::Update() 
 {
+	testMesh->Draw();
+	testTexture->Draw();
 }
 
+
+//deze func wordt niet aangeroepen
 void ResourceManager::Draw()
 {
 

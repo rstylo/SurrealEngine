@@ -14,10 +14,10 @@ public:
 	virtual void Create(std::string);
 
 private:
-	LPDIRECT3DDEVICE9   g_pd3dDevice;
-	LPD3DXMESH          g_pMesh; // Our mesh object in sysmem
-	D3DMATERIAL9*       g_pMeshMaterials; // Materials for our mesh
-	DWORD               g_dwNumMaterials;   // Number of mesh materials
+	LPDIRECT3DDEVICE9   device;
+	LPD3DXMESH          mesh; // Our mesh object in sysmem
+	D3DMATERIAL9*       meshMaterials; // Materials for our mesh
+	DWORD               dwNumMaterials;   // Number of mesh materials
 
 };
 

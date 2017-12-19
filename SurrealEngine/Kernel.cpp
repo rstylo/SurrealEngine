@@ -105,7 +105,9 @@ void Kernel::Draw()
 		gameDisplay.second->Clear(D3DCOLOR_XRGB(0, 255, 255));
 		if (gameDisplay.second->Begin())
 		{
-			sceneManager->Draw(gameDisplay.second->device, 0);
+			//sceneManager->Draw(gameDisplay.second->device, 0);
+			resourceManager->Draw();
+
 			gameDisplay.second->End();
 		}
 
