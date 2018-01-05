@@ -52,12 +52,12 @@ void Scene::SetupTerrain(LPDIRECT3DDEVICE9 _device)
 		if (skybox != NULL)
 		{
 
-			skybox->Init(_device, CurrentDirectory("skybox.jpg"));
+			skybox->Init(_device, "skybox.jpg");
 		}
 
 		if (terrain != NULL)
 		{
-			terrain->InitWithTexture(_device, 100, "map1.bmp", 100, "texture3.jpg");
+			terrain->InitWithTexture(_device, 50, "map4.bmp", 50, "texture3.jpg");
 		}
 	
 
@@ -159,6 +159,7 @@ void Scene::Update()
 {
 	cameras[0]->Update();					//hoort hier niet
 	cameras[1]->Update();					//hoort hier niet
+	skybox->Update(cameras[0]->GetPosition());
 }
 
 std::string Scene::CurrentDirectory(std::string str)

@@ -13,8 +13,8 @@ SceneManager::SceneManager()
 
 void SceneManager::Init(InputHandler* _inputHandler, HWND* _hwnd, HWND* _hwnd2)
 {
-	currentScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, -50, 0), _hwnd, _inputHandler); //game camera
-	currentScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, -100, 0), _hwnd2, _inputHandler); //dev camera
+	currentScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, -5, 0), _hwnd, _inputHandler); //game camera
+	currentScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, -80, 0), _hwnd2, _inputHandler); //dev camera
 }
 
 SceneManager::~SceneManager()

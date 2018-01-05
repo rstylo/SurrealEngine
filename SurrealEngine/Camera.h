@@ -23,6 +23,8 @@ public:
 	virtual void MoveUp();
 	virtual void MoveDown();
 
+	virtual D3DXVECTOR3 GetPosition();
+
 private:
 
 	D3DXVECTOR3 rotation;

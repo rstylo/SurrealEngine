@@ -36,6 +36,9 @@ Camera::~Camera()
 
 void Camera::SetupView(LPDIRECT3DDEVICE9 _device)
 {
+	D3DXMATRIXA16 scale;
+	D3DXMatrixScaling(&scale, 0, 1000, 2000);
+	_device->SetTransform(D3DTS_WORLD, &scale);
 	D3DXMATRIXA16 trans;
 
 	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
@@ -96,9 +99,15 @@ void Camera::Update()
 		if (inputHandler->CheckKeyboardPressed('q')) {
 			Rotate(0, -5);
 		}
-		Rotate(0, inputHandler->CheckMouseValues('x'));
+		Rotate(inputHandler->CheckMouseValues('y'), inputHandler->CheckMouseValues('x'));
 
 		if (inputHandler->CheckMousePressed(0)) {
+			lookAt.y = 4;
+			rotation.z = 0;
+		}
+
+		if (inputHandler->CheckMousePressed(1)) {
+			Rotate(inputHandler->CheckMouseValues('y'), 0);
 		}
 	}
 }
@@ -110,46 +119,49 @@ void Camera::MoveTo(D3DXVECTOR3)
 
 void Camera::Rotate(float x, float y)
 {
-	float speed = 2;
+	float speed = 4;
 	rotation.y -= speed*y * 2 * D3DX_PI / 1000;
-	//rotation.z += 0.1f*x*cos(rotation.y);
-	//rotation.x += 0.1f*x*sin(rotation.y);
+	lookAt.y-= 0.2*x;
 }
 
 void Camera::MoveLeft()
 {
-	float speed = 1.0f;
+	float speed = 0.2f;
 	position.z -= speed*cos(rotation.y + 0.5*D3DX_PI);
 	position.x += speed*sin(rotation.y + 0.5*D3DX_PI);
 }
 
 void Camera::MoveRight()
 {
-	float speed = 1.0f;
+	float speed = 0.2f;
 	position.z -= speed*cos(rotation.y - 0.5*D3DX_PI);
 	position.x += speed*sin(rotation.y - 0.5*D3DX_PI);
 }
 
 void Camera::MoveForwards()
 {
-	float speed = 1.0f;
+	float speed = 0.2f;
 	position.z -= speed*cos(rotation.y);
 	position.x += speed*sin(rotation.y);
 }
 
 void Camera::MoveBackwards()
 {
-	float speed = 1.0f;
+	float speed = 0.2f;
 	position.z += speed*cos(rotation.y);
 	position.x -= speed*sin(rotation.y);
 }
 
 void Camera::MoveUp()
 {
-	position.y -= 2.0f;
+	position.y -= 0.2f;
 }
 
 void Camera::MoveDown()
 {
-	position.y += 2.0f;
+	position.y += 0.2f;
+}
+
+D3DXVECTOR3 Camera::GetPosition() {
+	return position;
 }

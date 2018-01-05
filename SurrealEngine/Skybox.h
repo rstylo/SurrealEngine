@@ -19,13 +19,10 @@ public:
 
 	virtual void Draw(LPDIRECT3DDEVICE9);
 
-
-
-	
-	
-
 private:
-
+	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
+	LPDIRECT3DINDEXBUFFER9 indexBuffer;
+	LPDIRECT3DTEXTURE9 skyboxTexture;
 	D3DVECTOR middle;
 
 };
