@@ -83,7 +83,7 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 	device->LightEnable(0, TRUE);
 	device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	device->SetRenderState(D3DRS_AMBIENT, 0x008D6056);
-	
+
 
 	return true;
 
@@ -96,7 +96,7 @@ void DirectXRenderer::Clear(D3DCOLOR color)
 }
 
 bool DirectXRenderer::Begin() {
-	if(SUCCEEDED(device->BeginScene()))
+	if (SUCCEEDED(device->BeginScene()))
 	{
 		return true;
 	}

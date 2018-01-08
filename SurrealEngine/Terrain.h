@@ -20,6 +20,7 @@ public:
 	virtual ~Terrain();
 
 	virtual bool InitWithTexture(LPDIRECT3DDEVICE9, const int, char*, const int, std::string);	//
+	virtual void SetupMatrices(LPDIRECT3DDEVICE9 device);
 	//virtual bool InitWithColor(LPDIRECT3DDEVICE9, const int, char*, const int, DWORD, DWORD, DWORD, DWORD);
 	virtual void Draw(LPDIRECT3DDEVICE9);
 
@@ -36,6 +37,8 @@ private:
 	
 	BYTE* heightData;
 
+	D3DXVECTOR3 position;
+	D3DXVECTOR3 rotation;
 	int primCount;
 	int vertexCount;
 

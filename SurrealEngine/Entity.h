@@ -11,19 +11,21 @@
 
 class Resource;
 class Object;
-class Rectangle;
+class Mesh;
 
 class Entity
 {
 public:
-	Entity(float, float, float);
+	Entity(D3DXVECTOR3, D3DXVECTOR3);
 	virtual ~Entity();
 
+	virtual void SetupMatrices(LPDIRECT3DDEVICE9);
 	virtual void Draw(LPDIRECT3DDEVICE9);
+	
+
 	virtual void AddResource(Resource*);
+	virtual bool Init(LPDIRECT3DDEVICE9);
 
-
-	virtual void Update();
 	virtual uint32_t GetId();
 
 private:
@@ -35,6 +37,7 @@ private:
 	Object* my3dObject;
 
 	D3DXVECTOR3 position;										//ELKE entity moet een positie in de wereld hebben
+	D3DXVECTOR3 rotation;
 
 
 };

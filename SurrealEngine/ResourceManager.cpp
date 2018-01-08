@@ -32,11 +32,3 @@ Resource* ResourceManager::GetResource(uint32_t _uuid)
 
 	return NULL;
 }
-void ResourceManager::Update() 
-{
-}
-
-void ResourceManager::Draw()
-{
-
-}
