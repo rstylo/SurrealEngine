@@ -6,9 +6,14 @@
 #include <cstdint>		//voor unique ids
 #include <map>
 
+#include <iostream>
+#include <string>
+
 class InputHandler;
 class Scene;
 class Renderer;
+class ResourceManager;
+class Terrain;
 
 class SceneManager
 {
@@ -16,21 +21,25 @@ public:
 	SceneManager();
 	virtual ~SceneManager();
 
-	virtual void Init(InputHandler*, HWND*, HWND*);
+	virtual void Init(LPDIRECT3DDEVICE9, InputHandler*, HWND*, HWND*);
 	virtual void Update();
 	virtual void Draw(LPDIRECT3DDEVICE9, int);
 
 	virtual void AddScene(Scene*);
-	virtual Scene* GetScene(uint32_t);
+	virtual Scene* GetScene(std::string);
+
 	virtual void SetupScene(LPDIRECT3DDEVICE9);
 
+	virtual void SpawnEntity();
 
 
-
+	Scene* currentScene;
 
 private:
-	std::map<uint32_t, Scene*> scenes;
-	Scene* currentScene;
+	ResourceManager* resourceManager;
+	std::map<std::string, Scene*> scenes;
+	
+	
 	bool initialized;
 
 };

@@ -17,7 +17,7 @@ public:
 	virtual void Present(HWND);
 	virtual LPDIRECT3DDEVICE9* GetDevice();
 
-	
+
 private:
 	LPDIRECT3DDEVICE9 device;					//(staat voor long pointer naar d3d device),  de rendering device
 												//weet de voordelen er niet van over "normale" pointer(IDirect3DDevice9* device), alleen dat het een gedoe om het te deleten

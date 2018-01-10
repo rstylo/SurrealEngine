@@ -16,16 +16,17 @@ public:
 	virtual bool Init(LPDIRECT3DDEVICE9, std::string);
 
 	virtual void Update(D3DVECTOR);
+	virtual void Create();
+
+
+	virtual void SetupMatrices(LPDIRECT3DDEVICE9 device);
 
 	virtual void Draw(LPDIRECT3DDEVICE9);
 
-
-
-	
-	
-
 private:
-
+	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
+	LPDIRECT3DINDEXBUFFER9 indexBuffer;
+	LPDIRECT3DTEXTURE9 skyboxTexture;
 	D3DVECTOR middle;
 
 };

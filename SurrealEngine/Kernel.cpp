@@ -4,11 +4,13 @@
 #include "Wnd.h"
 
 #include "SceneManager.h"
-#include "ResourceManager.h"
+#include "Console.h"
 #include "InputHandler.h"
 
 #include "Scene.h"
 #include "Camera.h"
+
+
 
 
 Kernel::Kernel()
@@ -25,12 +27,6 @@ Kernel::~Kernel()
 		sceneManager = NULL;
 	}
 
-	if (resourceManager != NULL)
-	{
-		delete resourceManager;
-		resourceManager = NULL;
-	}
-
 	if (inputHandler != NULL)
 	{
 		delete inputHandler;
@@ -40,13 +36,14 @@ Kernel::~Kernel()
 
 bool Kernel::Init(bool windowed)
 {
-
+	
 
 	gameDisplay = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
 	devDisplay = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
 
 	renderer = new DirectXRenderer();
 
+	
 	if (gameDisplay->Init(0, 0) && devDisplay->Init(1280, 0))									//initialiseer beide windows
 	{
 		printf("GameWindow and devWindow succefully initialised... \n");
@@ -60,12 +57,12 @@ bool Kernel::Init(bool windowed)
 				printf("Input handler succefully initialized... \n");
 
 				sceneManager = new SceneManager();											//aanmaken van scenemanager
-				resourceManager = new ResourceManager();
-
 
 				device = renderer->GetDevice();
-				sceneManager->Init(inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
+				sceneManager->Init(*device, inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
 				sceneManager->SetupScene(*device);
+
+				console = new Console(sceneManager);
 
 				initialized = true;
 				return true;
@@ -116,7 +113,11 @@ void Kernel::Update() {
 				inputHandler->SetWindow(&gameDisplay->hWnd);
 		}
 		sceneManager->Update();
-		resourceManager->Update();
+
+		console->Update();
+		if(inputHandler->CheckKeyboardPressed('b'))
+			console->ReadLine();
+
 		inputHandler->Update();
 		Draw();
 	}

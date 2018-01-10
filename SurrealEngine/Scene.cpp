@@ -4,7 +4,10 @@
 #include "Entity.h"
 #include "Skybox.h"
 
-Scene::Scene()
+#include "Mesh.h"
+
+Scene::Scene(std::string _name)
+	:name(_name)
 {
 
 	id = reinterpret_cast<uint32_t>(this);
@@ -12,6 +15,7 @@ Scene::Scene()
 
 	terrain = new Terrain();
 	skybox = new Skybox();
+		
 }
 
 
@@ -21,6 +25,7 @@ Scene::~Scene()
 	{
 		delete it->second;
 	}
+	cameras.clear();
 
 	for (auto it = entities.begin(); it != entities.end(); it++)		//iterate door alle entities
 	{
@@ -46,26 +51,47 @@ uint32_t Scene::GetId()
 	return id;
 }
 
-void Scene::SetupTerrain(LPDIRECT3DDEVICE9 _device)
+bool Scene::InitEntities(LPDIRECT3DDEVICE9 device)
+{
+	for (auto it = entities.begin(); it != entities.end(); it++)
+	{
+		if (it->second->Init(device) == false)
+		{
+			
+		}
+	}
+
+	return true;
+}
+
+void Scene::SetupTerrain(LPDIRECT3DDEVICE9 _device, char* map, std::string mapTexture, std::string skyboxTexture)
 {
 		
-		if (skybox != NULL)
-		{
-
-			skybox->Init(_device, CurrentDirectory("skybox.jpg"));
-		}
+	if (skybox != NULL)
+	{
+		skybox->Init(_device, "skybox.jpg");
+		skybox->Create();
+	}
 
 		if (terrain != NULL)
 		{
-			terrain->InitWithTexture(_device, 100, "map1.bmp", 100, "texture3.jpg");
+			terrain->InitWithTexture(_device, map, mapTexture);
 		}
-	
 
 }
 
-void Scene::SetupMatrices(LPDIRECT3DDEVICE9 _device, int cam)
+void Scene::SetupMatrices(LPDIRECT3DDEVICE9 _device)
+{
+	D3DXMATRIX world;
+	D3DXMatrixIdentity(&world);
+
+	_device->SetTransform(D3DTS_WORLD, &world);
+}
+
+void Scene::SetupView(LPDIRECT3DDEVICE9 _device, int cam)
 {
 	auto it = cameras.find(cam);
+
 	if (it != cameras.end() && it->second != NULL)
 	{
 		it->second->SetupView(_device);
@@ -94,9 +120,11 @@ void Scene::SetupLight(LPDIRECT3DDEVICE9 _device)
 
 	ZeroMemory(&light, sizeof(D3DLIGHT9));
 	light.Type = D3DLIGHT_DIRECTIONAL;
+
 	light.Diffuse.r = 0.5f;
 	light.Diffuse.g = 0.5f;
 	light.Diffuse.b = 0.5f;
+
 	direction = D3DXVECTOR3(-100.0f,-1000.0f,-100.0f);
 	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &direction);
 	light.Range = 100.0f;
@@ -108,18 +136,19 @@ void Scene::Draw(LPDIRECT3DDEVICE9 _device)
 {
 	if (skybox != NULL)
 	{
+		skybox->SetupMatrices(_device);
 		skybox->Draw(_device);
 	}
 
 	if (terrain != NULL)
 	{
+		terrain->SetupMatrices(_device);
 		terrain->Draw(_device);
 	}
 
-
-
 	for (auto it = entities.begin(); it != entities.end(); it++)
 	{
+		it->second->SetupMatrices(_device);
 		it->second->Draw(_device);
 	}
 
@@ -132,6 +161,14 @@ void Scene::AddCamera(int cam, D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR
 		cameras[cam] = new Camera(_eye, _lookAt, _rotation, _position, _hwnd, _inputHandler);
 	else
 		printf("camera %d already exists!! \n", cam);
+}
+
+Camera* Scene::GetCamera(int cam)
+{
+	if (cameras.find(cam) != cameras.end())
+		return cameras.find(cam)->second;
+
+	return NULL;
 }
 
 void Scene::AddEntity(Entity* _entity)
@@ -159,6 +196,7 @@ void Scene::Update()
 {
 	cameras[0]->Update();					//hoort hier niet
 	cameras[1]->Update();					//hoort hier niet
+	skybox->Update(cameras[0]->GetPosition());
 }
 
 std::string Scene::CurrentDirectory(std::string str)
@@ -166,4 +204,18 @@ std::string Scene::CurrentDirectory(std::string str)
 	char dir[MAX_PATH + 1];
 	GetCurrentDirectoryA(sizeof(dir), dir); // **** win32 specific ****
 	return dir + str;
+}
+
+std::string Scene::GetName()
+{
+	return name;
+}
+
+void Scene::CreateEntityWithMesh(D3DXVECTOR3 _position, D3DXVECTOR3 _rotation, Resource* mesh)
+{
+
+	Entity* entity1 = new Entity(_position, _rotation);
+	AddEntity(entity1);
+
+	entity1->AddResource(mesh);
 }

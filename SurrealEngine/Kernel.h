@@ -12,6 +12,7 @@ class Wnd;
 class SceneManager;
 class ResourceManager;
 class InputHandler;
+class Console;
 
 class Kernel													//deze klasse geliever niet abstract omdat hij van teveel andere klasse afhankelijk is
 {
@@ -32,10 +33,10 @@ private:
 	bool initialized;
 	Renderer* renderer;
 	SceneManager* sceneManager;
-	ResourceManager* resourceManager;
 	LPDIRECT3DDEVICE9* device;
 
 	InputHandler* inputHandler;
+	Console* console;
 
 
 
