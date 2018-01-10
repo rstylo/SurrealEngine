@@ -3,8 +3,6 @@
 
 Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3DXVECTOR3 _translation, HWND* _hwnd, InputHandler* _inputHandler)
 {
-	float twoPi = D3DX_PI; //handig om een eigen util/math klasse te maken waar twopi al in is gedefineerd
-
 	eye.x = _eye.x;
 	eye.y = _eye.y;
 	eye.z = _eye.z;
@@ -12,6 +10,10 @@ Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3D
 	lookAt.x = _lookAt.x;
 	lookAt.y = _lookAt.y;
 	lookAt.z = _lookAt.z;
+
+	cameraHeight = 0;
+
+	lookingAt = false;
 
 	rotation.x = _rotation.x;
 	rotation.y = _rotation.y;
@@ -22,11 +24,11 @@ Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3D
 	position.z = _translation.z;
 
 	up.x = 0.0f;
-	up.y = 1.0f;
+	up.y = 1.0f;					
 	up.z = 0.0f;
 
 	hwnd = _hwnd;
-	inputHandler = _inputHandler;
+	inputHandler = _inputHandler;			
 }
 
 
@@ -36,37 +38,36 @@ Camera::~Camera()
 
 void Camera::SetupView(LPDIRECT3DDEVICE9 _device)
 {
-	D3DXMATRIXA16 scale;
-	D3DXMatrixScaling(&scale, 0, 1000, 2000);
-	_device->SetTransform(D3DTS_WORLD, &scale);
-	D3DXMATRIXA16 trans;
+	//set eye position
+	eye = position;
+	eye.y + 5;
 
-	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
-	D3DXMATRIX worldMtrx = trans;
-	_device->SetTransform(D3DTS_WORLD, &worldMtrx);
-
-	D3DXMATRIXA16 rotX;
-	D3DXMATRIXA16 rotY;
-	D3DXMATRIXA16 rotZ;
-
-	D3DXMatrixRotationX(&rotX, rotation.x);
-	D3DXMatrixRotationY(&rotY, rotation.y);
-	D3DXMatrixRotationZ(&rotZ, rotation.z);
-
-	worldMtrx *= rotX *rotY * rotZ;
-	_device->SetTransform(D3DTS_WORLD, &worldMtrx);
+	if (lookingAt == false)
+	{
+		lookAt = position;
+		lookAt.y += cameraHeight;
+		lookAt.z -= cos(rotation.y);
+		lookAt.x += sin(rotation.y);
+	}
 
 	D3DXMATRIX viewMtrx;
+
 	D3DXMatrixLookAtLH(&viewMtrx, &eye, &lookAt, &up);
+	
 	_device->SetTransform(D3DTS_VIEW, &viewMtrx);
+
 
 	D3DXMATRIX projectionMtrx;
 	D3DXMatrixPerspectiveFovLH(&projectionMtrx, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f);
 	_device->SetTransform(D3DTS_PROJECTION, &projectionMtrx);
-
+	
 
 }
 
+void Camera::SetLookAt(bool state)
+{
+	lookingAt = state;
+}
 void Camera::LookAt(D3DXVECTOR3 _lookAt)
 {
 	lookAt = _lookAt;
@@ -75,6 +76,8 @@ void Camera::LookAt(D3DXVECTOR3 _lookAt)
 void Camera::Update()
 {
 	if (*hwnd == GetFocus()) {
+		Rotate(0, inputHandler->CheckMouseValues('x'));
+
 		if (inputHandler->CheckKeyboardPressed('a')) {
 			MoveLeft();
 		}
@@ -94,72 +97,71 @@ void Camera::Update()
 			MoveDown();
 		}
 		if (inputHandler->CheckKeyboardPressed('e')) {
-			Rotate(0, 5);
+			Rotate(0, rotation.y);
 		}
 		if (inputHandler->CheckKeyboardPressed('q')) {
-			Rotate(0, -5);
+			Rotate(0, rotation.y);
 		}
 		Rotate(inputHandler->CheckMouseValues('y'), inputHandler->CheckMouseValues('x'));
 
 		if (inputHandler->CheckMousePressed(0)) {
-			lookAt.y = 4;
-			rotation.z = 0;
+			
 		}
 
 		if (inputHandler->CheckMousePressed(1)) {
-			Rotate(inputHandler->CheckMouseValues('y'), 0);
+			
 		}
 	}
 }
 
-void Camera::MoveTo(D3DXVECTOR3)
+void Camera::MoveTo(float rot)
 {
-
+	float speed = 0.5;
+	position.z -= 0.5*cos(rot)*speed;
+	position.x += 0.5*sin(rot)*speed;
 }
 
 void Camera::Rotate(float x, float y)
 {
-	float speed = 4;
+	float speed = 2;
 	rotation.y -= speed*y * 2 * D3DX_PI / 1000;
-	lookAt.y-= 0.2*x;
+	cameraHeight -= 0.05*x;
 }
 
 void Camera::MoveLeft()
 {
-	float speed = 0.2f;
-	position.z -= speed*cos(rotation.y + 0.5*D3DX_PI);
-	position.x += speed*sin(rotation.y + 0.5*D3DX_PI);
+	float rotLeft = rotation.y + (0.5 * D3DX_PI);
+	MoveTo(rotLeft);
+
 }
 
 void Camera::MoveRight()
 {
-	float speed = 0.2f;
-	position.z -= speed*cos(rotation.y - 0.5*D3DX_PI);
-	position.x += speed*sin(rotation.y - 0.5*D3DX_PI);
+	float rotRight = rotation.y - (0.5 * D3DX_PI);
+	MoveTo(rotRight);
 }
 
 void Camera::MoveForwards()
 {
-	float speed = 0.2f;
-	position.z -= speed*cos(rotation.y);
-	position.x += speed*sin(rotation.y);
+	float rotForward = rotation.y;
+	MoveTo(rotForward);
 }
 
 void Camera::MoveBackwards()
 {
-	float speed = 0.2f;
-	position.z += speed*cos(rotation.y);
-	position.x -= speed*sin(rotation.y);
+	float rotBack = rotation.y + D3DX_PI;
+	MoveTo(rotBack);
 }
 
 void Camera::MoveUp()
 {
-	position.y -= 0.2f;
+	position.y += 0.5f;
+
 }
 
 void Camera::MoveDown()
 {
-	position.y += 0.2f;
+	position.y -= 0.5f;
 }
 
 D3DXVECTOR3 Camera::GetPosition() {

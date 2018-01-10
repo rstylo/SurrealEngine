@@ -4,7 +4,6 @@
 #include "Wnd.h"
 
 #include "SceneManager.h"
-#include "ResourceManager.h"
 #include "InputHandler.h"
 
 #include "Scene.h"
@@ -23,12 +22,6 @@ Kernel::~Kernel()
 	{
 		delete sceneManager;
 		sceneManager = NULL;
-	}
-
-	if (resourceManager != NULL)
-	{
-		delete resourceManager;
-		resourceManager = NULL;
 	}
 
 	if (inputHandler != NULL)
@@ -60,11 +53,9 @@ bool Kernel::Init(bool windowed)
 				printf("Input handler succefully initialized... \n");
 
 				sceneManager = new SceneManager();											//aanmaken van scenemanager
-				resourceManager = new ResourceManager();
-
 
 				device = renderer->GetDevice();
-				sceneManager->Init(inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
+				sceneManager->Init(*device, inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
 				sceneManager->SetupScene(*device);
 
 				initialized = true;
@@ -116,7 +107,8 @@ void Kernel::Update() {
 				inputHandler->SetWindow(&gameDisplay->hWnd);
 		}
 		sceneManager->Update();
-		resourceManager->Update();
+		if(inputHandler->CheckKeyboardPressed('b'))
+			sceneManager->doCommands();
 		inputHandler->Update();
 		Draw();
 	}

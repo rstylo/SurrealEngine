@@ -85,6 +85,8 @@ bool InputHandler::CheckKeyboardPressed(char _key)
 	{
 	case 'a':
 		return keyboard->CheckKeyPressed(DIK_A);
+	case 'b':
+		return keyboard->CheckKeyPressed(DIK_B);
 	case 's':
 		return keyboard->CheckKeyPressed(DIK_S);
 	case 'd':

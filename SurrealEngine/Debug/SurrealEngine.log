@@ -1,2 +1,69 @@
-﻿  Terrain.cpp
-  SurrealEngine.vcxproj -> C:\Users\johan\Desktop\3d Engine design\Projects\MyGameEngine\SurrealEngine\SurrealEngine\Debug\SurrealEngine.exe
+﻿  Wnd.cpp
+  Terrain.cpp
+  Skybox.cpp
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(64): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(65): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(66): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(67): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(68): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(69): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(70): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(71): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(73): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(74): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(76): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(77): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(79): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\skybox.cpp(80): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+  SceneManager.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\scenemanager.cpp(117): warning C4018: '<': signed/unsigned mismatch
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\scenemanager.cpp(154): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+  Scene.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\scene.cpp(100): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'int *'
+  ResourceManager.cpp
+  Resource.cpp
+  Renderer.cpp
+  RectObj.cpp
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(90): warning C4473: 'printf' : not enough arguments passed for format string
+  c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(90): note: placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+  c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(90): note: the missing variadic argument 1 is required by format string '%d'
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(98): warning C4473: 'printf' : not enough arguments passed for format string
+  c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(98): note: placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+  c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(98): note: the missing variadic argument 1 is required by format string '%d'
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(105): warning C4473: 'printf' : not enough arguments passed for format string
+  c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(105): note: placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+  c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(105): note: the missing variadic argument 1 is required by format string '%d'
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(114): warning C4473: 'printf' : not enough arguments passed for format string
+  c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(114): note: placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+  c:\users\eigenaar\documents\github\surrealengine\surrealengine\rectobj.cpp(114): note: the missing variadic argument 1 is required by format string '%d'
+  Object.cpp
+  Mouse.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\mouse.cpp(80): warning C4018: '<': signed/unsigned mismatch
+  Mesh.cpp
+  Main.cpp
+  Logger.cpp
+  Keyboard.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Kernel.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  InputHandler.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Entity.cpp
+  DirectXRenderer.cpp
+  Camera.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\camera.cpp(43): warning C4552: '+': operator has no effect; expected operator with side-effect
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\camera.cpp(79): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\camera.cpp(105): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\camera.cpp(120): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\camera.cpp(121): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\camera.cpp(128): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\camera.cpp(133): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\camera.cpp(140): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+c:\users\eigenaar\documents\github\surrealengine\surrealengine\inputhandler.cpp(119): warning C4715: 'InputHandler::CheckMousePressed': not all control paths return a value
+  LINK : C:\Users\Eigenaar\Documents\GitHub\SurrealEngine\Debug\SurrealEngine.exe not found or not built by the last incremental link; performing full link
+  SurrealEngine.vcxproj -> C:\Users\Eigenaar\Documents\GitHub\SurrealEngine\Debug\SurrealEngine.exe

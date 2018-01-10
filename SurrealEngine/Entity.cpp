@@ -1,43 +1,68 @@
 #include "Entity.h"
 #include "Resource.h"
-#include "RectObj.h"
 
 
 
-Entity::Entity(float x, float y, float z)
+Entity::Entity(D3DXVECTOR3 _position, D3DXVECTOR3 _rotation)
 {
 	id = reinterpret_cast<uint32_t>(this);			//cast de classe naar een uint32_t, sinds klassen al unique zijn zal dit ervoor zorgen dat elke entity een eigen positive int getal als id heeft
 
-	position.x = x;
-	position.y = y;
-	position.z = z;
+	position.x = _position.x;
+	position.y = _position.y;
+	position.z = _position.z;
 
-	//my3dObject = new RectObj();
+	rotation.x = _rotation.x;
+	rotation.y = _rotation.y;
+	rotation.z = _rotation.z;
 
 }
 
 
 Entity::~Entity()
 {
-	if (my3dObject != NULL) {
-		my3dObject = NULL;
-		delete my3dObject;
-	}
+}
+
+bool Entity::Init(LPDIRECT3DDEVICE9 device)									//de entity draw functie draw all zijn resources in plaatst van dit via de resource manager te doen
+{
+
+	return true;
+}
+
+void Entity::SetupMatrices(LPDIRECT3DDEVICE9 device)
+{
+	D3DXMATRIX worldMtrx;
+	//D3DXMatrixIdentity(&worldMtrx);
+
+	D3DXMATRIXA16 trans;
+
+	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
+
+	D3DXMATRIXA16 rotX;
+	D3DXMATRIXA16 rotY;
+	D3DXMATRIXA16 rotZ;
+
+	D3DXMatrixRotationX(&rotX, rotation.x);
+	D3DXMatrixRotationY(&rotY, rotation.y);
+	D3DXMatrixRotationZ(&rotZ, rotation.z);
+
+	worldMtrx = rotX * rotY * rotZ * trans;
+	device->SetTransform(D3DTS_WORLD, &worldMtrx);
 }
 
 void Entity::Draw(LPDIRECT3DDEVICE9 device)									//de entity draw functie draw all zijn resources in plaatst van dit via de resource manager te doen
 {
-	if (my3dObject != NULL)
-	{
-		my3dObject->EditObject(device, position.x, position.y, position.z, 2, 2, 2);						//hoort hier niet
-		my3dObject->Draw(device);
-	}
+
 	for (auto it = myResources.begin(); it != myResources.end(); it++)
 	{
-
-		(*it)->Draw();
+		if ((*it)->Init(device))
+		{
+			(*it)->Draw(device);
+		}
+		else 
+		{
+			printf("resource %d @ entity %d was not Initialized \n", (*it)->GetId(), GetId());
+		}
 	}
-
 }
 
 void Entity::AddResource(Resource* _resource)				
@@ -48,16 +73,12 @@ void Entity::AddResource(Resource* _resource)
 		{
 			return;
 		}
-		else 
-		{
-			myResources.push_back(_resource);
-		}
 	}
+
+	myResources.push_back(_resource);
 }
-void Entity::Update()
-{
-	
-}
+
+
 uint32_t Entity::GetId()							
 {
 	return id;														

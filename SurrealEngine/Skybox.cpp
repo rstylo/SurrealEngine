@@ -44,13 +44,16 @@ bool Skybox::Init(LPDIRECT3DDEVICE9 device, std::string _texture)
 
 	return true;
 }
-
 void Skybox::Update(D3DVECTOR position)
 {
-	int size = 100;
 	middle.x = position.x;
 	middle.y = position.y;
 	middle.z = position.z;
+}
+
+void Skybox::Create()
+{
+	int size = 100;
 
 	CUSTOMVERTEX* vertices;
 	if (FAILED(vertexBuffer->Lock(0, 0, (void**)&vertices, 0))) {
@@ -58,23 +61,24 @@ void Skybox::Update(D3DVECTOR position)
 		return;
 	}
 
-	vertices[0].position = -D3DXVECTOR3(middle.x - size, middle.y - size, middle.z + size);
-	vertices[1].position = -D3DXVECTOR3(middle.x - size, middle.y + size, middle.z + size);
-	vertices[2].position = -D3DXVECTOR3(middle.x + size, middle.y - size, middle.z + size);
-	vertices[3].position = -D3DXVECTOR3(middle.x + size, middle.y + size, middle.z + size);
-	vertices[4].position = -D3DXVECTOR3(middle.x + size, middle.y - size, middle.z - size);
-	vertices[5].position = -D3DXVECTOR3(middle.x + size, middle.y + size, middle.z - size);
-	vertices[6].position = -D3DXVECTOR3(middle.x - size, middle.y - size, middle.z - size);
-	vertices[7].position = -D3DXVECTOR3(middle.x - size, middle.y + size, middle.z - size);
+	vertices[0].position = -D3DXVECTOR3( - size, - size, size);
+	vertices[1].position = -D3DXVECTOR3( - size, size, size);
+	vertices[2].position = -D3DXVECTOR3( size, - size,  size);
+	vertices[3].position = -D3DXVECTOR3( size, size, size);
+	vertices[4].position = -D3DXVECTOR3( size, - size, - size);
+	vertices[5].position = -D3DXVECTOR3( size, size, - size);
+	vertices[6].position = -D3DXVECTOR3( - size, - size, - size);
+	vertices[7].position = -D3DXVECTOR3( - size, size, - size);
 
-	vertices[8].position = -D3DXVECTOR3(middle.x - size, middle.y + size, middle.z + size);		//vertex 1 // top
-	vertices[9].position = -D3DXVECTOR3(middle.x - size, middle.y + size, middle.z - size);		//vertex 7
+	vertices[8].position = -D3DXVECTOR3( - size, size,  size);		//vertex 1 // top
+	vertices[9].position = -D3DXVECTOR3( - size, size, - size);		//vertex 7
 
-	vertices[10].position = -D3DXVECTOR3(middle.x - size, middle.y - size, middle.z + size);	//vertex 0 // bottom
-	vertices[11].position = -D3DXVECTOR3(middle.x - size, middle.y - size, middle.z - size);	//vertex 6
-	
-	vertices[12].position = -D3DXVECTOR3(middle.x - size, middle.y - size, middle.z + size);	//vertex 0
-	vertices[13].position = -D3DXVECTOR3(middle.x - size, middle.y + size, middle.z + size);	//vertex 1
+	vertices[10].position = -D3DXVECTOR3( - size, - size, size);	//vertex 0 // bottom
+	vertices[11].position = -D3DXVECTOR3( - size, - size,  - size);	//vertex 6
+
+	vertices[12].position = -D3DXVECTOR3( - size,  - size, size);	//vertex 0
+	vertices[13].position = -D3DXVECTOR3( - size,  size, size);		//vertex 1
+
 
 	
 	vertices[0].tu = 0.00f;
@@ -140,9 +144,15 @@ void Skybox::Update(D3DVECTOR position)
 	indexBuffer->Unlock();
 }
 
+void Skybox::SetupMatrices(LPDIRECT3DDEVICE9 device)
+{
+	D3DXMATRIX worldMtrx;
+	D3DXMatrixTranslation(&worldMtrx, middle.x, middle.y, middle.z);
+	device->SetTransform(D3DTS_WORLD, &worldMtrx);
+}
+
 void Skybox::Draw(LPDIRECT3DDEVICE9 device)
 {
-	
 	device->SetTexture(0, skyboxTexture);
 	device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTSS_COLORARG1);
 	device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);

@@ -22,15 +22,17 @@ public:
 
 	virtual uint32_t GetId();
 
-	
+	virtual bool InitEntities(LPDIRECT3DDEVICE9);
 	virtual void Draw(LPDIRECT3DDEVICE9);
 	virtual void Update();
 
-	virtual void SetupMatrices(LPDIRECT3DDEVICE9, int);
+	virtual void SetupView(LPDIRECT3DDEVICE9, int);
+	virtual void SetupMatrices(LPDIRECT3DDEVICE9);
 	virtual void SetupTerrain(LPDIRECT3DDEVICE9);
 	virtual void SetupLight(LPDIRECT3DDEVICE9);
 
 	virtual void AddCamera(int, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, HWND*, InputHandler*);
+	virtual Camera* GetCamera(int cam);
 
 	virtual void AddEntity(Entity*);
 	virtual Entity* GetEntity(uint32_t);

@@ -32,7 +32,6 @@ private:
 	bool initialized;
 	Renderer* renderer;
 	SceneManager* sceneManager;
-	ResourceManager* resourceManager;
 	LPDIRECT3DDEVICE9* device;
 
 	InputHandler* inputHandler;

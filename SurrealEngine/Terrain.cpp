@@ -23,7 +23,8 @@ struct xyzTextureVertex
 Terrain::Terrain()
 	:primCount(0), vertexCount(0)
 {
-	
+	rotation = D3DXVECTOR3(0, 0, 0);
+	position = D3DXVECTOR3(0, 0, 0);
 }
 
 Terrain::~Terrain()
@@ -84,10 +85,10 @@ bool Terrain::InitWithTexture(LPDIRECT3DDEVICE9 device, const int width, char* h
 			vertices[vCounter + 1] = { 1.0f + x - halfX, (float)heightData[(x + 1 >= width? x : x+1) * depth + z],								0.0f + z - halfZ, 1.0f, 0.0f };
 			vertices[vCounter + 1].normal = D3DXVECTOR3(1.0f + x - halfX, (float)heightData[(x + 1 >= width ? x : x + 1) * depth + z], 0.0f + z - halfZ);
 
-			vertices[vCounter + 2] = { 0.0f + x - halfX, (float)heightData[x * depth + (z + 1 >= depth ? z : z + 1)],							1.0f + z - halfZ, 0.0f, 1 };
+			vertices[vCounter + 2] = { 0.0f + x - halfX, (float)heightData[x * depth + (z + 1 >= depth ? z : z + 1)],							1.0f + z - halfZ, 0.0f, 1.0f };
 			vertices[vCounter + 2].normal = D3DXVECTOR3(0.0f + x - halfX, (float)heightData[x * depth + (z + 1 >= depth ? z : z + 1)], 1.0f + z - halfZ);
 
-			vertices[vCounter + 3] = { 1.0f + x - halfX, (float)heightData[(x + 1 >= width? x : x+1) * depth + (z + 1 >= depth ? z : z+1)]	,	1.0f + z - halfZ, 1.0f, 1 };
+			vertices[vCounter + 3] = { 1.0f + x - halfX, (float)heightData[(x + 1 >= width? x : x+1) * depth + (z + 1 >= depth ? z : z+1)]	,	1.0f + z - halfZ, 1.0f, 1.0f };
 			vertices[vCounter + 3].normal = D3DXVECTOR3(1.0f + x - halfX, (float)heightData[(x + 1 >= width ? x : x + 1) * depth + (z + 1 >= depth ? z : z + 1)], 1.0f + z - halfZ);
 			vCounter += 4;
 		}
@@ -190,6 +191,27 @@ void Terrain::CleanUp()
 		delete heightData;
 		heightData = NULL;
 	}
+}
+
+void Terrain::SetupMatrices(LPDIRECT3DDEVICE9 device)
+{
+	D3DXMATRIX worldMtrx;
+	D3DXMatrixIdentity(&worldMtrx);
+
+	D3DXMATRIXA16 trans;
+
+	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
+
+	D3DXMATRIXA16 rotX;
+	D3DXMATRIXA16 rotY;
+	D3DXMATRIXA16 rotZ;
+
+	D3DXMatrixRotationX(&rotX, rotation.x);
+	D3DXMatrixRotationY(&rotY, rotation.y);
+	D3DXMatrixRotationZ(&rotZ, rotation.z);
+
+	worldMtrx = rotX * rotY * rotZ * trans;
+	device->SetTransform(D3DTS_WORLD, &worldMtrx);
 }
 
 bool Terrain::LoadBMP(char* argFileName)

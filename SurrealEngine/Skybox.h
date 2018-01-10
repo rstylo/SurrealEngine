@@ -16,6 +16,10 @@ public:
 	virtual bool Init(LPDIRECT3DDEVICE9, std::string);
 
 	virtual void Update(D3DVECTOR);
+	virtual void Create();
+	
+
+	virtual void SetupMatrices(LPDIRECT3DDEVICE9 device);
 
 	virtual void Draw(LPDIRECT3DDEVICE9);
 

@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <string>
 #include <cstdint>
+#include <d3dx9.h>
 
 class Resource
 {
@@ -12,7 +13,8 @@ public:
 
 	virtual ~Resource();
 
-	virtual void Draw() = 0;
+	virtual bool Init(LPDIRECT3DDEVICE9) = 0;
+	virtual void Draw(LPDIRECT3DDEVICE9) = 0;
 	virtual uint32_t GetId();
 	
 protected:
