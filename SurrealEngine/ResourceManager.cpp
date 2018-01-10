@@ -15,6 +15,9 @@ ResourceManager::ResourceManager(LPDIRECT3DDEVICE9* _device)
 	//make a test texture
 	testTexture = new Texture(device);
 	testTexture->Create("tiger.bmp");
+
+	AddResource(testMesh);
+	AddResource(testTexture);
 }
 
 
@@ -47,13 +50,16 @@ Resource* ResourceManager::GetResource(uint32_t _uuid)
 
 void ResourceManager::Update() 
 {
-	testMesh->Draw();
-	testTexture->Draw();
+
 }
 
 
 //deze func wordt niet aangeroepen
 void ResourceManager::Draw()
 {
+	testMesh->Draw();
+	testTexture->Draw();
+
+
 
 }

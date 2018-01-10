@@ -63,11 +63,27 @@ boolean Mesh::SetMesh(std::string _fileName)
 	return TRUE;
 }
 
-
 void Mesh::Draw()
 {
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixRotationY(&matWorld, 1000.0f);
+	device->SetTransform(D3DTS_WORLD, &matWorld);
+
+	D3DXVECTOR3 vEyePt(0.0f, 3.0f, -5.0f);
+	D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+	D3DXMATRIXA16 matView;
+	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
+	device->SetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMATRIXA16 matProj;
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
+	device->SetTransform(D3DTS_PROJECTION, &matProj);
+
 	for (DWORD i = 0; i < dwNumMaterials; i++)
 	{
+		
+		
 		// Set the material and texture for this subset
 		device->SetMaterial(&meshMaterials[i]);
 
@@ -77,3 +93,5 @@ void Mesh::Draw()
 
 	device->EndScene();
 }
+
+

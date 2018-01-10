@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <string>
 #include <cstdint>
+#include <d3dx9.h>
 
 class Resource
 {
