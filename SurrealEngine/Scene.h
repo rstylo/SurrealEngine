@@ -32,7 +32,12 @@ public:
 	virtual void SetupMatrices(LPDIRECT3DDEVICE9);
 	virtual void SetupLight(LPDIRECT3DDEVICE9);
 
-	virtual void SetupTerrain(LPDIRECT3DDEVICE9, char*, std::string, std::string);
+	virtual void InvalidateObjects();
+
+	virtual bool CreateTerrainWithTexture(std::string map, std::string texture);
+
+	virtual void SetupSkybox(LPDIRECT3DDEVICE9);
+	virtual void SetupTerrain(LPDIRECT3DDEVICE9);
 	
 	virtual void CreateEntityWithMesh(D3DXVECTOR3, D3DXVECTOR3, Resource*);
 

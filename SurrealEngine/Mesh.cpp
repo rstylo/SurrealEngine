@@ -95,7 +95,7 @@ void Mesh::Draw(LPDIRECT3DDEVICE9 device)
 	
 
 
-	if (textures && materials)
+	if (textures && materials && initialized == true)
 	{
 		for (DWORD i = 0; i < numOfMaterials; i++)
 		{
@@ -107,6 +107,9 @@ void Mesh::Draw(LPDIRECT3DDEVICE9 device)
 			mesh->DrawSubset(i);
 		}
 	}
+
+	if(initialized == false)
+		printf("resource %d was not initialized\n", GetId());
 }
 
 std::string Mesh::GetMeshName()

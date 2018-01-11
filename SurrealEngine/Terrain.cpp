@@ -25,6 +25,8 @@ Terrain::Terrain()
 {
 	rotation = D3DXVECTOR3(0, 0, 0);
 	position = D3DXVECTOR3(0, 0, 0);
+
+	initialized = false;
 }
 
 Terrain::~Terrain()
@@ -32,12 +34,29 @@ Terrain::~Terrain()
 	CleanUp();
 }
 
-bool Terrain::InitWithTexture(LPDIRECT3DDEVICE9 device, char* heightMapFileName, std::string _textureName)
+void Terrain::SetMapAndTexture(std::string _heightMapFileName, std::string _textureName)
 {
+	heightMapFileName = _heightMapFileName;
+	textureName = _textureName;
+	initialized = false;
+}
+
+void Terrain::Invalidate()
+{
+	initialized = false;
+	CleanUp();
+}
+
+bool Terrain::InitWithTexture(LPDIRECT3DDEVICE9 device)
+{
+
+	CleanUp();
+
 	//y waarde ophalen uit de heightmap
-	if (!LoadBMP(heightMapFileName) )
+	if (!LoadBMP(heightMapFileName.c_str()) )
 	{
 		MessageBox(NULL, "failed loading heightmap", NULL, NULL);
+		initialized = false;
 		return false;
 
 	}
@@ -102,6 +121,7 @@ bool Terrain::InitWithTexture(LPDIRECT3DDEVICE9 device, char* heightMapFileName,
 		D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
 	{
 		printf("failed creating vertex buffer... \n");
+		initialized = false;
 		return false;
 	}
 
@@ -111,6 +131,7 @@ bool Terrain::InitWithTexture(LPDIRECT3DDEVICE9 device, char* heightMapFileName,
 		D3DPOOL_MANAGED, &indexBuffer, NULL)))
 	{
 		printf("failed creating index buffer... \n");
+		initialized = false;
 		return false;
 	}
 
@@ -119,6 +140,7 @@ bool Terrain::InitWithTexture(LPDIRECT3DDEVICE9 device, char* heightMapFileName,
 	if (!SUCCEEDED(vertexBuffer->Lock(0, sizeOfVertices, (void**)&pVertices, 0)))
 	{
 		printf("failed filling the vertex buffer... \n");
+		initialized = false;
 		return false;
 	}
 	memcpy(pVertices, vertices, sizeOfVertices);
@@ -130,6 +152,7 @@ bool Terrain::InitWithTexture(LPDIRECT3DDEVICE9 device, char* heightMapFileName,
 	if (!SUCCEEDED(indexBuffer->Lock(0, sizeOfIndices, (void**)&pIndicies, 0)))
 	{
 		printf("failed filling the index buffer... \n");
+		initialized = false;
 		return false;
 	}
 	memcpy(pIndicies, indicies, sizeOfIndices);
@@ -138,13 +161,15 @@ bool Terrain::InitWithTexture(LPDIRECT3DDEVICE9 device, char* heightMapFileName,
 	printf("Terrain vertexbuffers succefully created...\n");
 	
 	//get the texture
-	D3DXCreateTextureFromFile(device, _textureName.c_str(), &texture);
+	D3DXCreateTextureFromFile(device, textureName.c_str(), &texture);
 	if (!texture)
 	{
 		MessageBox(NULL, "failed initialising texture", NULL, NULL);
+		initialized = false;
 		return false;
 	}
 
+	initialized = true;
 	return true;
 }
 
@@ -152,6 +177,10 @@ bool Terrain::InitWithTexture(LPDIRECT3DDEVICE9 device, char* heightMapFileName,
 
 void Terrain::Draw(LPDIRECT3DDEVICE9 device)
 {
+	if (initialized == false)
+	{
+		InitWithTexture(device);
+	}
 	if (vertexBuffer != NULL && indexBuffer != NULL && texture != NULL) 
 		{
 			device->SetTexture(0, texture);
@@ -214,7 +243,7 @@ void Terrain::SetupMatrices(LPDIRECT3DDEVICE9 device)
 	device->SetTransform(D3DTS_WORLD, &worldMtrx);
 }
 
-bool Terrain::LoadBMP(char* argFileName)
+bool Terrain::LoadBMP(std::string argFileName)
 {
 
 	HDC deviceContext;										
@@ -229,7 +258,7 @@ bool Terrain::LoadBMP(char* argFileName)
 		return false;																		
 	}
 
-	bmp = LoadImage(hInstance, argFileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	bmp = LoadImage(hInstance, argFileName.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	if (bmp == NULL)	
 	{
 		char s[100];

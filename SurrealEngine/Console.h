@@ -6,7 +6,7 @@
 #include <iostream>
 #include <d3d9.h>
 
-typedef void(*func_type)(void);
+
 
 class SceneManager;
 class Scene;
@@ -17,7 +17,6 @@ public:
 	Console(SceneManager*);
 	virtual ~Console();
 
-	virtual bool RegisterCommands(std::string, void*);
 	virtual bool CheckCommand(std::string);
 
 	virtual void ReadLine();
@@ -26,12 +25,16 @@ public:
 	virtual void Update();
 	virtual void Print(std::string);
 	virtual void PrintL(std::string);
+	virtual void PrintHelp();
+
+	virtual std::string GetLine();
 
 private:
 	std::string currentLine;
 
 	SceneManager* sceneManager;
-	std::map<std::string, void*> commands;
+	std::map<std::string, void(SceneManager::*)(void)> commands;
 };
 
-#endif CONSOLE_H_
+//
+#endif // CONSOLE_H_

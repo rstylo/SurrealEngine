@@ -7,22 +7,19 @@ Console::Console(SceneManager* _sceneManager)
 {
 	
 	sceneManager = _sceneManager;
-	//void *funct = (void**)(sceneManager->SpawnEntity);	//werkt nog niet
-	//RegisterCommands("SpawnEntity", funct);
+
+	//commands
+	commands["spawn entity"] = &SceneManager::SpawnEntity;
+	commands["set scene"] = &SceneManager::SetScene;
+	commands["create scene"] = &SceneManager::CreateScene;
+	commands["change terrain"] = &SceneManager::ChangeTerrain;
+
 
 }
 
 
 Console::~Console()
 {
-}
-
-bool Console::RegisterCommands(std::string commandText, void* fct)
-{
-	if(commands.find(commandText) != commands.end())
-		return false;
-
-	commands[commandText] = fct;
 }
 
 bool Console::CheckCommand(std::string)
@@ -32,9 +29,18 @@ bool Console::CheckCommand(std::string)
 
 void Console::DoCommand(std::string commandText)
 {
-//	if (commands.find(commandText) != commands.end())
-		//((func_type)commands.find(commandText)->second)();
-	sceneManager->SpawnEntity();
+	if (commands.find(commandText) != commands.end())
+		(sceneManager->*(commands.find(commandText)->second))();
+
+}
+
+void Console::PrintHelp()
+{
+	PrintL("List of commands:");
+	for (auto it = commands.begin(); it != commands.end(); it++)
+	{
+		PrintL(it->first);
+	}
 }
 
 void Console::ReadLine()
@@ -54,7 +60,7 @@ void Console::Update()
 		bool inWord = false;
 
 		std::string param[10];
-		std::cout << currentLine << std::endl;
+		
 		for (int currentChar = 0; currentChar < currentLine.size(); currentChar++)
 		{
 			if (currentLine[currentChar] != ' ')
@@ -74,9 +80,26 @@ void Console::Update()
 			}
 		}
 
-		if (param[0] == "create" && param[1] == "entity")
+		if (param[0] == "help")
 		{
-			DoCommand("SpawnEntity");
+			PrintHelp();
+		}
+
+		if (param[0] + " " + param[1] == "spawn entity" )
+		{
+			DoCommand("spawn entity");
+		}
+		else if (param[0] + " " + param[1] == "set scene")
+		{
+			DoCommand("set scene");
+		}
+		else if (param[0] + " " + param[1] == "create scene")
+		{
+			DoCommand("create scene");
+		}
+		else if (param[0] + " " + param[1] == "change terrain")
+		{
+			DoCommand("change terrain");
 		}
 		else
 		{
@@ -91,6 +114,12 @@ void Console::Update()
 
 }
 
+std::string Console::GetLine()
+{
+	std::string line;
+	std::getline(std::cin, line);
+	return line;
+}
 void Console::Print(std::string text)
 {
 	std::cout << text;

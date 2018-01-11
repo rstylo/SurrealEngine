@@ -7,9 +7,6 @@
 #include "Console.h"
 #include "InputHandler.h"
 
-#include "Scene.h"
-#include "Camera.h"
-
 
 
 
@@ -59,8 +56,11 @@ bool Kernel::Init(bool windowed)
 				sceneManager = new SceneManager();											//aanmaken van scenemanager
 
 				device = renderer->GetDevice();
-				sceneManager->Init(*device, inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
-				sceneManager->SetupScene(*device);
+
+				sceneManager->CreateScene("Scene0");
+				sceneManager->LoadScene("Scene0");
+
+				
 
 				console = new Console(sceneManager);
 
@@ -112,7 +112,12 @@ void Kernel::Update() {
 			else if (gameDisplay->hWnd == GetFocus())
 				inputHandler->SetWindow(&gameDisplay->hWnd);
 		}
+
+		if (sceneManager->IsLoading() == true)
+			sceneManager->SetupScene(*device, inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
+
 		sceneManager->Update();
+
 
 		console->Update();
 		if(inputHandler->CheckKeyboardPressed('b'))

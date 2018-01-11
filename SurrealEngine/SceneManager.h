@@ -21,26 +21,40 @@ public:
 	SceneManager();
 	virtual ~SceneManager();
 
-	virtual void Init(LPDIRECT3DDEVICE9, InputHandler*, HWND*, HWND*);
+	virtual void Init(LPDIRECT3DDEVICE9);
 	virtual void Update();
 	virtual void Draw(LPDIRECT3DDEVICE9, int);
 
-	virtual void AddScene(Scene*);
+	virtual Scene* CreateScene(std::string sceneName);
+	virtual bool AddScene(Scene*);
 	virtual Scene* GetScene(std::string);
+	
+	virtual void LoadScene(std::string);
+	virtual void UnloadScene();
+	virtual bool IsLoading();
 
-	virtual void SetupScene(LPDIRECT3DDEVICE9);
+	virtual void SetupScene(LPDIRECT3DDEVICE9, InputHandler*, HWND*, HWND*);
 
-	virtual void SpawnEntity();
+
+	 
+
+	 void SpawnEntity();
+
+	 void CreateScene();
+	 void SetScene();
+
+	 void ChangeTerrain();
 
 
 	Scene* currentScene;
-
+	bool reload;
 private:
 	ResourceManager* resourceManager;
 	std::map<std::string, Scene*> scenes;
 	
-	
+	bool loading;
 	bool initialized;
+	
 
 };
 

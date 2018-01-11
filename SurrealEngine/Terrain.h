@@ -19,17 +19,26 @@ public:
 	Terrain();
 	virtual ~Terrain();
 
-	virtual bool InitWithTexture(LPDIRECT3DDEVICE9,  char*, std::string);	//
+	virtual void SetMapAndTexture(std::string heightMapFileName, std::string _textureName);
+
+	virtual bool InitWithTexture(LPDIRECT3DDEVICE9);	//
+	virtual void Invalidate();
+
+
+
 	virtual void SetupMatrices(LPDIRECT3DDEVICE9 device);
-	//virtual bool InitWithColor(LPDIRECT3DDEVICE9, const int, char*, const int, DWORD, DWORD, DWORD, DWORD);
+	//virtual bool InitWithColor(LPDIRECT3DDEVICE9);
 	virtual void Draw(LPDIRECT3DDEVICE9);
 
 	
 private:
 
 	virtual void CleanUp();
-	virtual bool LoadBMP(char*);
+	virtual bool LoadBMP(std::string);
 
+	std::string heightMapFileName;
+	std::string textureName;
+	
 	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;				
 	LPDIRECT3DINDEXBUFFER9 indexBuffer;
 	
@@ -39,6 +48,9 @@ private:
 
 	D3DXVECTOR3 position;
 	D3DXVECTOR3 rotation;
+
+	bool initialized;
+
 	int width;
 	int depth;
 	int primCount;

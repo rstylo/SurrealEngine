@@ -17,6 +17,7 @@ public:
 
 	virtual void Update(D3DVECTOR);
 	virtual void Create();
+	virtual void Invalidate();
 
 
 	virtual void SetupMatrices(LPDIRECT3DDEVICE9 device);

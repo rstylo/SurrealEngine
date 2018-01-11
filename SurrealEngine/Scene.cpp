@@ -4,17 +4,14 @@
 #include "Entity.h"
 #include "Skybox.h"
 
-#include "Mesh.h"
-
 Scene::Scene(std::string _name)
 	:name(_name)
 {
 
 	id = reinterpret_cast<uint32_t>(this);
 
-
-	terrain = new Terrain();
 	skybox = new Skybox();
+	
 		
 }
 
@@ -64,7 +61,17 @@ bool Scene::InitEntities(LPDIRECT3DDEVICE9 device)
 	return true;
 }
 
-void Scene::SetupTerrain(LPDIRECT3DDEVICE9 _device, char* map, std::string mapTexture, std::string skyboxTexture)
+
+void Scene::InvalidateObjects()
+{
+	if(skybox != NULL)
+		skybox->Invalidate();
+	if(terrain != NULL)
+		terrain->Invalidate();
+
+}
+
+void Scene::SetupSkybox(LPDIRECT3DDEVICE9 _device)
 {
 		
 	if (skybox != NULL)
@@ -73,10 +80,16 @@ void Scene::SetupTerrain(LPDIRECT3DDEVICE9 _device, char* map, std::string mapTe
 		skybox->Create();
 	}
 
-		if (terrain != NULL)
-		{
-			terrain->InitWithTexture(_device, map, mapTexture);
-		}
+}
+
+void Scene::SetupTerrain(LPDIRECT3DDEVICE9 _device)
+{
+
+	if (terrain != NULL)
+	{
+		
+		terrain->InitWithTexture(_device);
+	}
 
 }
 
@@ -194,9 +207,12 @@ Entity* Scene::GetEntity(uint32_t _uuid)
 
 void Scene::Update()
 {
-	cameras[0]->Update();					//hoort hier niet
-	cameras[1]->Update();					//hoort hier niet
-	skybox->Update(cameras[0]->GetPosition());
+	if(cameras[0] != NULL)
+		cameras[0]->Update();					//hoort hier niet
+	if (cameras[1] != NULL)
+		cameras[1]->Update();					//hoort hier niet
+	if(skybox!=NULL && cameras[0] != NULL)
+		skybox->Update(cameras[0]->GetPosition());
 }
 
 std::string Scene::CurrentDirectory(std::string str)
@@ -218,4 +234,22 @@ void Scene::CreateEntityWithMesh(D3DXVECTOR3 _position, D3DXVECTOR3 _rotation, R
 	AddEntity(entity1);
 
 	entity1->AddResource(mesh);
+}
+
+bool Scene::CreateTerrainWithTexture(std::string map, std::string texture)
+{
+	if (terrain == NULL)
+	{
+		terrain = new Terrain();
+		terrain->SetMapAndTexture(map, texture);
+		return true;
+	}
+	else
+	{
+		terrain->SetMapAndTexture(map, texture);
+		printf("terrain already exists in scene, map and texture have been changed!! \n");
+		return false;
+	}
+
+	
 }

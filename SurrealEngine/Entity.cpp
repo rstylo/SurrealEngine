@@ -53,14 +53,8 @@ void Entity::Draw(LPDIRECT3DDEVICE9 device)									//de entity draw functie dra
 
 	for (auto it = myResources.begin(); it != myResources.end(); it++)
 	{
-		if ((*it)->Init(device))
-		{
+		if((*it)->Init(device))
 			(*it)->Draw(device);
-		}
-		else 
-		{
-			printf("resource %d @ entity %d was not Initialized \n", (*it)->GetId(), GetId());
-		}
 	}
 
 }
