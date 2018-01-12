@@ -1,3 +1,10 @@
+/*
+* Class: Kernel.h
+* Description : 
+* Note : 
+*/
+
+
 #ifndef KERNEL_H_
 #define KERNEL_H_
 
@@ -14,7 +21,7 @@ class ResourceManager;
 class InputHandler;
 class Console;
 
-class Kernel													//deze klasse geliever niet abstract omdat hij van teveel andere klasse afhankelijk is
+class Kernel													
 {
 public:
 	Kernel();

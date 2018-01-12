@@ -1,3 +1,9 @@
+/*
+* Class: Object.h
+* Description :
+* Note :
+*/
+
 #ifndef OBJECT_H_
 #define OBJECT_H_
 

@@ -44,19 +44,21 @@ void Camera::SetupView(LPDIRECT3DDEVICE9 _device)
 
 	if (lookingAt == false)
 	{
+		//setlook AT to foward from the current position
 		lookAt = position;
 		lookAt.y += cameraHeight;
 		lookAt.z -= cos(rotation.y);
 		lookAt.x += sin(rotation.y);
 	}
 
+	//create viematrix looking at lookat position
 	D3DXMATRIX viewMtrx;
 
 	D3DXMatrixLookAtLH(&viewMtrx, &eye, &lookAt, &up);
 
 	_device->SetTransform(D3DTS_VIEW, &viewMtrx);
 
-
+	//create porjection matrix with 0.25PI as the view direction in y, 1 unit from the view as near viewplane and 1000 as far viewplane
 	D3DXMATRIX projectionMtrx;
 	D3DXMatrixPerspectiveFovLH(&projectionMtrx, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f);
 	_device->SetTransform(D3DTS_PROJECTION, &projectionMtrx);

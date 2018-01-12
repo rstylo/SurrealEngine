@@ -121,8 +121,6 @@ void SceneManager::SetupScene(LPDIRECT3DDEVICE9 device, InputHandler* _inputHand
 		currentScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, -50, 0), _hwnd, _inputHandler); //game camera
 		currentScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, -100, 0), _hwnd2, _inputHandler); //dev camera
 
-		currentScene->CreateTerrainWithTexture("map.bmp", "texture3.jpg");
-
 		currentScene->InitEntities(device);
 
 		currentScene->SetupSkybox(device);
@@ -138,14 +136,14 @@ void SceneManager::SetupScene(LPDIRECT3DDEVICE9 device, InputHandler* _inputHand
 
 void SceneManager::SpawnEntity()
 {
-	int extraParams[10];
-	std::cout << "Postion:\nx: ";
+	int extraParams[6];
+	std::cout << "=Postion=\nx: ";
 	std::cin  >> extraParams[0];
 	std::cout << "y: ";
 	std::cin >> extraParams[1];
 	std::cout << "z: ";
 	std::cin >> extraParams[2];
-	std::cout << "Rotation:\nx: ";
+	std::cout << "=Rotation=\nx: ";
 	std::cin >> extraParams[3];
 	std::cout << "y: ";
 	std::cin >> extraParams[4];
@@ -188,5 +186,57 @@ void SceneManager::ChangeTerrain()
 		std::cout << "TextureFileName:\n";
 		std::cin >> textureName;
 		currentScene->CreateTerrainWithTexture(hMapName, textureName);
+	}
+}
+
+void SceneManager::MoveEntity()
+{
+	if (currentScene != NULL)
+	{
+		int extraParams[7];
+		std::cout << "EntityId:\n: ";
+		std::cin >> extraParams[6];
+		if (!currentScene->GetEntity(extraParams[6]))
+		{
+			return;
+		}
+
+		std::cout << "=Postion-\nx: ";
+		std::cin >> extraParams[0];
+		std::cout << "y: ";
+		std::cin >> extraParams[1];
+		std::cout << "z: ";
+		std::cin >> extraParams[2];
+		std::cout << "-Rotation-\nx: ";
+		std::cin >> extraParams[3];
+		std::cout << "y: ";
+		std::cin >> extraParams[4];
+		std::cout << "z: ";
+		std::cin >> extraParams[5];
+
+		currentScene->MoveEntityTo(extraParams[6], D3DXVECTOR3(extraParams[0], extraParams[1], extraParams[2]), D3DXVECTOR3(extraParams[3], extraParams[4], extraParams[5]));
+	}
+}
+
+void SceneManager::MoveTerrain()
+{
+	if (currentScene != NULL)
+	{
+		int extraParams[6];
+
+		std::cout << "=Postion-\nx: ";
+		std::cin >> extraParams[0];
+		std::cout << "y: ";
+		std::cin >> extraParams[1];
+		std::cout << "z: ";
+		std::cin >> extraParams[2];
+		std::cout << "-Rotation-\nx: ";
+		std::cin >> extraParams[3];
+		std::cout << "y: ";
+		std::cin >> extraParams[4];
+		std::cout << "z: ";
+		std::cin >> extraParams[5];
+
+		currentScene->MoveTerrainTo(D3DXVECTOR3(extraParams[0], extraParams[1], extraParams[2]), D3DXVECTOR3(extraParams[3], extraParams[4], extraParams[5]));
 	}
 }

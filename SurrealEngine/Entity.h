@@ -1,3 +1,9 @@
+/*
+* Class: Entity.h
+* Description: This class is used for reading and calling commands. It can als be use to print text on to the console
+* Note : Class is as of now reliant to sceneManager
+*/
+
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
@@ -7,37 +13,36 @@
 #include <list>
 #include <string>
 
+#include "Transform.h"
 #define _USE_MATH_DEFINES
 
 class Resource;
-class Object;
 class Mesh;
 
 class Entity
 {
 public:
-	Entity(D3DXVECTOR3, D3DXVECTOR3);
+	Entity(D3DXVECTOR3, D3DXVECTOR3);							//starting position and rotation
 	virtual ~Entity();
 
-	virtual void SetupMatrices(LPDIRECT3DDEVICE9);
-	virtual void Draw(LPDIRECT3DDEVICE9);
+	virtual void SetupMatrices(LPDIRECT3DDEVICE9);				//sets the world transform of this entity
+	virtual void Draw(LPDIRECT3DDEVICE9);						//draws the resources this entity has
 	
 
-	virtual void AddResource(Resource*);
-	virtual bool Init(LPDIRECT3DDEVICE9);
+	virtual void AddResource(Resource*);						//add resource to the to be draw resources
+	virtual bool Init(LPDIRECT3DDEVICE9);						
 
-	virtual uint32_t GetId();
+	virtual uint32_t GetId();									//used to indetify the entity
+
+	Transform transform;
 
 private:
 
 	uint32_t id;												//voor unique ids
 
-	std::list<Resource*> myResources;	
+	std::list<Resource*> myResources;							//to be drawn resources
 
-	Object* my3dObject;
-
-	D3DXVECTOR3 position;										//ELKE entity moet een positie in de wereld hebben
-	D3DXVECTOR3 rotation;
+	
 
 
 };

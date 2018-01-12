@@ -23,8 +23,8 @@ struct xyzTextureVertex
 Terrain::Terrain()
 	:primCount(0), vertexCount(0)
 {
-	rotation = D3DXVECTOR3(0, 0, 0);
-	position = D3DXVECTOR3(0, 0, 0);
+	transform.SetPosition(Vector3(0, 0, 0));
+	transform.SetRotation(Vector3(0, 0, 0));
 
 	initialized = false;
 }
@@ -224,23 +224,7 @@ void Terrain::CleanUp()
 
 void Terrain::SetupMatrices(LPDIRECT3DDEVICE9 device)
 {
-	D3DXMATRIX worldMtrx;
-	D3DXMatrixIdentity(&worldMtrx);
-
-	D3DXMATRIXA16 trans;
-
-	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
-
-	D3DXMATRIXA16 rotX;
-	D3DXMATRIXA16 rotY;
-	D3DXMATRIXA16 rotZ;
-
-	D3DXMatrixRotationX(&rotX, rotation.x);
-	D3DXMatrixRotationY(&rotY, rotation.y);
-	D3DXMatrixRotationZ(&rotZ, rotation.z);
-
-	worldMtrx = rotX * rotY * rotZ * trans;
-	device->SetTransform(D3DTS_WORLD, &worldMtrx);
+	transform.SetupMatrices(device);
 }
 
 bool Terrain::LoadBMP(std::string argFileName)

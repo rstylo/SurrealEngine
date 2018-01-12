@@ -1,3 +1,9 @@
+/*
+* Class: Renderer.h
+* Description : Class from witch renderer's must inherit from
+* Note : this class doesnt have an actual implementation
+*/
+
 #ifndef RENDERER_H_
 #define RENDERER_H_
 

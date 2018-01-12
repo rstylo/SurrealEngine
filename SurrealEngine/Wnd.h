@@ -1,3 +1,9 @@
+/*
+* Class: Wnd.h
+* Description :
+*Note :
+*/
+
 #ifndef WND_H_
 #define WND_H_
 #include <Windows.h>

@@ -1,3 +1,9 @@
+/*
+* Class: DirectXRender.h
+* Description: This class is used setting the render configuration
+* Note : This is a directx class only
+*/
+
 #ifndef DIRECTXRENDERER_H_
 #define DIRECTXRENDERER_H_
 

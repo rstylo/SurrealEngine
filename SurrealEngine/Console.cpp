@@ -9,29 +9,26 @@ Console::Console(SceneManager* _sceneManager)
 	sceneManager = _sceneManager;
 
 	//commands
-	commands["spawn entity"] = &SceneManager::SpawnEntity;
+	commands["spawn entity"] = &SceneManager::SpawnEntity;				//set value to static ponter to member of scenemanager 
 	commands["set scene"] = &SceneManager::SetScene;
 	commands["create scene"] = &SceneManager::CreateScene;
 	commands["change terrain"] = &SceneManager::ChangeTerrain;
+	commands["move entity"] = &SceneManager::MoveEntity;
+	commands["move terrain"] = &SceneManager::MoveTerrain;
 
-
+	currentLine = "-";
 }
 
 
 Console::~Console()
 {
 }
-
-bool Console::CheckCommand(std::string)
-{
-	return false;
-}
-
 void Console::DoCommand(std::string commandText)
 {
 	if (commands.find(commandText) != commands.end())
-		(sceneManager->*(commands.find(commandText)->second))();
-
+		(sceneManager->*(commands.find(commandText)->second))();		//call function from current sceneManager
+	else
+		PrintL("command not found....");
 }
 
 void Console::PrintHelp()
@@ -41,6 +38,7 @@ void Console::PrintHelp()
 	{
 		PrintL(it->first);
 	}
+	PrintL("'-' or enter to quit read line");
 }
 
 void Console::ReadLine()
@@ -54,29 +52,29 @@ void Console::ReadLine()
 }
 void Console::Update()
 {
-	if (currentLine != " ")
+	if (currentLine != "-" && currentLine != "")													//- is char for stopping inbut
 	{
-		int wordCount = -1;
-		bool inWord = false;
+		int wordCount = -1;																			//if wordcount is still -1 means that the currentLine was empty
+		bool inWord = false;																		//needed to switch between words
 
-		std::string param[10];
+		std::string param[10];																		//every word, decided by spaces, is inserted into this array
 		
-		for (int currentChar = 0; currentChar < currentLine.size(); currentChar++)
+		for (int currentChar = 0; currentChar < currentLine.size(); currentChar++)					//for each letter in the current lne
 		{
-			if (currentLine[currentChar] != ' ')
+			if (currentLine[currentChar] != ' ')													//if its not space then its a word	else its the start of a new word	
 			{
-				if (inWord == false)
+				if (inWord == false)																//start new word if last char was a space
 				{
 					wordCount++;
 					inWord = true;
 				}
 
 				if (wordCount < 10)
-					param[wordCount] += currentLine[currentChar];
+					param[wordCount] += currentLine[currentChar];									//add current letter at the end of the currentword				
 			}
 			else
 			{
-				inWord = false;
+				inWord = false;																		
 			}
 		}
 
@@ -85,28 +83,9 @@ void Console::Update()
 			PrintHelp();
 		}
 
-		if (param[0] + " " + param[1] == "spawn entity" )
-		{
-			DoCommand("spawn entity");
-		}
-		else if (param[0] + " " + param[1] == "set scene")
-		{
-			DoCommand("set scene");
-		}
-		else if (param[0] + " " + param[1] == "create scene")
-		{
-			DoCommand("create scene");
-		}
-		else if (param[0] + " " + param[1] == "change terrain")
-		{
-			DoCommand("change terrain");
-		}
-		else
-		{
-			std::cout << "command not found" << std::endl;
-		}
+		DoCommand(param[0] + " " + param[1]);
 
-		currentLine = " ";
+		currentLine = "-";
 	}
 
 	

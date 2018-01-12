@@ -19,7 +19,7 @@ bool Mesh::Init(LPDIRECT3DDEVICE9 device)
 	if (initialized == false)
 	{
 		
-		LPD3DXBUFFER materialBuffer;
+		LPD3DXBUFFER materialBuffer;															
 
 		if (!SUCCEEDED(D3DXLoadMeshFromX(meshPath.c_str(), D3DXMESH_SYSTEMMEM,
 			device, NULL,

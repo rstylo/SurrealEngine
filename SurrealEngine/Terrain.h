@@ -1,3 +1,9 @@
+/*
+* Class: Terrain.h
+* Description :
+* Note :
+*/
+
 #ifndef TERRAIN_H_
 #define TERRAIN_H_
 
@@ -6,6 +12,7 @@
 #include <map>
 #include <list>
 #include <string>
+#include "Transform.h"
 
 #define FVF_NORMALVERTEX_TEXTURESTRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_NORMAL) //flexible vertex format
 #define FVF_VERTEX_TEXTURESTRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1) //flexible vertex format
@@ -30,7 +37,7 @@ public:
 	//virtual bool InitWithColor(LPDIRECT3DDEVICE9);
 	virtual void Draw(LPDIRECT3DDEVICE9);
 
-	
+	Transform transform;
 private:
 
 	virtual void CleanUp();
@@ -46,8 +53,7 @@ private:
 	
 	BYTE* heightData;
 
-	D3DXVECTOR3 position;
-	D3DXVECTOR3 rotation;
+	
 
 	bool initialized;
 

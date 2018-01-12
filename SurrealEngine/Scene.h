@@ -1,3 +1,9 @@
+/*
+* Class: Scene.h
+* Description : 
+* Note :
+*/
+
 #ifndef SCENE_H_
 #define SCENE_H_
 
@@ -7,6 +13,8 @@
 #include <Windows.h>
 #include <string>
 #include <map>
+
+#include "Transform.h"
 
 class Terrain;
 class Camera;
@@ -28,15 +36,15 @@ public:
 	virtual void Draw(LPDIRECT3DDEVICE9);
 	virtual void Update();
 
-	virtual void SetupView(LPDIRECT3DDEVICE9, int);
-	virtual void SetupMatrices(LPDIRECT3DDEVICE9);
-	virtual void SetupLight(LPDIRECT3DDEVICE9);
+	virtual void SetupView(LPDIRECT3DDEVICE9, int);		//setup view for a specific cam
+	virtual void SetupMatrices(LPDIRECT3DDEVICE9);		//setup origin matrix
+	virtual void SetupLight(LPDIRECT3DDEVICE9);			//setup light
 
-	virtual void InvalidateObjects();
+	virtual void InvalidateObjects();					//release drawable objects to free space 
 
-	virtual bool CreateTerrainWithTexture(std::string map, std::string texture);
+	virtual bool CreateTerrainWithTexture(std::string map, std::string texture); 
 
-	virtual void SetupSkybox(LPDIRECT3DDEVICE9);
+	virtual void SetupSkybox(LPDIRECT3DDEVICE9);		
 	virtual void SetupTerrain(LPDIRECT3DDEVICE9);
 	
 	virtual void CreateEntityWithMesh(D3DXVECTOR3, D3DXVECTOR3, Resource*);
@@ -46,6 +54,11 @@ public:
 
 	virtual void AddEntity(Entity*);
 	virtual Entity* GetEntity(uint32_t);
+
+	virtual void MoveTerrainTo(D3DXVECTOR3, D3DXVECTOR3);
+
+	virtual void RemoveEntity(uint32_t);
+	virtual void MoveEntityTo(uint32_t, D3DXVECTOR3, D3DXVECTOR3);
 	
 private:
 	uint32_t id;
@@ -54,6 +67,8 @@ private:
 	virtual std::string CurrentDirectory(std::string);
 
 private:
+	Transform originTransform;
+
 	Terrain* terrain;
 	Skybox* skybox;
 

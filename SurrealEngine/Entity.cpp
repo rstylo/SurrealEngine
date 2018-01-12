@@ -7,13 +7,8 @@ Entity::Entity(D3DXVECTOR3 _position, D3DXVECTOR3 _rotation)
 {
 	id = reinterpret_cast<uint32_t>(this);			//cast de classe naar een uint32_t, sinds klassen al unique zijn zal dit ervoor zorgen dat elke entity een eigen positive int getal als id heeft
 
-	position.x = _position.x;
-	position.y = _position.y;
-	position.z = _position.z;
-
-	rotation.x = _rotation.x;
-	rotation.y = _rotation.y;
-	rotation.z = _rotation.z;
+	transform.SetPosition(Vector3(_position.x, _position.y, _position.z));
+	transform.SetRotation(Vector3(_rotation.x, _rotation.y, _rotation.z));
 
 }
 
@@ -28,33 +23,17 @@ bool Entity::Init(LPDIRECT3DDEVICE9 device)									//de entity draw functie dra
 	return true;
 }
 
-void Entity::SetupMatrices(LPDIRECT3DDEVICE9 device)
+void Entity::SetupMatrices(LPDIRECT3DDEVICE9 device)						//setup world matrix for the position in with the resources are to pe drawn 
 {
-	D3DXMATRIX worldMtrx;
-	//D3DXMatrixIdentity(&worldMtrx);
-
-	D3DXMATRIXA16 trans;
-
-	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
-
-	D3DXMATRIXA16 rotX;
-	D3DXMATRIXA16 rotY;
-	D3DXMATRIXA16 rotZ;
-
-	D3DXMatrixRotationX(&rotX, rotation.x);
-	D3DXMatrixRotationY(&rotY, rotation.y);
-	D3DXMatrixRotationZ(&rotZ, rotation.z);
-
-	worldMtrx = rotX * rotY * rotZ * trans;
-	device->SetTransform(D3DTS_WORLD, &worldMtrx);
+	transform.SetupMatrices(device);										
 }
 void Entity::Draw(LPDIRECT3DDEVICE9 device)									//de entity draw functie draw all zijn resources in plaatst van dit via de resource manager te doen
 {
 
 	for (auto it = myResources.begin(); it != myResources.end(); it++)
 	{
-		if((*it)->Init(device))
-			(*it)->Draw(device);
+		if((*it)->Init(device))												//if the current resource is already initialized
+			(*it)->Draw(device);											//draw it
 	}
 
 }

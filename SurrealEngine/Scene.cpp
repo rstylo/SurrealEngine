@@ -11,7 +11,12 @@ Scene::Scene(std::string _name)
 	id = reinterpret_cast<uint32_t>(this);
 
 	skybox = new Skybox();
+
+	terrain = new Terrain();
+	terrain->SetMapAndTexture("map.bmp", "texture3.jpg");
 	
+	originTransform.SetPosition(Vector3(0, 0, 0));
+	originTransform.SetRotation(Vector3(0, 0, 0));
 		
 }
 
@@ -95,10 +100,7 @@ void Scene::SetupTerrain(LPDIRECT3DDEVICE9 _device)
 
 void Scene::SetupMatrices(LPDIRECT3DDEVICE9 _device)
 {
-	D3DXMATRIX world;
-	D3DXMatrixIdentity(&world);
-
-	_device->SetTransform(D3DTS_WORLD, &world);
+	originTransform.SetupMatrices(_device);
 }
 
 void Scene::SetupView(LPDIRECT3DDEVICE9 _device, int cam)
@@ -202,7 +204,28 @@ Entity* Scene::GetEntity(uint32_t _uuid)
 	if (entities.find(_uuid) != entities.end())
 		return entities.find(_uuid)->second;
 
+	std::cout << " could not find entity " << _uuid << std::endl;
 	return NULL;
+}
+
+void Scene::RemoveEntity(uint32_t _uuid)
+{
+	if (entities.find(_uuid) != entities.end())
+		delete entities.find(_uuid)->second;
+	else
+		std::cout << " could not find entity "<< _uuid << std::endl;
+}
+
+void Scene::MoveTerrainTo(D3DXVECTOR3 position, D3DXVECTOR3 rotation)
+{
+	terrain->transform.SetPosition(Vector3(position.x, position.y, position.z));
+	terrain->transform.SetRotation(Vector3(rotation.x, rotation.y, rotation.z));
+}
+
+void Scene::MoveEntityTo(uint32_t _uuid, D3DXVECTOR3 position, D3DXVECTOR3 rotation)
+{
+	GetEntity(_uuid)->transform.SetPosition(Vector3(position.x, position.y, position.z));
+	GetEntity(_uuid)->transform.SetRotation(Vector3(rotation.x, rotation.y, rotation.z));
 }
 
 void Scene::Update()

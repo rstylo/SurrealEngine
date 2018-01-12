@@ -1,14 +1,18 @@
+/*
+* Class: InputHander.h
+* Description : This class's main purpose is to get input from different diffeces
+* Note : this class needs a window handler to focus on
+*/
+
 #ifndef INPUTHANDLER_H_
 #define INPUTHANDLER_H_
 
 #include <string>
 #include <d3d9.h>
 #include <dinput.h>
-#include <map>
 
-class Mouse;
-class Keyboard;
-class Camera;
+class Mouse;					//moouse device
+class Keyboard;					//keyboard device
 
 class InputHandler
 {

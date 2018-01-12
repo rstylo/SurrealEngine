@@ -44,11 +44,10 @@ bool Skybox::Init(LPDIRECT3DDEVICE9 device, std::string _texture)
 
 	return true;
 }
-void Skybox::Update(D3DVECTOR position)
+void Skybox::Update(D3DVECTOR _position)
 {
-	middle.x = position.x;
-	middle.y = position.y;
-	middle.z = position.z;
+	transform.SetPosition(Vector3(_position.x, _position.y, _position.z));
+	transform.SetRotation(Vector3(0, 0, 0));
 }
 
 void Skybox::Invalidate()
@@ -165,16 +164,15 @@ void Skybox::Create()
 
 void Skybox::SetupMatrices(LPDIRECT3DDEVICE9 device)
 {
-	D3DXMATRIX worldMtrx;
-	D3DXMatrixTranslation(&worldMtrx, middle.x, middle.y, middle.z);
-	device->SetTransform(D3DTS_WORLD, &worldMtrx);
+	transform.SetupMatrices(device);
 }
 
 void Skybox::Draw(LPDIRECT3DDEVICE9 device)
 {
 	if (vertexBuffer && indexBuffer && skyboxTexture)
 	{
-		device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+	device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 	device->SetTexture(0, skyboxTexture);
 	device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTSS_COLORARG1);
 	device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
@@ -185,5 +183,6 @@ void Skybox::Draw(LPDIRECT3DDEVICE9 device)
 	device->SetFVF(D3DFVF_XYZ | D3DFVF_TEX1);
 	device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 14, 0, 12);
 	device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	}
 }
