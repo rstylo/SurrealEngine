@@ -16,8 +16,8 @@ SceneManager::SceneManager()
 
 
 	//tempolarily, straks via commands en/of input in resource manager
-	Entity* entity1 = new Entity(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0));
-	Entity* entity2 = new Entity(D3DXVECTOR3(0, 0, 5), D3DXVECTOR3(0, 2, 0));
+	Entity* entity1 = new Entity(D3DXVECTOR3(0, 10, 0), D3DXVECTOR3(0, 0, 0));
+	Entity* entity2 = new Entity(D3DXVECTOR3(0, 10, 5), D3DXVECTOR3(0, 2, 0));
 	currentScene->AddEntity(entity1);
 	currentScene->AddEntity(entity2);
 

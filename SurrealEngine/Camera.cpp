@@ -76,8 +76,6 @@ void Camera::LookAt(D3DXVECTOR3 _lookAt)
 void Camera::Update()
 {
 	if (*hwnd == GetFocus()) {
-		Rotate(0, inputHandler->CheckMouseValues('x'));
-
 		if (inputHandler->CheckKeyboardPressed('a')) {
 			MoveLeft();
 		}
@@ -102,6 +100,7 @@ void Camera::Update()
 		if (inputHandler->CheckKeyboardPressed('q')) {
 			Rotate(0, rotation.y);
 		}
+
 		Rotate(inputHandler->CheckMouseValues('y'), inputHandler->CheckMouseValues('x'));
 
 		if (inputHandler->CheckMousePressed(0)) {
@@ -125,7 +124,7 @@ void Camera::Rotate(float x, float y)
 {
 	float speed = 2;
 	rotation.y -= speed*y * 2 * D3DX_PI / 1000;
-	cameraHeight -= 0.05*x;
+	cameraHeight -= 0.02*x;
 }
 
 void Camera::MoveLeft()
