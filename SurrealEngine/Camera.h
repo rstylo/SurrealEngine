@@ -8,6 +8,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
+#include "Renderer.h"
 #include <d3dx9.h>
 #include "InputHandler.h"
 
@@ -17,7 +18,7 @@ public:
 	Camera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, HWND*, InputHandler*);				//HWND with the window in which the view is to be displayed and a inputhandler from witch it can get real time input
 	virtual ~Camera();
 
-	virtual void SetupView(LPDIRECT3DDEVICE9);														//rendering routine
+	virtual void SetupView(Renderer*);														//rendering routine
 
 	virtual void LookAt(D3DXVECTOR3);																//change the lookAt vector
 	virtual void SetLookAt(bool);

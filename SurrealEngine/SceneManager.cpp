@@ -1,45 +1,18 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
-#include "Camera.h"
 #include "Scene.h"
-#include "Entity.h"
-#include "Mesh.h"
-#include "Resource.h"
 
 
 SceneManager::SceneManager()
 {
-	Scene* startScene = new Scene();
 	resourceManager = new ResourceManager();
-	currentScene = startScene;
-
-
-
-	//tempolarily, straks via commands en/of input in resource manager
-	Entity* entity1 = new Entity(D3DXVECTOR3(0, 10, 0), D3DXVECTOR3(0, 0, 0));
-	Entity* entity2 = new Entity(D3DXVECTOR3(0, 10, 5), D3DXVECTOR3(0, 2, 0));
-	currentScene->AddEntity(entity1);
-	currentScene->AddEntity(entity2);
-
-	Resource* mesh = new Mesh();
-	entity1->AddResource(mesh);						//drawt de resource
-	entity2->AddResource(mesh);						//drawt de resource
-	resourceManager->AddResource(mesh);				//bewaart de item voor hergebruik en clean up
-
-
-
 	
+	loading = false;
 }
 
-void SceneManager::Init(LPDIRECT3DDEVICE9 device, InputHandler* _inputHandler, HWND* _hwnd, HWND* _hwnd2)
+void SceneManager::Init(Renderer* device)
 {
-	currentScene->InitEntities(device);
-
-	currentScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, 15, 0), _hwnd, _inputHandler); //game camera
-	currentScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 70, 0), _hwnd2, _inputHandler); //dev camera
-
-	currentScene->GetCamera(1)->SetLookAt(true);
-	currentScene->GetCamera(1)->LookAt(D3DXVECTOR3(1, 2, 0));
+	
 }
 
 SceneManager::~SceneManager()
@@ -52,16 +25,31 @@ SceneManager::~SceneManager()
 	scenes.clear();
 }
 
-void SceneManager::AddScene(Scene* _scene)
+Scene* SceneManager::CreateScene(std::string sceneName)
 {
-	if (scenes.find(_scene->GetId()) != scenes.end()) 
-		return;
-	scenes[_scene->GetId()] = _scene;
-	currentScene = _scene;
+	Scene* scene = new Scene(sceneName);
+	if (AddScene(scene))
+	{
+		return scene;
+	}
+
+	delete scene;
+	return NULL;
+}
+
+bool SceneManager::AddScene(Scene* _scene)
+{
+	if (scenes.find(_scene->GetName()) != scenes.end())
+	{
+		std::cout << "Scene: " << _scene->GetName() << " already exists!!" << std::endl;
+		return false;
+	}
+	scenes[_scene->GetName()] = _scene;
+	return true;
 
 }
 
-Scene* SceneManager::GetScene(uint32_t _uuid)
+Scene* SceneManager::GetScene(std::string _uuid)
 {
 	if (scenes.find(_uuid) != scenes.end())
 		return scenes.find(_uuid)->second;
@@ -75,88 +63,179 @@ void SceneManager::Update()
 		currentScene->Update();
 
 	}
+	else 
+	{
+		printf("no scene selected!");
+	}
 }
 
-void SceneManager::Draw(LPDIRECT3DDEVICE9 device, int cam)
+void SceneManager::LoadScene(std::string sceneName)
+{
+	if (GetScene(sceneName) != NULL)
+	{
+		UnloadScene();
+		currentScene = GetScene(sceneName);
+
+
+		loading = true;
+	}
+	else
+	{
+		std::cout << "could not find scene: " << sceneName << std::endl;
+	}
+
+
+}
+
+void SceneManager::UnloadScene()
+{
+	if(currentScene != NULL)
+		currentScene->InvalidateObjects();
+
+	currentScene = NULL;
+}
+
+bool SceneManager::IsLoading()
+{
+	return loading;
+}
+
+void SceneManager::Draw(Renderer* renderer, int cam)
+{
+	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
+		LPDIRECT3DDEVICE9* device = dxrenderer->GetDevice();
+		if (currentScene != NULL)
+		{
+			currentScene->SetupMatrices(renderer);
+
+			currentScene->SetupView(renderer, cam);
+			currentScene->Draw(renderer);
+		}
+	}
+
+}
+
+void SceneManager::SetupScene(Renderer* renderer, InputHandler* _inputHandler, HWND* _hwnd, HWND* _hwnd2)
+{
+	if (currentScene != NULL && loading == true)
+	{
+		currentScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, 20, 0), _hwnd, _inputHandler); //game camera
+		currentScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 80, 0), _hwnd2, _inputHandler); //dev camera
+
+		currentScene->InitEntities(renderer);
+
+		currentScene->SetupSkybox(renderer);
+		currentScene->SetupTerrain(renderer);
+		currentScene->SetupLight(renderer);
+
+		loading = false;
+	}
+}
+
+
+void SceneManager::SpawnEntity()
+{
+	int extraParams[6];
+	std::cout << "=Postion=\nx: ";
+	std::cin  >> extraParams[0];
+	std::cout << "y: ";
+	std::cin >> extraParams[1];
+	std::cout << "z: ";
+	std::cin >> extraParams[2];
+	std::cout << "=Rotation=\nx: ";
+	std::cin >> extraParams[3];
+	std::cout << "y: ";
+	std::cin >> extraParams[4];
+	std::cout << "z: ";
+	std::cin >> extraParams[5];
+
+	std::string meshName;
+	std::cout << "MeshfileName:\n";
+	std::cin >> meshName;
+
+	currentScene->CreateEntityWithMesh(D3DXVECTOR3(extraParams[0], extraParams[1], extraParams[2]), D3DXVECTOR3(extraParams[3], extraParams[4], extraParams[5]), resourceManager->CreateMesh(meshName));
+
+
+}
+
+void SceneManager::SetScene()
+{
+	std::string sceneName;
+	std::cout << "SceneName:\n";
+	std::cin >> sceneName;
+	LoadScene(sceneName);
+}
+void SceneManager::CreateScene()
+{
+	std::string sceneName;
+	std::cout << "SceneName:\n";
+	std::cin >> sceneName;
+	CreateScene(sceneName);
+}
+
+void SceneManager::ChangeTerrain()
 {
 	if (currentScene != NULL)
 	{
-		//currentScene->SetupMatrices(device);
-		
-		currentScene->SetupView(device, cam);
-		currentScene->Draw(device);
-		
-		
+		std::string hMapName;
+		std::cout << "HeightMapFileName:\n";
+		std::cin >> hMapName;
+
+		std::string textureName;
+		std::cout << "TextureFileName:\n";
+		std::cin >> textureName;
+		currentScene->CreateTerrainWithTexture(hMapName, textureName);
 	}
-	
 }
 
-void SceneManager::SetupScene(LPDIRECT3DDEVICE9 device)
+void SceneManager::MoveEntity()
 {
 	if (currentScene != NULL)
 	{
-		currentScene->InitEntities(device);
-		currentScene->SetupTerrain(device);
-		currentScene->SetupLight(device);
+		int extraParams[7];
+		std::cout << "EntityId:\n: ";
+		std::cin >> extraParams[6];
+		if (!currentScene->GetEntity(extraParams[6]))
+		{
+			return;
+		}
+
+		std::cout << "=Postion-\nx: ";
+		std::cin >> extraParams[0];
+		std::cout << "y: ";
+		std::cin >> extraParams[1];
+		std::cout << "z: ";
+		std::cin >> extraParams[2];
+		std::cout << "-Rotation-\nx: ";
+		std::cin >> extraParams[3];
+		std::cout << "y: ";
+		std::cin >> extraParams[4];
+		std::cout << "z: ";
+		std::cin >> extraParams[5];
+
+		currentScene->MoveEntityTo(extraParams[6], D3DXVECTOR3(extraParams[0], extraParams[1], extraParams[2]), D3DXVECTOR3(extraParams[3], extraParams[4], extraParams[5]));
 	}
 }
 
-void SceneManager::doCommands()
+void SceneManager::MoveTerrain()
 {
-	std::cout << std::endl;
-
-	std::string line;
-	std::getline(std::cin, line);
-
-
-	int wordCount = -1;
-	bool inWord = false;
-
-	std::string param[10];
-	std::cout << line << std::endl;
-	for (int currentChar = 0; currentChar < line.size(); currentChar++)
-	{
-		if (line[currentChar] != ' ')
-		{
-			if (inWord == false)
-			{
-				wordCount++;
-				inWord = true;
-			}
-
-			if(wordCount < 10)
-				param[wordCount] += line[currentChar];
-		}
-		else
-		{
-			inWord = false;
-		}
-
-	}
-
-	if (wordCount != -1 && param[0] == "create" && param[1] == "entity")
+	if (currentScene != NULL)
 	{
 		int extraParams[6];
 
-		std::cout << "Position\n x:";
+		std::cout << "=Postion-\nx: ";
 		std::cin >> extraParams[0];
-		std::cout << "y:";
+		std::cout << "y: ";
 		std::cin >> extraParams[1];
-		std::cout << "z:";
+		std::cout << "z: ";
 		std::cin >> extraParams[2];
-		std::cout << "Rotation\n x:";
+		std::cout << "-Rotation-\nx: ";
 		std::cin >> extraParams[3];
-		std::cout << "y:";
+		std::cout << "y: ";
 		std::cin >> extraParams[4];
-		std::cout << "z:";
+		std::cout << "z: ";
 		std::cin >> extraParams[5];
 
-		Entity* entity1 = new Entity(D3DXVECTOR3(extraParams[0], extraParams[1], extraParams[2]), D3DXVECTOR3(extraParams[3], extraParams[4], extraParams[5]));
-		currentScene->AddEntity(entity1);
-
-		Resource* mesh = new Mesh();
-		entity1->AddResource(mesh);						//drawt de resource
-		resourceManager->AddResource(mesh);				//bewaart de item voor hergebruik en clean up
+		currentScene->MoveTerrainTo(D3DXVECTOR3(extraParams[0], extraParams[1], extraParams[2]), D3DXVECTOR3(extraParams[3], extraParams[4], extraParams[5]));
 	}
-
 }

@@ -13,42 +13,61 @@ Skybox::Skybox()
 	vertexBuffer = NULL;
 }
 
-
 Skybox::~Skybox()
 {
-
+	Invalidate();
 }
 
-bool Skybox::Init(LPDIRECT3DDEVICE9 device, std::string _texture)
+bool Skybox::Init(Renderer* renderer, std::string _texture)
 {
-	// Use D3DX to create a texture from a file based image
-	if (FAILED(D3DXCreateTextureFromFile(device, _texture.c_str(), &skyboxTexture)))
-	{
-		MessageBox(NULL, "Could not find skybox texture", NULL, NULL);
-		return false;
-	}
+	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
+		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
+		// Use D3DX to create a texture from a file based image
+		if (FAILED(D3DXCreateTextureFromFile(device, _texture.c_str(), &skyboxTexture)))
+		{
+			MessageBox(NULL, "Could not find skybox texture", NULL, NULL);
+			return false;
+		}
 
-	if (FAILED(device->CreateVertexBuffer(14 * sizeof(CUSTOMVERTEX),
-		0, D3DFVF_XYZ | D3DFVF_TEX1,
-		D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
-	{
-		MessageBox(NULL, "Could not create vertexbuffer", NULL, NULL);
-		return false;
-	}
+		if (FAILED(device->CreateVertexBuffer(14 * sizeof(CUSTOMVERTEX),
+			0, D3DFVF_XYZ | D3DFVF_TEX1,
+			D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
+		{
+			MessageBox(NULL, "Could not create vertexbuffer", NULL, NULL);
+			return false;
+		}
 
-	if (FAILED(device->CreateIndexBuffer(36 * sizeof(short), D3DUSAGE_WRITEONLY,
-		D3DFMT_INDEX16, D3DPOOL_DEFAULT, &indexBuffer, NULL))) {
-		MessageBox(NULL, "Could not create indexbuffer", NULL, NULL);
-		return false;
+		if (FAILED(device->CreateIndexBuffer(36 * sizeof(short), D3DUSAGE_WRITEONLY,
+			D3DFMT_INDEX16, D3DPOOL_DEFAULT, &indexBuffer, NULL))) {
+			MessageBox(NULL, "Could not create indexbuffer", NULL, NULL);
+			return false;
+		}
 	}
-
 	return true;
 }
-void Skybox::Update(D3DVECTOR position)
+void Skybox::Update(D3DVECTOR _position)
 {
-	middle.x = position.x;
-	middle.y = position.y;
-	middle.z = position.z;
+	transform.SetPosition(Vector3(_position.x, _position.y, _position.z));
+	transform.SetRotation(Vector3(0, 0, 0));
+}
+
+void Skybox::Invalidate()
+{
+	if (skyboxTexture != NULL)
+	{
+		skyboxTexture->Release();
+		skyboxTexture = NULL;
+	}
+	if (vertexBuffer != NULL)
+	{
+		vertexBuffer->Release();
+		vertexBuffer = NULL;
+	}
+	if (indexBuffer != NULL)
+	{
+		indexBuffer->Release();
+		indexBuffer = NULL;
+	}
 }
 
 void Skybox::Create()
@@ -61,26 +80,26 @@ void Skybox::Create()
 		return;
 	}
 
-	vertices[0].position = -D3DXVECTOR3( - size, - size, size);
-	vertices[1].position = -D3DXVECTOR3( - size, size, size);
-	vertices[2].position = -D3DXVECTOR3( size, - size,  size);
-	vertices[3].position = -D3DXVECTOR3( size, size, size);
-	vertices[4].position = -D3DXVECTOR3( size, - size, - size);
-	vertices[5].position = -D3DXVECTOR3( size, size, - size);
-	vertices[6].position = -D3DXVECTOR3( - size, - size, - size);
-	vertices[7].position = -D3DXVECTOR3( - size, size, - size);
+	vertices[0].position = -D3DXVECTOR3(-size, -size, size);
+	vertices[1].position = -D3DXVECTOR3(-size, size, size);
+	vertices[2].position = -D3DXVECTOR3(size, -size, size);
+	vertices[3].position = -D3DXVECTOR3(size, size, size);
+	vertices[4].position = -D3DXVECTOR3(size, -size, -size);
+	vertices[5].position = -D3DXVECTOR3(size, size, -size);
+	vertices[6].position = -D3DXVECTOR3(-size, -size, -size);
+	vertices[7].position = -D3DXVECTOR3(-size, size, -size);
 
-	vertices[8].position = -D3DXVECTOR3( - size, size,  size);		//vertex 1 // top
-	vertices[9].position = -D3DXVECTOR3( - size, size, - size);		//vertex 7
+	vertices[8].position = -D3DXVECTOR3(-size, size, size);		//vertex 1 // top
+	vertices[9].position = -D3DXVECTOR3(-size, size, -size);		//vertex 7
 
-	vertices[10].position = -D3DXVECTOR3( - size, - size, size);	//vertex 0 // bottom
-	vertices[11].position = -D3DXVECTOR3( - size, - size,  - size);	//vertex 6
+	vertices[10].position = -D3DXVECTOR3(-size, -size, size);	//vertex 0 // bottom
+	vertices[11].position = -D3DXVECTOR3(-size, -size, -size);	//vertex 6
 
-	vertices[12].position = -D3DXVECTOR3( - size,  - size, size);	//vertex 0
-	vertices[13].position = -D3DXVECTOR3( - size,  size, size);		//vertex 1
+	vertices[12].position = -D3DXVECTOR3(-size, -size, size);	//vertex 0
+	vertices[13].position = -D3DXVECTOR3(-size, size, size);		//vertex 1
 
 
-	
+
 	vertices[0].tu = 0.00f;
 	vertices[0].tv = (float)1025 / 3072;
 	vertices[1].tu = 0.00f;
@@ -107,19 +126,19 @@ void Skybox::Create()
 	vertices[8].tv = (float)3071 / 3072;		// vertex 1 with other texture coordinate
 	vertices[9].tu = (float)2047 / 4096;
 	vertices[9].tv = (float)3071 / 3072;		// vertex 7 with other texture coordinate
-	
+
 	vertices[10].tu = (float)1025 / 4096;		// top
 	vertices[10].tv = (float)1 / 3072;			// vertex 0 with other texture coordinate
 	vertices[11].tu = (float)2047 / 4096;
 	vertices[11].tv = (float)1 / 3072;			// vertex 6 with other texture coordinate
-	
+
 	vertexBuffer->Unlock();
 
 	short indices[] =
 	{
 		0, 1, 2,    // side 1
 		2, 1, 3,
-		
+
 		2, 3, 4,	// side 2
 		4, 3, 5,
 
@@ -144,24 +163,30 @@ void Skybox::Create()
 	indexBuffer->Unlock();
 }
 
-void Skybox::SetupMatrices(LPDIRECT3DDEVICE9 device)
+void Skybox::SetupMatrices(Renderer* renderer)
 {
-	D3DXMATRIX worldMtrx;
-	D3DXMatrixTranslation(&worldMtrx, middle.x, middle.y, middle.z);
-	device->SetTransform(D3DTS_WORLD, &worldMtrx);
+	transform.SetupMatrices(renderer);
 }
 
-void Skybox::Draw(LPDIRECT3DDEVICE9 device)
+void Skybox::Draw(Renderer* renderer)
 {
-	device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-	device->SetTexture(0, skyboxTexture);
-	device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTSS_COLORARG1);
-	device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-	
-	device->SetStreamSource(0, vertexBuffer, 0, sizeof(CUSTOMVERTEX));
-	device->SetIndices(indexBuffer);
-	device->SetFVF(D3DFVF_XYZ | D3DFVF_TEX1);
-	device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 14, 0, 12);
-	device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
+		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
+		if (vertexBuffer && indexBuffer && skyboxTexture)
+		{
+			device->SetRenderState(D3DRS_LIGHTING, FALSE);
+			device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+			device->SetTexture(0, skyboxTexture);
+			device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTSS_COLORARG1);
+			device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+			device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+
+			device->SetStreamSource(0, vertexBuffer, 0, sizeof(CUSTOMVERTEX));
+			device->SetIndices(indexBuffer);
+			device->SetFVF(D3DFVF_XYZ | D3DFVF_TEX1);
+			device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 14, 0, 12);
+			device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+			device->SetRenderState(D3DRS_LIGHTING, TRUE);
+		}
+	}
 }

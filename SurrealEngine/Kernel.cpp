@@ -1,13 +1,14 @@
 #include "Kernel.h"
 #include "Renderer.h"
 #include "DirectXRenderer.h"
+#include "OpenGLRenderer.h"
 #include "Wnd.h"
 
 #include "SceneManager.h"
+#include "Console.h"
 #include "InputHandler.h"
 
-#include "Scene.h"
-#include "Camera.h"
+
 
 
 Kernel::Kernel()
@@ -33,13 +34,14 @@ Kernel::~Kernel()
 
 bool Kernel::Init(bool windowed)
 {
-
+	
 
 	gameDisplay = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
 	devDisplay = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
 
-	renderer = new DirectXRenderer();
 
+	renderer = new DirectXRenderer();
+	
 	if (gameDisplay->Init(0, 0) && devDisplay->Init(1280, 0))									//initialiseer beide windows
 	{
 		printf("GameWindow and devWindow succefully initialised... \n");
@@ -53,17 +55,19 @@ bool Kernel::Init(bool windowed)
 				printf("Input handler succefully initialized... \n");
 
 				sceneManager = new SceneManager();											//aanmaken van scenemanager
+				sceneManager->CreateScene("Scene0");
+				sceneManager->LoadScene("Scene0");
 
-				device = renderer->GetDevice();
-				sceneManager->Init(*device, inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
-				sceneManager->SetupScene(*device);
+
+
+				console = new Console(sceneManager);
 
 				initialized = true;
 				return true;
 			}
 		}
 	}
-
+	
 
 
 	MessageBox(NULL, "failed initializing Game class", NULL, NULL);
@@ -78,7 +82,7 @@ void Kernel::Draw()
 		renderer->Clear(D3DCOLOR_XRGB(0, 255, 255));
 		if (renderer->Begin())
 		{
-			sceneManager->Draw(*device, 0);
+			sceneManager->Draw(renderer, 0);
 			renderer->End();
 		}
 
@@ -89,7 +93,7 @@ void Kernel::Draw()
 		renderer->Clear(D3DCOLOR_XRGB(0, 255, 255));
 		if (renderer->Begin())
 		{
-			sceneManager->Draw(*device, 1);
+			sceneManager->Draw(renderer, 1);
 			renderer->End();
 		}
 
@@ -106,9 +110,17 @@ void Kernel::Update() {
 			else if (gameDisplay->hWnd == GetFocus())
 				inputHandler->SetWindow(&gameDisplay->hWnd);
 		}
+
+		if (sceneManager->IsLoading() == true)
+			sceneManager->SetupScene(renderer, inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
+
 		sceneManager->Update();
+
+
+		console->Update();
 		if(inputHandler->CheckKeyboardPressed('b'))
-			sceneManager->doCommands();
+			console->ReadLine();
+
 		inputHandler->Update();
 		Draw();
 	}

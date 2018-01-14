@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "InputHandler.h"
+#include "DirectXRenderer.h"
 
 Camera::Camera(D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3DXVECTOR3 _translation, HWND* _hwnd, InputHandler* _inputHandler)
 {
@@ -36,32 +37,35 @@ Camera::~Camera()
 {
 }
 
-void Camera::SetupView(LPDIRECT3DDEVICE9 _device)
+void Camera::SetupView(Renderer* renderer)
 {
-	//set eye position
-	eye = position;
-	eye.y + 5;
+	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
+		LPDIRECT3DDEVICE9 _device = *dxrenderer->GetDevice();
+		//set eye position
+		eye = position;
+		eye.y + 5;
 
-	if (lookingAt == false)
-	{
-		lookAt = position;
-		lookAt.y += cameraHeight;
-		lookAt.z -= cos(rotation.y);
-		lookAt.x += sin(rotation.y);
+		if (lookingAt == false)
+		{
+			//setlook AT to foward from the current position
+			lookAt = position;
+			lookAt.y += cameraHeight;
+			lookAt.z -= cos(rotation.y);
+			lookAt.x += sin(rotation.y);
+		}
+
+		//create viematrix looking at lookat position
+		D3DXMATRIX viewMtrx;
+
+		D3DXMatrixLookAtLH(&viewMtrx, &eye, &lookAt, &up);
+
+		_device->SetTransform(D3DTS_VIEW, &viewMtrx);
+
+		//create porjection matrix with 0.25PI as the view direction in y, 1 unit from the view as near viewplane and 1000 as far viewplane
+		D3DXMATRIX projectionMtrx;
+		D3DXMatrixPerspectiveFovLH(&projectionMtrx, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f);
+		_device->SetTransform(D3DTS_PROJECTION, &projectionMtrx);
 	}
-
-	D3DXMATRIX viewMtrx;
-
-	D3DXMatrixLookAtLH(&viewMtrx, &eye, &lookAt, &up);
-	
-	_device->SetTransform(D3DTS_VIEW, &viewMtrx);
-
-
-	D3DXMATRIX projectionMtrx;
-	D3DXMatrixPerspectiveFovLH(&projectionMtrx, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f);
-	_device->SetTransform(D3DTS_PROJECTION, &projectionMtrx);
-	
-
 }
 
 void Camera::SetLookAt(bool state)
@@ -76,6 +80,7 @@ void Camera::LookAt(D3DXVECTOR3 _lookAt)
 void Camera::Update()
 {
 	if (*hwnd == GetFocus()) {
+
 		if (inputHandler->CheckKeyboardPressed('a')) {
 			MoveLeft();
 		}
@@ -100,15 +105,14 @@ void Camera::Update()
 		if (inputHandler->CheckKeyboardPressed('q')) {
 			Rotate(0, rotation.y);
 		}
-
 		Rotate(inputHandler->CheckMouseValues('y'), inputHandler->CheckMouseValues('x'));
 
 		if (inputHandler->CheckMousePressed(0)) {
-			
+
 		}
 
 		if (inputHandler->CheckMousePressed(1)) {
-			
+
 		}
 	}
 }
@@ -124,6 +128,7 @@ void Camera::Rotate(float x, float y)
 {
 	float speed = 2;
 	rotation.y -= speed*y * 2 * D3DX_PI / 1000;
+
 	cameraHeight -= 0.02*x;
 }
 

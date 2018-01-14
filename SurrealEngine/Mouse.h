@@ -1,3 +1,9 @@
+/*
+* Class: Mouse.h
+* Description :
+* Note :
+*/
+
 #ifndef MOUSE_H_
 #define MOUSE_H_
 

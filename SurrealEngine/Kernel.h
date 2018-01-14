@@ -1,3 +1,10 @@
+/*
+* Class: Kernel.h
+* Description : 
+* Note : 
+*/
+
+
 #ifndef KERNEL_H_
 #define KERNEL_H_
 
@@ -6,14 +13,16 @@
 #include <string>
 #include <sstream>
 #include "DirectXRenderer.h"
+#include "OpenGLRenderer.h"
 
 class Renderer;
 class Wnd;
 class SceneManager;
 class ResourceManager;
 class InputHandler;
+class Console;
 
-class Kernel													//deze klasse geliever niet abstract omdat hij van teveel andere klasse afhankelijk is
+class Kernel													
 {
 public:
 	Kernel();
@@ -32,9 +41,10 @@ private:
 	bool initialized;
 	Renderer* renderer;
 	SceneManager* sceneManager;
-	LPDIRECT3DDEVICE9* device;
+	//LPDIRECT3DDEVICE9* device;
 
 	InputHandler* inputHandler;
+	Console* console;
 
 
 

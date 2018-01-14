@@ -1,3 +1,9 @@
+/*
+* Class: Terrain.h
+* Description :
+* Note :
+*/
+
 #ifndef TERRAIN_H_
 #define TERRAIN_H_
 
@@ -6,6 +12,7 @@
 #include <map>
 #include <list>
 #include <string>
+#include "Transform.h"
 
 #define FVF_NORMALVERTEX_TEXTURESTRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_NORMAL) //flexible vertex format
 #define FVF_VERTEX_TEXTURESTRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1) //flexible vertex format
@@ -19,17 +26,26 @@ public:
 	Terrain();
 	virtual ~Terrain();
 
-	virtual bool InitWithTexture(LPDIRECT3DDEVICE9, const int, char*, const int, std::string);	//
-	virtual void SetupMatrices(LPDIRECT3DDEVICE9 device);
-	//virtual bool InitWithColor(LPDIRECT3DDEVICE9, const int, char*, const int, DWORD, DWORD, DWORD, DWORD);
-	virtual void Draw(LPDIRECT3DDEVICE9);
+	virtual void SetMapAndTexture(std::string heightMapFileName, std::string _textureName);
 
-	
+	virtual bool InitWithTexture(Renderer*);	//
+	virtual void Invalidate();
+
+
+
+	virtual void SetupMatrices(Renderer*);
+	//virtual bool InitWithColor(Renderer*);
+	virtual void Draw(Renderer*);
+
+	Transform transform;
 private:
 
 	virtual void CleanUp();
-	virtual bool LoadBMP(char*);
+	virtual bool LoadBMP(std::string);
 
+	std::string heightMapFileName;
+	std::string textureName;
+	
 	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;				
 	LPDIRECT3DINDEXBUFFER9 indexBuffer;
 	
@@ -37,8 +53,12 @@ private:
 	
 	BYTE* heightData;
 
-	D3DXVECTOR3 position;
-	D3DXVECTOR3 rotation;
+	
+
+	bool initialized;
+
+	int width;
+	int depth;
 	int primCount;
 	int vertexCount;
 

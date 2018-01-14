@@ -1,3 +1,10 @@
+/*
+* Class: Mesh.h
+* Description :
+* Note :
+*/
+
+
 #ifndef MESH_H_
 #define MESH_H_
 
@@ -5,17 +12,21 @@
 #include <mmsystem.h>
 #include <d3dx9.h>
 #include <string>
+#include "Renderer.h"
 
 #include "Resource.h"
 
-class Mesh: public Resource
+class Mesh: public Resource						//inherits from resource
 {
 public:
-	Mesh();
+	Mesh(std::string);							//needs a name with which it can be indentified as a mesh
 	virtual ~Mesh();
 
-	virtual bool Init(LPDIRECT3DDEVICE9);
-	virtual void Draw(LPDIRECT3DDEVICE9);
+	virtual bool Init(Renderer*);
+	virtual void Draw(Renderer*);
+
+	virtual std::string GetMeshName();
+	virtual void CleanUp();
 	
 
 private:
@@ -25,7 +36,7 @@ private:
 	LPDIRECT3DTEXTURE9* textures = NULL; // Textures for our mesh
 	DWORD               numOfMaterials = 0L;   // Number of mesh materials
 
+	std::string meshPath;
 	bool initialized;
 };
-
 #endif // !MESH_H_
