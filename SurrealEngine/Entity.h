@@ -25,7 +25,7 @@ public:
 	Entity(D3DXVECTOR3, D3DXVECTOR3);							//starting position and rotation
 	virtual ~Entity();
 
-	virtual void SetupMatrices(Renderer*);				//sets the world transform of this entity
+	virtual void SetupMatrices(Renderer*, Transform);				//sets the world transform of this entity
 	virtual void Draw(Renderer*);						//draws the resources this entity has
 	
 

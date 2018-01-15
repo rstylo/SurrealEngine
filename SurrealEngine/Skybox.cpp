@@ -163,9 +163,9 @@ void Skybox::Create()
 	indexBuffer->Unlock();
 }
 
-void Skybox::SetupMatrices(Renderer* renderer)
+void Skybox::SetupMatrices(Renderer* renderer, Transform origin)
 {
-	transform.SetupMatrices(renderer);
+	transform.SetupMatrices(renderer, origin);
 }
 
 void Skybox::Draw(Renderer* renderer)

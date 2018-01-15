@@ -18,7 +18,7 @@ public:
 	Camera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, HWND*, InputHandler*);				//HWND with the window in which the view is to be displayed and a inputhandler from witch it can get real time input
 	virtual ~Camera();
 
-	virtual void SetupView(Renderer*);														//rendering routine
+	virtual void SetupView(Renderer*);																//rendering routine
 
 	virtual void LookAt(D3DXVECTOR3);																//change the lookAt vector
 	virtual void SetLookAt(bool);
@@ -36,6 +36,7 @@ public:
 	virtual void MoveDown();
 
 	virtual D3DXVECTOR3 GetPosition();
+	virtual D3DXVECTOR3 GetRotation();
 
 private:
 

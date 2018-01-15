@@ -33,7 +33,7 @@ public:
 
 
 
-	virtual void SetupMatrices(Renderer*);
+	virtual void SetupMatrices(Renderer*, Transform);
 	//virtual bool InitWithColor(Renderer*);
 	virtual void Draw(Renderer*);
 

@@ -102,25 +102,21 @@ bool SceneManager::IsLoading()
 
 void SceneManager::Draw(Renderer* renderer, int cam)
 {
-	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
-		LPDIRECT3DDEVICE9* device = dxrenderer->GetDevice();
-		if (currentScene != NULL)
-		{
-			currentScene->SetupMatrices(renderer);
+	if (currentScene != NULL)
+	{
+		currentScene->SetupMatrices(renderer);
 
-			currentScene->SetupView(renderer, cam);
-			currentScene->Draw(renderer);
-		}
+		currentScene->Draw(renderer);
+		currentScene->SetupView(renderer, cam);
 	}
-
 }
 
 void SceneManager::SetupScene(Renderer* renderer, InputHandler* _inputHandler, HWND* _hwnd, HWND* _hwnd2)
 {
 	if (currentScene != NULL && loading == true)
 	{
-		currentScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, 20, 0), _hwnd, _inputHandler); //game camera
-		currentScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 80, 0), _hwnd2, _inputHandler); //dev camera
+		currentScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, -20, 0), _hwnd, _inputHandler); //game camera
+		currentScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, -80, 0), _hwnd2, _inputHandler); //dev camera
 
 		currentScene->InitEntities(renderer);
 

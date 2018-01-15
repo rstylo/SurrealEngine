@@ -23,19 +23,17 @@ bool Entity::Init(Renderer* renderer)									//de entity draw functie draw all 
 	return true;
 }
 
-void Entity::SetupMatrices(Renderer* renderer)						//setup world matrix for the position in with the resources are to pe drawn 
+void Entity::SetupMatrices(Renderer* renderer, Transform origin)						//setup world matrix for the position in with the resources are to pe drawn 
 {
 	transform.SetupMatrices(renderer);
 }
 void Entity::Draw(Renderer* renderer)									//de entity draw functie draw all zijn resources in plaatst van dit via de resource manager te doen
 {
-
 	for (auto it = myResources.begin(); it != myResources.end(); it++)
 	{
 		if ((*it)->Init(renderer))												//if the current resource is already initialized
 			(*it)->Draw(renderer);											//draw it
 	}
-
 }
 
 void Entity::AddResource(Resource* _resource)

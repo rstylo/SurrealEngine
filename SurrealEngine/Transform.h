@@ -19,6 +19,19 @@ struct Vector3 {
 		y = _y;
 		z = _z;
 	};
+	Vector3 operator-(Vector3 temp) {
+		float _x = x - temp.x;
+		float _y = y - temp.y;
+		float _z = z - temp.z;
+		return Vector3(_x, _y, _z);
+	}
+
+	Vector3 operator+(Vector3 temp) {
+		float _x = x + temp.x;
+		float _y = y + temp.y;
+		float _z = z + temp.z;
+		return Vector3(_x, _y, _z);
+	}
 };
 
 class Transform
@@ -27,8 +40,8 @@ public:
 	Transform();
 	virtual ~Transform();
 
-
 	virtual void SetupMatrices(Renderer*);
+	virtual void SetupMatrices(Renderer*, Transform);
 
 	virtual Vector3 GetPosition();
 	virtual void SetPosition(Vector3);

@@ -25,7 +25,7 @@ Terrain::Terrain()
 {
 	transform.SetPosition(Vector3(0, 0, 0));
 	transform.SetRotation(Vector3(0, 0, 0));
-
+	
 	initialized = false;
 }
 
@@ -228,9 +228,9 @@ void Terrain::CleanUp()
 	}
 }
 
-void Terrain::SetupMatrices(Renderer* renderer)
+void Terrain::SetupMatrices(Renderer* renderer, Transform origin)
 {
-	transform.SetupMatrices(renderer);
+	transform.SetupMatrices(renderer , origin);
 }
 
 bool Terrain::LoadBMP(std::string argFileName)

@@ -27,7 +27,7 @@ public:
 	virtual void Invalidate();
 
 
-	virtual void SetupMatrices(Renderer*);
+	virtual void SetupMatrices(Renderer*, Transform);
 
 	virtual void Draw(Renderer*);
 

@@ -152,19 +152,19 @@ void Scene::Draw(Renderer* renderer)
 {
 	if (skybox != NULL)
 	{
-		skybox->SetupMatrices(renderer);
+		skybox->SetupMatrices(renderer, originTransform);
 		skybox->Draw(renderer);
 	}
 
 	if (terrain != NULL)
 	{
-		terrain->SetupMatrices(renderer);
+		terrain->SetupMatrices(renderer, originTransform);
 		terrain->Draw(renderer);
 	}
 
 	for (auto it = entities.begin(); it != entities.end(); it++)
 	{
-		it->second->SetupMatrices(renderer);
+		it->second->SetupMatrices(renderer, originTransform);
 		it->second->Draw(renderer);
 	}
 }
@@ -187,7 +187,6 @@ Camera* Scene::GetCamera(int cam)
 
 void Scene::AddEntity(Entity* _entity)
 {
-	
 	if (entities.find(_entity->GetId()) != entities.end()) {				//check of er niet een identieke entity al bestaat, door alleen de key die unqiue is te vergelijken
 		printf("entity %d already exists!! \n", _entity->GetId());
 		return;
@@ -233,8 +232,12 @@ void Scene::Update()
 		cameras[0]->Update();					//hoort hier niet
 	if (cameras[1] != NULL)
 		cameras[1]->Update();					//hoort hier niet
-	if(skybox!=NULL && cameras[0] != NULL)
-		skybox->Update(cameras[0]->GetPosition());
+	if (cameras[0] != NULL) {
+		originTransform.SetPosition(Vector3(cameras[0]->GetPosition().x, cameras[0]->GetPosition().y, cameras[0]->GetPosition().z));
+		originTransform.SetRotation(Vector3(cameras[0]->GetRotation().x, cameras[0]->GetRotation().y, cameras[0]->GetRotation().z));
+	}
+	//if(skybox!=NULL && cameras[0] != NULL)
+		//skybox->Update(cameras[0]->GetPosition());
 }
 
 std::string Scene::CurrentDirectory(std::string str)

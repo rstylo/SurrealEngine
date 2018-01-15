@@ -41,26 +41,48 @@ void Camera::SetupView(Renderer* renderer)
 {
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 _device = *dxrenderer->GetDevice();
-		//set eye position
-		eye = position;
-		eye.y + 5;
+		/*
+		D3DXMATRIX worldMtrx;
+		D3DXMatrixIdentity(&worldMtrx);
 
-		if (lookingAt == false)
+		D3DXMATRIXA16 trans;
+
+		D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
+
+		D3DXMATRIXA16 rotX;
+		D3DXMATRIXA16 rotY;
+		D3DXMATRIXA16 rotZ;
+
+		D3DXMatrixRotationX(&rotX, rotation.x);
+		D3DXMatrixRotationY(&rotY, rotation.y);
+		D3DXMatrixRotationZ(&rotZ, rotation.z);
+
+		worldMtrx = trans*rotX * rotY * rotZ;
+
+		_device->SetTransform(D3DTS_WORLD, &worldMtrx);
+		
+		//set eye position
+		if (lookingAt == true)
 		{
+			eye = position;
+			eye.y + 5;
+
+
 			//setlook AT to foward from the current position
 			lookAt = position;
 			lookAt.y += cameraHeight;
 			lookAt.z -= cos(rotation.y);
 			lookAt.x += sin(rotation.y);
+
+
+			//create viematrix looking at lookat position
+			D3DXMATRIX viewMtrx;
+
+			D3DXMatrixLookAtLH(&viewMtrx, &eye, &lookAt, &up);
+
+			_device->SetTransform(D3DTS_VIEW, &viewMtrx);
 		}
-
-		//create viematrix looking at lookat position
-		D3DXMATRIX viewMtrx;
-
-		D3DXMatrixLookAtLH(&viewMtrx, &eye, &lookAt, &up);
-
-		_device->SetTransform(D3DTS_VIEW, &viewMtrx);
-
+		*/
 		//create porjection matrix with 0.25PI as the view direction in y, 1 unit from the view as near viewplane and 1000 as far viewplane
 		D3DXMATRIX projectionMtrx;
 		D3DXMatrixPerspectiveFovLH(&projectionMtrx, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f);
@@ -100,10 +122,10 @@ void Camera::Update()
 			MoveDown();
 		}
 		if (inputHandler->CheckKeyboardPressed('e')) {
-			Rotate(0, rotation.y);
+			Rotate(0, 1);
 		}
 		if (inputHandler->CheckKeyboardPressed('q')) {
-			Rotate(0, rotation.y);
+			Rotate(0, -1);
 		}
 		Rotate(inputHandler->CheckMouseValues('y'), inputHandler->CheckMouseValues('x'));
 
@@ -159,15 +181,19 @@ void Camera::MoveBackwards()
 
 void Camera::MoveUp()
 {
-	position.y += 0.5f;
+	position.y -= 0.5f;
 
 }
 
 void Camera::MoveDown()
 {
-	position.y -= 0.5f;
+	position.y += 0.5f;
 }
 
 D3DXVECTOR3 Camera::GetPosition() {
 	return position;
+}
+
+D3DXVECTOR3 Camera::GetRotation() {
+	return rotation;
 }

@@ -20,12 +20,12 @@ void Transform::SetupMatrices(Renderer* renderer)
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
 
+
 		//D3DXVECTOR3 _position = D3DXVECTOR3(position.x ,position.y, position.z);
 		D3DXMATRIX worldMtrx;
 		D3DXMatrixIdentity(&worldMtrx);
 
 		D3DXMATRIXA16 trans;
-
 		D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
 
 		D3DXMATRIXA16 rotX;
@@ -36,9 +36,37 @@ void Transform::SetupMatrices(Renderer* renderer)
 		D3DXMatrixRotationY(&rotY, rotation.y);
 		D3DXMatrixRotationZ(&rotZ, rotation.z);
 
+		worldMtrx = trans*rotX * rotY * rotZ;
+		//D3DXMatrixScaling(&worldMtrx, scale.x, scale.y, scale.z);
 
+		device->SetTransform(D3DTS_WORLD, &worldMtrx);
+	}
+}
 
-		worldMtrx = rotX * rotY * rotZ * trans;
+void Transform::SetupMatrices(Renderer* renderer, Transform origin)
+{
+	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
+		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
+
+		Vector3 tempposition = origin.position - position;
+		//D3DXVECTOR3 _position = D3DXVECTOR3(position.x ,position.y, position.z);
+		D3DXMATRIX worldMtrx;
+		D3DXMatrixIdentity(&worldMtrx);
+
+		D3DXMATRIXA16 trans;
+		D3DXMatrixTranslation(&trans, tempposition.x, tempposition.y, tempposition.z);
+
+		D3DXMATRIXA16 rotX;
+		D3DXMATRIXA16 rotY;
+		D3DXMATRIXA16 rotZ;
+
+		Vector3 temprotation = origin.rotation - rotation;
+
+		D3DXMatrixRotationX(&rotX, temprotation.x);
+		D3DXMatrixRotationY(&rotY, temprotation.y);
+		D3DXMatrixRotationZ(&rotZ, temprotation.z);
+
+		worldMtrx = trans*rotX * rotY * rotZ;
 		//D3DXMatrixScaling(&worldMtrx, scale.x, scale.y, scale.z);
 		
 		device->SetTransform(D3DTS_WORLD, &worldMtrx);
