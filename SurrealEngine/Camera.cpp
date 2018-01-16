@@ -127,7 +127,7 @@ void Camera::Update()
 		if (inputHandler->CheckKeyboardPressed('q')) {
 			Rotate(0, -1);
 		}
-		Rotate(inputHandler->CheckMouseValues('y'), inputHandler->CheckMouseValues('x'));
+		Rotate(inputHandler->CheckMouseValues('x'), inputHandler->CheckMouseValues('y'));
 
 		if (inputHandler->CheckMousePressed(0)) {
 
@@ -149,9 +149,8 @@ void Camera::MoveTo(float rot)
 void Camera::Rotate(float x, float y)
 {
 	float speed = 2;
-	rotation.y -= speed*y * 2 * D3DX_PI / 1000;
-
-	cameraHeight -= 0.02*x;
+	rotation.x -= speed*y / 100;
+	rotation.y -= speed*x / 100;
 }
 
 void Camera::MoveLeft()

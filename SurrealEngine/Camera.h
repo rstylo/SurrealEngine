@@ -53,6 +53,9 @@ private:
 	float cameraHeight;
 	bool lookingAt;
 
+	float mouseX;
+	float mouseY;
+
 
 
 };

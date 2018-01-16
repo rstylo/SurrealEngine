@@ -25,7 +25,7 @@ bool Entity::Init(Renderer* renderer)									//de entity draw functie draw all 
 
 void Entity::SetupMatrices(Renderer* renderer, Transform origin)						//setup world matrix for the position in with the resources are to pe drawn 
 {
-	transform.SetupMatrices(renderer);
+	transform.SetupMatrices(renderer, origin);
 }
 void Entity::Draw(Renderer* renderer)									//de entity draw functie draw all zijn resources in plaatst van dit via de resource manager te doen
 {

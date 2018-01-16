@@ -236,8 +236,8 @@ void Scene::Update()
 		originTransform.SetPosition(Vector3(cameras[0]->GetPosition().x, cameras[0]->GetPosition().y, cameras[0]->GetPosition().z));
 		originTransform.SetRotation(Vector3(cameras[0]->GetRotation().x, cameras[0]->GetRotation().y, cameras[0]->GetRotation().z));
 	}
-	//if(skybox!=NULL && cameras[0] != NULL)
-		//skybox->Update(cameras[0]->GetPosition());
+	if(skybox!=NULL && cameras[0] != NULL)
+		skybox->Update(cameras[0]->GetPosition());
 }
 
 std::string Scene::CurrentDirectory(std::string str)
