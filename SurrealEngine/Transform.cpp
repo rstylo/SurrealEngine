@@ -19,8 +19,7 @@ void Transform::SetupMatrices(Renderer* renderer)
 {
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
-
-
+		
 		//D3DXVECTOR3 _position = D3DXVECTOR3(position.x ,position.y, position.z);
 		D3DXMATRIX worldMtrx;
 		D3DXMatrixIdentity(&worldMtrx);
@@ -66,7 +65,7 @@ void Transform::SetupMatrices(Renderer* renderer, Transform origin)
 		D3DXMatrixRotationY(&rotY, temprotation.y);
 		D3DXMatrixRotationZ(&rotZ, temprotation.z);
 
-		worldMtrx = trans*rotX * rotY * rotZ;
+		worldMtrx = trans*rotY * rotX * rotZ;
 		//D3DXMatrixScaling(&worldMtrx, scale.x, scale.y, scale.z);
 		
 		device->SetTransform(D3DTS_WORLD, &worldMtrx);
