@@ -56,9 +56,9 @@ bool Kernel::Init(bool windowed)
 				printf("Input handler succefully initialized... \n");
 
 				sceneManager = new SceneManager();											//aanmaken van scenemanager
-				sceneManager->CreateScene("Scene0");
-				sceneManager->LoadScene("Scene0");
-
+				//sceneManager->CreateScene("Scene0");
+				//sceneManager->LoadScene("Scene0");
+				sceneManager->LoadSceneFromFile("level.txt");
 
 
 				console = new Console(sceneManager);

@@ -3,6 +3,8 @@
 #include "Scene.h"
 #include "Camera.h"
 
+#include <iostream>
+#include <fstream>
 
 SceneManager::SceneManager()
 {
@@ -235,4 +237,60 @@ void SceneManager::MoveTerrain()
 
 		currentScene->MoveTerrainTo(Vector3(extraParams[0], extraParams[1], extraParams[2]), Vector3(extraParams[3], extraParams[4], extraParams[5]));
 	}
+}
+
+
+void SceneManager::LoadSceneFromFile(std::string fileName)
+{
+	std::ifstream file(fileName);
+	std::string line;
+	while (std::getline(file, line)) //read all lines
+	{
+		if (line == "scene")
+		{
+			std::string sceneName;
+			std::getline(file, sceneName);
+
+			this->CreateScene(sceneName);
+			this->LoadScene(sceneName);
+		}
+		else if (line == "terrain")
+		{
+			std::string bitmap;
+			std::getline(file, bitmap);
+			std::string texture;
+			std::getline(file, texture);
+
+			currentScene->CreateTerrainWithTexture(bitmap, texture);
+		}
+		else if (line == "entity")
+		{
+			std::string meshName;
+			std::getline(file, meshName);
+
+			int extraParams[6];
+			for (int i = 0; i < 6; i++)
+			{
+				file >> extraParams[i];
+			}
+
+			currentScene->CreateEntityWithMesh(
+				Vector3(extraParams[0], extraParams[1], extraParams[2]),
+				Vector3(extraParams[3], extraParams[4], extraParams[5]),
+				resourceManager->CreateMesh(meshName)
+			);
+		}
+	}
+	file.close();
+}
+
+void SceneManager::SaveSceneToFile()
+{
+	std::ofstream saveFile;
+	saveFile.open(currentScene->GetName());
+
+	saveFile << currentScene->GetSceneInfo();
+
+	saveFile.close();
+
 }

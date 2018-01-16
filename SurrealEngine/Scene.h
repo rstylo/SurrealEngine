@@ -61,6 +61,8 @@ public:
 	virtual void RemoveEntity(uint32_t);
 	virtual void MoveEntityTo(uint32_t, Vector3, Vector3);
 	
+	virtual std::string GetSceneInfo();
+
 private:
 	uint32_t id;
 	std::string name;

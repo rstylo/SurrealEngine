@@ -278,3 +278,23 @@ bool Scene::CreateTerrainWithTexture(std::string map, std::string texture)
 
 	
 }
+
+//get information of the scene to save to a file
+std::string Scene::GetSceneInfo()
+{
+	std::string sceneInfo;
+	sceneInfo += "scene\n";
+	sceneInfo += GetName();
+
+	sceneInfo += "terrain\n";
+	sceneInfo += terrain->GetMapFileName();
+	sceneInfo += terrain->GetTextureName();
+
+	for (auto it = entities.begin(); it != entities.end(); it++)		//iterate door alle entities
+	{
+		sceneInfo += "entity\n";
+		sceneInfo += it->second->GetEntityInfo();
+	}
+
+	return sceneInfo;
+}

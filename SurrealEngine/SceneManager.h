@@ -43,6 +43,9 @@ public:
 
 	virtual void SetupScene(Renderer*, InputHandler*, HWND*, HWND*);	//load the current scene's  objects into directx device
  
+	virtual void LoadSceneFromFile(std::string);
+	virtual void SaveSceneToFile();
+
 	 //Command functions, will wait for input
 	 void SpawnEntity();			
 	 void CreateScene();	 

@@ -55,3 +55,43 @@ uint32_t Entity::GetId()
 	return id;
 }
 
+
+std::string Entity::GetEntityInfo()			//get information off this entity to save
+{
+	std::string entityInfo;
+	entityInfo = "entity\n";
+
+	//name van mesh
+	for (auto it = myResources.begin(); it != myResources.end(); it++)
+	{
+		//get mesh name by casting the resource to mesh
+		/*
+		Mesh* m = (Mesh)it;
+		if (Mesh* mesh = dynamic_cast<Mesh>(&it))
+		{
+
+			break;
+		}
+		*/
+	}
+
+	//positie en rotatie van mesh
+	Vector3 pos = transform.GetPosition();
+	Vector3 rot = transform.GetRotation();
+
+	entityInfo += pos.x;
+	entityInfo += "\n";
+	entityInfo += pos.y;
+	entityInfo += "\n";
+	entityInfo += pos.z;
+	entityInfo += "\n";
+
+	entityInfo += rot.x;
+	entityInfo += "\n";
+	entityInfo += rot.y;
+	entityInfo += "\n";
+	entityInfo += rot.z;
+	entityInfo += "\n";
+
+	return entityInfo;
+}

@@ -277,3 +277,13 @@ bool Terrain::LoadBMP(std::string argFileName)
 	}
 	return true;
 }
+
+std::string Terrain::GetMapFileName()
+{
+	return heightMapFileName;
+}
+
+std::string Terrain::GetTextureName()
+{
+	return textureName;
+}

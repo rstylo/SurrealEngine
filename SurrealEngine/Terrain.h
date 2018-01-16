@@ -38,6 +38,10 @@ public:
 	virtual void Draw(Renderer*);
 
 	Transform transform;
+
+	virtual std::string GetMapFileName();
+	virtual std::string GetTextureName();
+
 private:
 
 	virtual void CleanUp();

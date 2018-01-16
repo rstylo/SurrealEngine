@@ -36,6 +36,8 @@ public:
 
 	Transform transform;
 
+	virtual std::string GetEntityInfo();
+
 private:
 
 	uint32_t id;												//voor unique ids
