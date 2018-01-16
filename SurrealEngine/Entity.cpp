@@ -3,7 +3,7 @@
 
 
 
-Entity::Entity(D3DXVECTOR3 _position, D3DXVECTOR3 _rotation)
+Entity::Entity(Vector3 _position, Vector3 _rotation)
 {
 	id = reinterpret_cast<uint32_t>(this);			//cast de classe naar een uint32_t, sinds klassen al unique zijn zal dit ervoor zorgen dat elke entity een eigen positive int getal als id heeft
 

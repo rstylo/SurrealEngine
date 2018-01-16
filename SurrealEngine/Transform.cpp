@@ -35,7 +35,7 @@ void Transform::SetupMatrices(Renderer* renderer)
 		D3DXMatrixRotationY(&rotY, rotation.y);
 		D3DXMatrixRotationZ(&rotZ, rotation.z);
 
-		worldMtrx = trans*rotX * rotY * rotZ;
+		worldMtrx = trans* rotZ * rotY * rotX;
 		//D3DXMatrixScaling(&worldMtrx, scale.x, scale.y, scale.z);
 
 		device->SetTransform(D3DTS_WORLD, &worldMtrx);
@@ -65,7 +65,7 @@ void Transform::SetupMatrices(Renderer* renderer, Transform origin)
 		D3DXMatrixRotationY(&rotY, temprotation.y);
 		D3DXMatrixRotationZ(&rotZ, temprotation.z);
 
-		worldMtrx = trans*rotY * rotX * rotZ;
+		worldMtrx = trans* rotZ * rotY * rotX ;
 		//D3DXMatrixScaling(&worldMtrx, scale.x, scale.y, scale.z);
 		
 		device->SetTransform(D3DTS_WORLD, &worldMtrx);

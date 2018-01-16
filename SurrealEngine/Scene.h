@@ -38,7 +38,7 @@ public:
 	virtual void Update();
 
 	virtual void SetupView(Renderer*, int);		//setup view for a specific cam
-	virtual void SetupMatrices(Renderer*);		//setup origin matrix
+	virtual void SetupMatrices(Renderer*, int);		//setup origin matrix
 	virtual void SetupLight(Renderer*);			//setup light
 
 	virtual void InvalidateObjects();					//release drawable objects to free space 
@@ -48,18 +48,18 @@ public:
 	virtual void SetupSkybox(Renderer*);
 	virtual void SetupTerrain(Renderer*);
 	
-	virtual void CreateEntityWithMesh(D3DXVECTOR3, D3DXVECTOR3, Resource*);
+	virtual void CreateEntityWithMesh(Vector3, Vector3, Resource*);
 
-	virtual void AddCamera(int, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, HWND*, InputHandler*);
+	virtual void AddCamera(int, Vector3, Vector3, HWND*, InputHandler*);
 	virtual Camera* GetCamera(int cam);
 
 	virtual void AddEntity(Entity*);
 	virtual Entity* GetEntity(uint32_t);
 
-	virtual void MoveTerrainTo(D3DXVECTOR3, D3DXVECTOR3);
+	virtual void MoveTerrainTo(Vector3, Vector3);
 
 	virtual void RemoveEntity(uint32_t);
-	virtual void MoveEntityTo(uint32_t, D3DXVECTOR3, D3DXVECTOR3);
+	virtual void MoveEntityTo(uint32_t, Vector3, Vector3);
 	
 private:
 	uint32_t id;

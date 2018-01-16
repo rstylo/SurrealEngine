@@ -11,16 +11,18 @@
 #include "Renderer.h"
 #include <d3dx9.h>
 #include "InputHandler.h"
+#include "Transform.h"
+
+const float pi = 3.141592654f;
 
 class Camera
 {
 public:
-	Camera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, HWND*, InputHandler*);				//HWND with the window in which the view is to be displayed and a inputhandler from witch it can get real time input
+	Camera(Vector3, Vector3, HWND*, InputHandler*);				//HWND with the window in which the view is to be displayed and a inputhandler from witch it can get real time input
 	virtual ~Camera();
 
 	virtual void SetupView(Renderer*);																//rendering routine
 
-	virtual void LookAt(D3DXVECTOR3);																//change the lookAt vector
 	virtual void SetLookAt(bool);
 
 	virtual void Update();																			//main routine, used for moving and rotating the view matrix
@@ -35,16 +37,14 @@ public:
 	virtual void MoveUp();
 	virtual void MoveDown();
 
-	virtual D3DXVECTOR3 GetPosition();
-	virtual D3DXVECTOR3 GetRotation();
+	virtual Vector3 GetPosition();
+	virtual Vector3 GetRotation();
 
 private:
 
-	D3DXVECTOR3 rotation;
-	D3DXVECTOR3 position;
+	Vector3 rotation;
+	Vector3 position;
 
-	D3DXVECTOR3 eye;
-	D3DXVECTOR3 lookAt;
 	D3DXVECTOR3 up;
 
 	HWND* hwnd;

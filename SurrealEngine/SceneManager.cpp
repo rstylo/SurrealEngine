@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Scene.h"
+#include "Camera.h"
 
 
 SceneManager::SceneManager()
@@ -104,7 +105,7 @@ void SceneManager::Draw(Renderer* renderer, int cam)
 {
 	if (currentScene != NULL)
 	{
-		currentScene->SetupMatrices(renderer);
+		currentScene->SetupMatrices(renderer, cam);
 
 		currentScene->Draw(renderer);
 		currentScene->SetupView(renderer, cam);
@@ -115,8 +116,8 @@ void SceneManager::SetupScene(Renderer* renderer, InputHandler* _inputHandler, H
 {
 	if (currentScene != NULL && loading == true)
 	{
-		currentScene->AddCamera(0, D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 4, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(-5, -20, 0), _hwnd, _inputHandler); //game camera
-		currentScene->AddCamera(1, D3DXVECTOR3(0, 20, -10), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, -80, 0), _hwnd2, _inputHandler); //dev camera
+		currentScene->AddCamera(0, Vector3(-0.5, 0, 0), Vector3(-5, -15, 0), _hwnd, _inputHandler); //game camera
+		currentScene->AddCamera(1, Vector3(1.5*pi, 0, 0), Vector3(0, -80, 0), _hwnd2, _inputHandler); //dev camera
 
 		currentScene->InitEntities(renderer);
 
@@ -149,7 +150,7 @@ void SceneManager::SpawnEntity()
 	std::cout << "MeshfileName:\n";
 	std::cin >> meshName;
 
-	currentScene->CreateEntityWithMesh(D3DXVECTOR3(extraParams[0], extraParams[1], extraParams[2]), D3DXVECTOR3(extraParams[3], extraParams[4], extraParams[5]), resourceManager->CreateMesh(meshName));
+	currentScene->CreateEntityWithMesh(Vector3(extraParams[0], extraParams[1], extraParams[2]), Vector3(extraParams[3], extraParams[4], extraParams[5]), resourceManager->CreateMesh(meshName));
 
 
 }
@@ -209,7 +210,7 @@ void SceneManager::MoveEntity()
 		std::cout << "z: ";
 		std::cin >> extraParams[5];
 
-		currentScene->MoveEntityTo(extraParams[6], D3DXVECTOR3(extraParams[0], extraParams[1], extraParams[2]), D3DXVECTOR3(extraParams[3], extraParams[4], extraParams[5]));
+		currentScene->MoveEntityTo(extraParams[6], Vector3(extraParams[0], extraParams[1], extraParams[2]), Vector3(extraParams[3], extraParams[4], extraParams[5]));
 	}
 }
 
@@ -232,6 +233,6 @@ void SceneManager::MoveTerrain()
 		std::cout << "z: ";
 		std::cin >> extraParams[5];
 
-		currentScene->MoveTerrainTo(D3DXVECTOR3(extraParams[0], extraParams[1], extraParams[2]), D3DXVECTOR3(extraParams[3], extraParams[4], extraParams[5]));
+		currentScene->MoveTerrainTo(Vector3(extraParams[0], extraParams[1], extraParams[2]), Vector3(extraParams[3], extraParams[4], extraParams[5]));
 	}
 }

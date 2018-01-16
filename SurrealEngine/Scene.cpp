@@ -59,8 +59,8 @@ bool Scene::InitEntities(Renderer* renderer)
 	{
 		if (it->second->Init(renderer) == false)
 		{
-			skybox->Init(renderer, "skybox.jpg");
-			skybox->Create();
+			if(skybox->Init(renderer, "skybox.jpg"))
+				skybox->Create();
 		}
 	}
 
@@ -81,8 +81,8 @@ void Scene::SetupSkybox(Renderer* renderer)
 {		
 	if (skybox != NULL)
 	{
-		skybox->Init(renderer, "skybox.jpg");
-		skybox->Create();
+		if (skybox->Init(renderer, "skybox.jpg"))
+			skybox->Create();
 	}
 }
 
@@ -97,9 +97,13 @@ void Scene::SetupTerrain(Renderer* renderer)
 
 }
 
-void Scene::SetupMatrices(Renderer* renderer)
+void Scene::SetupMatrices(Renderer* renderer, int cam)
 {
 	originTransform.SetupMatrices(renderer);
+	if (cameras[cam] != NULL) {
+		originTransform.SetPosition(cameras[cam]->GetPosition());
+		originTransform.SetRotation(cameras[cam]->GetRotation());
+	}
 }
 
 void Scene::SetupView(Renderer* renderer, int cam)
@@ -169,10 +173,10 @@ void Scene::Draw(Renderer* renderer)
 	}
 }
 
-void Scene::AddCamera(int cam, D3DXVECTOR3 _eye, D3DXVECTOR3 _lookAt, D3DXVECTOR3 _rotation, D3DXVECTOR3 _position, HWND* _hwnd, InputHandler* _inputHandler)
+void Scene::AddCamera(int cam, Vector3 _rotation, Vector3 _position, HWND* _hwnd, InputHandler* _inputHandler)
 {
 	if (cameras.find(cam) == cameras.end())
-		cameras[cam] = new Camera(_eye, _lookAt, _rotation, _position, _hwnd, _inputHandler);
+		cameras[cam] = new Camera(_rotation, _position, _hwnd, _inputHandler);
 	else
 		printf("camera %d already exists!! \n", cam);
 }
@@ -214,16 +218,16 @@ void Scene::RemoveEntity(uint32_t _uuid)
 		std::cout << " could not find entity "<< _uuid << std::endl;
 }
 
-void Scene::MoveTerrainTo(D3DXVECTOR3 position, D3DXVECTOR3 rotation)
+void Scene::MoveTerrainTo(Vector3 position, Vector3 rotation)
 {
-	terrain->transform.SetPosition(Vector3(position.x, position.y, position.z));
-	terrain->transform.SetRotation(Vector3(rotation.x, rotation.y, rotation.z));
+	terrain->transform.SetPosition(position);
+	terrain->transform.SetRotation(rotation);
 }
 
-void Scene::MoveEntityTo(uint32_t _uuid, D3DXVECTOR3 position, D3DXVECTOR3 rotation)
+void Scene::MoveEntityTo(uint32_t _uuid, Vector3 position, Vector3 rotation)
 {
-	GetEntity(_uuid)->transform.SetPosition(Vector3(position.x, position.y, position.z));
-	GetEntity(_uuid)->transform.SetRotation(Vector3(rotation.x, rotation.y, rotation.z));
+	GetEntity(_uuid)->transform.SetPosition(position);
+	GetEntity(_uuid)->transform.SetRotation(rotation);
 }
 
 void Scene::Update()
@@ -232,10 +236,6 @@ void Scene::Update()
 		cameras[0]->Update();					//hoort hier niet
 	if (cameras[1] != NULL)
 		cameras[1]->Update();					//hoort hier niet
-	if (cameras[0] != NULL) {
-		originTransform.SetPosition(Vector3(cameras[0]->GetPosition().x, cameras[0]->GetPosition().y, cameras[0]->GetPosition().z));
-		originTransform.SetRotation(Vector3(cameras[0]->GetRotation().x, cameras[0]->GetRotation().y, cameras[0]->GetRotation().z));
-	}
 	if(skybox!=NULL && cameras[0] != NULL)
 		skybox->Update(cameras[0]->GetPosition());
 }
@@ -252,7 +252,7 @@ std::string Scene::GetName()
 	return name;
 }
 
-void Scene::CreateEntityWithMesh(D3DXVECTOR3 _position, D3DXVECTOR3 _rotation, Resource* mesh)
+void Scene::CreateEntityWithMesh(Vector3 _position, Vector3 _rotation, Resource* mesh)
 {
 
 	Entity* entity1 = new Entity(_position, _rotation);

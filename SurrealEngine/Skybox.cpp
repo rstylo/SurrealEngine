@@ -42,10 +42,11 @@ bool Skybox::Init(Renderer* renderer, std::string _texture)
 			MessageBox(NULL, "Could not create indexbuffer", NULL, NULL);
 			return false;
 		}
+		return true;
 	}
-	return true;
+	return false;
 }
-void Skybox::Update(D3DVECTOR _position)
+void Skybox::Update(Vector3 _position)
 {
 	transform.SetPosition(Vector3(_position.x, _position.y, _position.z));
 	transform.SetRotation(Vector3(0, 0, 0));
@@ -72,6 +73,7 @@ void Skybox::Invalidate()
 
 void Skybox::Create()
 {
+	
 	int size = 100;
 
 	CUSTOMVERTEX* vertices;

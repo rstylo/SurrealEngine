@@ -41,7 +41,8 @@ bool Kernel::Init(bool windowed)
 
 
 	renderer = new DirectXRenderer();
-	
+	//renderer = new OpenGLRenderer();
+
 	if (gameDisplay->Init(0, 0) && devDisplay->Init(1280, 0))									//initialiseer beide windows
 	{
 		printf("GameWindow and devWindow succefully initialised... \n");

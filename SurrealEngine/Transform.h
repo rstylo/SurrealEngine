@@ -52,8 +52,6 @@ public:
 	virtual Vector3 GetScale();
 	virtual void SetScale(Vector3);
 
-
-
 private:
 	Vector3 position;
 	Vector3 rotation;

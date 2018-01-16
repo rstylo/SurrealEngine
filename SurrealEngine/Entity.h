@@ -22,7 +22,7 @@ class Mesh;
 class Entity
 {
 public:
-	Entity(D3DXVECTOR3, D3DXVECTOR3);							//starting position and rotation
+	Entity(Vector3, Vector3);							//starting position and rotation
 	virtual ~Entity();
 
 	virtual void SetupMatrices(Renderer*, Transform);				//sets the world transform of this entity
