@@ -59,8 +59,8 @@ bool Scene::InitEntities(Renderer* renderer)
 	{
 		if (it->second->Init(renderer) == false)
 		{
-			if(skybox->Init(renderer, "skybox.jpg"))
-				skybox->Create();
+			/*if(skybox->Init(renderer, "skybox.jpg"))
+				skybox->Create();*/
 		}
 	}
 
@@ -92,7 +92,7 @@ void Scene::SetupTerrain(Renderer* renderer)
 	if (terrain != NULL)
 	{
 		
-		terrain->InitWithTexture(renderer);
+		terrain->Init(renderer);
 	}
 
 }
@@ -236,8 +236,8 @@ void Scene::Update()
 		cameras[0]->Update();					//hoort hier niet
 	if (cameras[1] != NULL)
 		cameras[1]->Update();					//hoort hier niet
-	if(skybox!=NULL && cameras[0] != NULL)
-		skybox->Update(cameras[0]->GetPosition());
+	//if(skybox!=NULL && cameras[0] != NULL)
+		//skybox->Update(cameras[0]->GetPosition());
 }
 
 std::string Scene::CurrentDirectory(std::string str)

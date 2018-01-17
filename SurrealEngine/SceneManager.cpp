@@ -134,7 +134,7 @@ void SceneManager::SetupScene(Renderer* renderer, InputHandler* _inputHandler, H
 
 void SceneManager::SpawnEntity()
 {
-	int extraParams[6];
+	float extraParams[6];
 	std::cout << "=Postion=\nx: ";
 	std::cin  >> extraParams[0];
 	std::cout << "y: ";
