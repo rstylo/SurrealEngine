@@ -42,6 +42,7 @@ public:
 
 	virtual void SetupMatrices(Renderer*);
 	virtual void SetupMatrices(Renderer*, Transform);
+	virtual void SetupMatricesRotate(Renderer*, Vector3);
 
 	virtual Vector3 GetPosition();
 	virtual void SetPosition(Vector3);

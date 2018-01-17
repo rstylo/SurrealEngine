@@ -28,7 +28,7 @@ bool Skybox::Init(Renderer* renderer)
 			MessageBox(NULL, "Could not find skybox texture", NULL, NULL);
 			return false;
 		}
-
+		
 		if (FAILED(device->CreateVertexBuffer(14 * sizeof(CUSTOMVERTEX),
 			0, D3DFVF_XYZ | D3DFVF_TEX1,
 			D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
@@ -99,40 +99,44 @@ void Skybox::Create()
 
 	vertices[12].position = -D3DXVECTOR3(-size, -size, size);	//vertex 0
 	vertices[13].position = -D3DXVECTOR3(-size, size, size);		//vertex 1
-
-
+	
+	D3DSURFACE_DESC values;
+	skyboxTexture->GetLevelDesc(0, &values);
+	
+	const float height = values.Height;
+	const float width = values.Width;
 
 	vertices[0].tu = 0.00f;
-	vertices[0].tv = (float)1025 / 3072;
+	vertices[0].tv = (float)1 / 3 + 1 / height;
 	vertices[1].tu = 0.00f;
-	vertices[1].tv = (float)2047 / 3072;
-	vertices[2].tu = (float)1025 / 4096;
-	vertices[2].tv = (float)1025 / 3072;
-	vertices[3].tu = (float)1025 / 4096;
-	vertices[3].tv = (float)2047 / 3072;
-	vertices[4].tu = (float)2047 / 4096;
-	vertices[4].tv = (float)1025 / 3072;
-	vertices[5].tu = (float)2047 / 4096;
-	vertices[5].tv = (float)2047 / 3072;
+	vertices[1].tv = (float)2 / 3 - 1 / height;
+	vertices[2].tu = (float)1 / 4 + 1 / width;
+	vertices[2].tv = (float)1 / 3 + 1 / height;
+	vertices[3].tu = (float)1 / 4 + 1 / width;
+	vertices[3].tv = (float)2 / 3 - 1 / height;
+	vertices[4].tu = (float)2 / 4 - 1 / width;
+	vertices[4].tv = (float)1 / 3 + 1 / height;
+	vertices[5].tu = (float)2 / 4 - 1 / width;
+	vertices[5].tv = (float)2 / 3 - 1 / height;
 	vertices[6].tu = 0.75f;
-	vertices[6].tv = (float)1025 / 3072;
+	vertices[6].tv = (float)1 / 3 + 1 / height;
 	vertices[7].tu = 0.75f;
-	vertices[7].tv = (float)2047 / 3072;
+	vertices[7].tv = (float)2 / 3 - 1 / height;
 
-	vertices[12].tu = 1.00f;					// vertex 0 with other texture coordinate
-	vertices[12].tv = (float)1025 / 3072;
-	vertices[13].tu = 1.00f;					// vertex 1 with other texture coordinate
-	vertices[13].tv = (float)2047 / 3072;
+	vertices[12].tu = 1.00f;						// vertex 0 with other texture coordinate
+	vertices[12].tv = (float)1 / 3 + 1 / height;
+	vertices[13].tu = 1.00f;						// vertex 1 with other texture coordinate
+	vertices[13].tv = (float)2 / 3 - 1 / height;
 
-	vertices[8].tu = (float)1025 / 4096;		// bottom 
-	vertices[8].tv = (float)3071 / 3072;		// vertex 1 with other texture coordinate
-	vertices[9].tu = (float)2047 / 4096;
-	vertices[9].tv = (float)3071 / 3072;		// vertex 7 with other texture coordinate
+	vertices[8].tu = (float)1 / 4 + 1 / width;		// bottom 
+	vertices[8].tv = 1.00f - 1 / height;			// vertex 1 with other texture coordinate
+	vertices[9].tu = (float)2 / 4 - 1 / width;
+	vertices[9].tv = 1.00f - 1 / height;			// vertex 7 with other texture coordinate
 
-	vertices[10].tu = (float)1025 / 4096;		// top
-	vertices[10].tv = (float)1 / 3072;			// vertex 0 with other texture coordinate
-	vertices[11].tu = (float)2047 / 4096;
-	vertices[11].tv = (float)1 / 3072;			// vertex 6 with other texture coordinate
+	vertices[10].tu = (float)1 / 4 + 1 / width;		// top
+	vertices[10].tv = 1 / height;					// vertex 0 with other texture coordinate
+	vertices[11].tu = (float)2 / 4 - 1 / width;
+	vertices[11].tv = (float)1 / height;			// vertex 6 with other texture coordinate
 
 	vertexBuffer->Unlock();
 
@@ -167,7 +171,7 @@ void Skybox::Create()
 
 void Skybox::SetupMatrices(Renderer* renderer, Transform origin)
 {
-	transform.SetupMatrices(renderer, origin);
+	transform.SetupMatricesRotate(renderer, origin.GetRotation());
 }
 
 void Skybox::Draw(Renderer* renderer)
