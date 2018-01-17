@@ -300,11 +300,15 @@ std::string Scene::GetSceneInfo()
 {
 	std::string sceneInfo;
 	sceneInfo += "scene\n";
-	sceneInfo += GetName();
+	sceneInfo += GetName() + "\n";
 
 	sceneInfo += "terrain\n";
-	sceneInfo += terrain->GetMapFileName();
-	sceneInfo += terrain->GetTextureName();
+	sceneInfo += terrain->GetMapFileName() + "\n";
+	sceneInfo += terrain->GetTextureName() + "\n";
+
+
+	sceneInfo += "skybox\n";
+	sceneInfo += skybox->GetTexture() + "\n";
 
 	for (auto it = entities.begin(); it != entities.end(); it++)		//iterate door alle entities
 	{

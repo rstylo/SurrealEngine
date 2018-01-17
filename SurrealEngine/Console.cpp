@@ -15,6 +15,7 @@ Console::Console(SceneManager* _sceneManager)
 	commands["change terrain"] = &SceneManager::ChangeTerrain;
 	commands["move entity"] = &SceneManager::MoveEntity;
 	commands["move terrain"] = &SceneManager::MoveTerrain;
+	commands["save scene"] = &SceneManager::SaveScene;
 
 	currentLine = "-";
 }

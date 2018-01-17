@@ -170,6 +170,11 @@ void SceneManager::CreateScene()
 	std::cout << "SceneName:\n";
 	std::cin >> sceneName;
 	CreateScene(sceneName);
+
+	//set default values
+	Scene* newScene = GetScene(sceneName);
+	newScene->CreateTerrainWithTexture("map.bmp", "texture1.jpg");
+	newScene->SetSkyboxTexture("skybox.jpg");
 }
 
 void SceneManager::ChangeTerrain()
@@ -239,6 +244,16 @@ void SceneManager::MoveTerrain()
 	}
 }
 
+void SceneManager::SaveScene()
+{
+	if (currentScene != NULL)
+	{
+		std::string fileName;
+		std::cout << "enter file name: ";
+		std::cin >> fileName;
+		SaveSceneToFile(fileName);
+	}
+}
 
 void SceneManager::LoadSceneFromFile(std::string fileName)
 {
@@ -275,7 +290,7 @@ void SceneManager::LoadSceneFromFile(std::string fileName)
 			std::string meshName;
 			std::getline(file, meshName);
 
-			int extraParams[6];
+			float extraParams[6];
 			for (int i = 0; i < 6; i++)
 			{
 				file >> extraParams[i];
@@ -289,12 +304,13 @@ void SceneManager::LoadSceneFromFile(std::string fileName)
 		}
 	}
 	file.close();
+
 }
 
-void SceneManager::SaveSceneToFile()
+void SceneManager::SaveSceneToFile(std::string fileName)
 {
 	std::ofstream saveFile;
-	saveFile.open(currentScene->GetName());
+	saveFile.open(fileName + ".txt");
 
 	saveFile << currentScene->GetSceneInfo();
 

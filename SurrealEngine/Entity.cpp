@@ -1,7 +1,6 @@
 #include "Entity.h"
 #include "Resource.h"
-
-
+#include "Mesh.h"
 
 Entity::Entity(Vector3 _position, Vector3 _rotation)
 {
@@ -64,10 +63,11 @@ std::string Entity::GetEntityInfo()			//get information off this entity to save 
 	for (auto it = myResources.begin(); it != myResources.end(); it++)
 	{
 		//cast resource to mesh
-		/*if (Mesh* mesh = dynamic_cast<Mesh*>(*it))
+		if (Mesh* mesh = dynamic_cast<Mesh*>(*it))
 		{
+			entityInfo += mesh->GetMeshName() + "\n";
 			break;
-		}*/
+		}
 		
 	}
 
@@ -75,19 +75,19 @@ std::string Entity::GetEntityInfo()			//get information off this entity to save 
 	Vector3 pos = transform.GetPosition();
 	Vector3 rot = transform.GetRotation();
 
-	entityInfo += pos.x;
-	entityInfo += "\n";
-	entityInfo += pos.y;
-	entityInfo += "\n";
-	entityInfo += pos.z;
-	entityInfo += "\n";
+	entityInfo += std::to_string(pos.x);
+	entityInfo += " \n ";
+	entityInfo += std::to_string(pos.y);
+	entityInfo += " \n ";
+	entityInfo += std::to_string(pos.z);
+	entityInfo += " \n ";
 
-	entityInfo += rot.x;
-	entityInfo += "\n";
-	entityInfo += rot.y;
-	entityInfo += "\n";
-	entityInfo += rot.z;
-	entityInfo += "\n";
+	entityInfo += std::to_string(rot.x);
+	entityInfo += " \n ";
+	entityInfo += std::to_string(rot.y);
+	entityInfo += " \n ";
+	entityInfo += std::to_string(rot.z);
+	entityInfo += " \n ";
 
 	return entityInfo;
 }
