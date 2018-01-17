@@ -31,21 +31,7 @@
 *.out
 *.app
 
-<<<<<<< HEAD
 
-*.vs
-=======
 #visual studio files
 *.vs
-# Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
->>>>>>> 07cf446aee280eda5648dd0db06b7f0d878f4279
+*.obj

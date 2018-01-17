@@ -258,10 +258,17 @@ void SceneManager::LoadSceneFromFile(std::string fileName)
 		{
 			std::string bitmap;
 			std::getline(file, bitmap);
-			std::string texture;
-			std::getline(file, texture);
+			std::string terrainTexture;
+			std::getline(file, terrainTexture);
 
-			currentScene->CreateTerrainWithTexture(bitmap, texture);
+			currentScene->CreateTerrainWithTexture(bitmap, terrainTexture);
+		}
+		else if (line == "skybox")
+		{
+			std::string skyboxTexture;
+			std::getline(file, skyboxTexture);
+
+			currentScene->SetSkyboxTexture(skyboxTexture);
 		}
 		else if (line == "entity")
 		{

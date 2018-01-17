@@ -1,8 +1,10 @@
 scene
 Scene0
 terrain
-map4.bmp
-texture2.jpg
+map6.bmp
+texture4.jpg
+skybox
+skybox2.jpg
 entity
 tiger.x
 30

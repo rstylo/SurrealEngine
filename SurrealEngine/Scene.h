@@ -44,6 +44,7 @@ public:
 	virtual void InvalidateObjects();					//release drawable objects to free space 
 
 	virtual bool CreateTerrainWithTexture(std::string map, std::string texture); 
+	virtual bool SetSkyboxTexture(std::string);
 
 	virtual void SetupSkybox(Renderer*);
 	virtual void SetupTerrain(Renderer*);
