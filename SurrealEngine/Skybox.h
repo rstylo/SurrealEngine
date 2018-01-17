@@ -20,7 +20,7 @@ public:
 	Skybox();
 	virtual ~Skybox();
 
-	virtual bool Init(Renderer*, std::string);
+	virtual bool Init(Renderer*);
 
 	virtual void Update(Vector3);
 	virtual void Create();
@@ -31,7 +31,12 @@ public:
 
 	virtual void Draw(Renderer*);
 
+	virtual void SetTexture(std::string);
+	virtual std::string GetTexture();
+
 private:
+	std::string textureName;
+
 	Transform transform;
 
 	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;

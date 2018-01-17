@@ -56,26 +56,22 @@ uint32_t Entity::GetId()
 }
 
 
-std::string Entity::GetEntityInfo()			//get information off this entity to save
+std::string Entity::GetEntityInfo()			//get information off this entity to save in a txt
 {
 	std::string entityInfo;
 	entityInfo = "entity\n";
 
-	//name van mesh
 	for (auto it = myResources.begin(); it != myResources.end(); it++)
 	{
-		//get mesh name by casting the resource to mesh
-		/*
-		Mesh* m = (Mesh)it;
-		if (Mesh* mesh = dynamic_cast<Mesh>(&it))
+		//cast resource to mesh
+		/*if (Mesh* mesh = dynamic_cast<Mesh*>(*it))
 		{
-
 			break;
-		}
-		*/
+		}*/
+		
 	}
 
-	//positie en rotatie van mesh
+	//positie & rotatie of mesh
 	Vector3 pos = transform.GetPosition();
 	Vector3 rot = transform.GetRotation();
 

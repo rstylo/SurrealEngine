@@ -18,12 +18,12 @@ Skybox::~Skybox()
 	Invalidate();
 }
 
-bool Skybox::Init(Renderer* renderer, std::string _texture)
+bool Skybox::Init(Renderer* renderer)
 {
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
 		// Use D3DX to create a texture from a file based image
-		if (FAILED(D3DXCreateTextureFromFile(device, _texture.c_str(), &skyboxTexture)))
+		if (FAILED(D3DXCreateTextureFromFile(device, textureName.c_str(), &skyboxTexture)))
 		{
 			MessageBox(NULL, "Could not find skybox texture", NULL, NULL);
 			return false;
@@ -191,4 +191,14 @@ void Skybox::Draw(Renderer* renderer)
 			device->SetRenderState(D3DRS_LIGHTING, TRUE);
 		}
 	}
+}
+
+void Skybox::SetTexture(std::string texture)
+{
+	textureName = texture;
+}
+
+std::string Skybox::GetTexture()
+{
+	return textureName;
 }

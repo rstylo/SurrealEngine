@@ -13,7 +13,6 @@ Scene::Scene(std::string _name)
 	skybox = new Skybox();
 
 	terrain = new Terrain();
-	terrain->SetMapAndTexture("map4.bmp", "texture3.jpg");
 	
 	originTransform.SetPosition(Vector3(0, 0, 0));
 	originTransform.SetRotation(Vector3(0, 0, 0));
@@ -59,8 +58,8 @@ bool Scene::InitEntities(Renderer* renderer)
 	{
 		if (it->second->Init(renderer) == false)
 		{
-			if(skybox->Init(renderer, "skybox.jpg"))
-				skybox->Create();
+			/*if(skybox->Init(renderer, "skybox.jpg"))
+				skybox->Create();*/
 		}
 	}
 
@@ -81,7 +80,7 @@ void Scene::SetupSkybox(Renderer* renderer)
 {		
 	if (skybox != NULL)
 	{
-		if (skybox->Init(renderer, "skybox.jpg"))
+		if (skybox->Init(renderer))
 			skybox->Create();
 	}
 }
@@ -277,6 +276,23 @@ bool Scene::CreateTerrainWithTexture(std::string map, std::string texture)
 	}
 
 	
+}
+
+
+bool Scene::SetSkyboxTexture(std::string texture)
+{
+	if (skybox == NULL)
+	{
+		skybox = new Skybox();
+		skybox->SetTexture(texture);
+		return true;
+	}
+	else
+	{
+		skybox->SetTexture(texture);
+		printf("skybox already exists in scene, texture have been changed!! \n");
+		return false;
+	}
 }
 
 //get information of the scene to save to a file
