@@ -1,23 +1,24 @@
 #include "Terrain.h"
 
-struct xyzColorVertex
-{
-	FLOAT x, y, z;      // 3d positie
-	DWORD color;        // kleur
-};
-
 struct xyzTextureVertex
 {
-	FLOAT x, y, z, u, v;      // 3d positie en texture u v
+	D3DXVECTOR3 position;
+	FLOAT tu, tv;
+
+	DWORD color;        // kleur
 	D3DXVECTOR3 normal;
+	
 	xyzTextureVertex() {};
-	xyzTextureVertex(float _x, float _y, float _z, float _u, float _v) {
-		x = _x;
-		y = _y;
-		z = _z;
-		u = _u;
-		v = _v;
+	xyzTextureVertex(float _x, float _y, float _z, FLOAT _u, FLOAT _v, DWORD _color) {
+		position.x = _x;
+		position.y = _y;
+		position.z = _z;
+		tu = _u;
+		tv = _v;
+		color = _color;
+		normal = position;
 	}
+
 };
 
 Terrain::Terrain()
@@ -25,7 +26,7 @@ Terrain::Terrain()
 {
 	transform.SetPosition(Vector3(0, 0, 0));
 	transform.SetRotation(Vector3(0, 0, 0));
-	
+
 	initialized = false;
 }
 
@@ -47,7 +48,12 @@ void Terrain::Invalidate()
 	CleanUp();
 }
 
-bool Terrain::InitWithTexture(Renderer* renderer)
+void Terrain::SetupMatrices(Renderer* renderer, Transform origin)
+{
+	transform.SetupMatrices(renderer, origin);
+}
+
+bool Terrain::Init(Renderer* renderer)
 {
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
@@ -65,7 +71,7 @@ bool Terrain::InitWithTexture(Renderer* renderer)
 
 
 		//constante varibablen declarenen voor grote van de array
-		const int numOfVertices = width * depth * 4;						//4 vertices per quad
+		const int numOfVertices = width * depth;						//4 vertices per quad
 		const int numOfIndices = width * depth * 6;						//6 indicies per quad
 
 		primCount = width * depth * 2;										//2 triangles per quad
@@ -80,45 +86,70 @@ bool Terrain::InitWithTexture(Renderer* renderer)
 		int vCounter = 0;													//current index for inserting vertices
 		int iCounter = 0;													//current index for inserting vertex-indecis
 
-		int halfX = width / 2;
-		int halfZ = depth / 2;
+		D3DXVECTOR2 textureCords;
+		textureCords.x = 0;
+		textureCords.y = 0;
+
+		float uScale = 4 / width;
+		float vScale = 4 / depth;
 
 
 		//iterate though x and y
 		for (int x = 0; x < width; x++)
 		{
+
 			for (int z = 0; z < depth; z++)
 			{
+				//get height for current [pint
+				float height0 = (float)heightData[x * depth + z]; //inline stament to check if outofbound
+
+
+				int p2 = vCounter;
+
+				int p1 = (vCounter >= depth) ? vCounter - depth : p2;
+				
+				int p4 = (z + 1 < depth) ? vCounter + 1 : p2;
+
+				int p3 = (z + 1 < depth && vCounter + 1 >= depth) ? vCounter + 1 - depth : p1;
+
 				//index nmr naar vertex om twee driehoeken te vormen
-				indicies[iCounter] = 0 + vCounter;
-				indicies[iCounter + 1] = 1 + vCounter;
-				indicies[iCounter + 2] = 2 + vCounter;
-				indicies[iCounter + 3] = 2 + vCounter;
-				indicies[iCounter + 4] = 1 + vCounter;
-				indicies[iCounter + 5] = 3 + vCounter;
+				indicies[iCounter]     = p2;
+				indicies[iCounter + 1] = p1;
+				indicies[iCounter + 2] = p4;
+
+
+				indicies[iCounter + 3] = p4;
+				indicies[iCounter + 4]  = p1;
+				indicies[iCounter + 5]  = p3;
+				
+
 				iCounter += 6;
 
-				//vertices (punten/hoeken) van een quad
-				vertices[vCounter + 0] = { 0.0f + x - halfX, (float)heightData[x * depth + z],														0.0f + z - halfZ, 0.0f, 0.0f };	//inline stament to check if outofbound, last to decide the u and v its texture
-				vertices[vCounter + 0].normal = D3DXVECTOR3(0.0f + x - halfX, (float)heightData[x * depth + z], 0.0f + z - halfZ);
 
-				vertices[vCounter + 1] = { 1.0f + x - halfX, (float)heightData[(x + 1 >= width ? x : x + 1) * depth + z],								0.0f + z - halfZ, 1.0f, 0.0f };
-				vertices[vCounter + 1].normal = D3DXVECTOR3(1.0f + x - halfX, (float)heightData[(x + 1 >= width ? x : x + 1) * depth + z], 0.0f + z - halfZ);
 
-				vertices[vCounter + 2] = { 0.0f + x - halfX, (float)heightData[x * depth + (z + 1 >= depth ? z : z + 1)],							1.0f + z - halfZ, 0.0f, 1.0f };
-				vertices[vCounter + 2].normal = D3DXVECTOR3(0.0f + x - halfX, (float)heightData[x * depth + (z + 1 >= depth ? z : z + 1)], 1.0f + z - halfZ);
+				//current vertice
+				vertices[vCounter] = { 0.0f + x, height0, 0.0f + z, textureCords.x, textureCords.y, 0x00800000 };
+				vCounter++;
 
-				vertices[vCounter + 3] = { 1.0f + x - halfX, (float)heightData[(x + 1 >= width ? x : x + 1) * depth + (z + 1 >= depth ? z : z + 1)]	,	1.0f + z - halfZ, 1.0f, 1.0f };
-				vertices[vCounter + 3].normal = D3DXVECTOR3(1.0f + x - halfX, (float)heightData[(x + 1 >= width ? x : x + 1) * depth + (z + 1 >= depth ? z : z + 1)], 1.0f + z - halfZ);
-				vCounter += 4;
+				if (textureCords.y > 0)
+					textureCords.y = 0;
+				else
+					textureCords.y = 1;
 			}
+
+			if (textureCords.x > 0)
+				textureCords.x = 0;
+			else
+				textureCords.x = 1;
+
+			textureCords.y = 0;
 		}
 
 
 
 		//create the to be drawn vertex buffer
 		if (!SUCCEEDED(device->CreateVertexBuffer(sizeOfVertices,
-			0, FVF_NORMALVERTEX_TEXTURESTRUCTURE,
+			0, FVF_TEXTURED_NORMAL_VERTEX_STRUCTURE,
 			D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
 		{
 			printf("failed creating vertex buffer... \n");
@@ -175,23 +206,29 @@ bool Terrain::InitWithTexture(Renderer* renderer)
 	}
 }
 
-
-
 void Terrain::Draw(Renderer* renderer)
 {
 	
 	if (initialized == false)
 	{
-		InitWithTexture(renderer);
+		Init(renderer);
 	}
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
 		if (vertexBuffer != NULL && indexBuffer != NULL && texture != NULL)
 		{
 			device->SetTexture(0, texture);
+
+			//device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);	//only if renderstate light is true
+			device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+			device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+			device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);	
+
 			device->SetStreamSource(0, vertexBuffer, 0, sizeof(xyzTextureVertex));
 			device->SetIndices(indexBuffer);
-			device->SetFVF(FVF_NORMALVERTEX_TEXTURESTRUCTURE);
+			device->SetFVF(FVF_TEXTUREDVERTEX_STRUCTURE);
+
+		
 
 			device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexCount, 0, primCount);
 		}
@@ -226,11 +263,6 @@ void Terrain::CleanUp()
 		delete heightData;
 		heightData = NULL;
 	}
-}
-
-void Terrain::SetupMatrices(Renderer* renderer, Transform origin)
-{
-	transform.SetupMatrices(renderer , origin);
 }
 
 bool Terrain::LoadBMP(std::string argFileName)

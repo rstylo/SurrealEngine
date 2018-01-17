@@ -12,10 +12,11 @@
 #include <map>
 #include <list>
 #include <string>
+#include <cmath>
 #include "Transform.h"
 
-#define FVF_NORMALVERTEX_TEXTURESTRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_NORMAL) //flexible vertex format
-#define FVF_VERTEX_TEXTURESTRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1) //flexible vertex format
+#define FVF_TEXTURED_NORMAL_VERTEX_STRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_DIFFUSE|D3DFVF_NORMAL) //flexible vertex format) //flexible vertex format
+#define FVF_TEXTUREDVERTEX_STRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1) //flexible vertex format) //flexible vertex format
 
 
 
@@ -27,21 +28,18 @@ public:
 	virtual ~Terrain();
 
 	virtual void SetMapAndTexture(std::string heightMapFileName, std::string _textureName);
-
-	virtual bool InitWithTexture(Renderer*);	//
+	virtual bool Init(Renderer*);
 	virtual void Invalidate();
-
 
 
 	virtual void SetupMatrices(Renderer*, Transform);
 	//virtual bool InitWithColor(Renderer*);
 	virtual void Draw(Renderer*);
 
-	Transform transform;
-
 	virtual std::string GetMapFileName();
 	virtual std::string GetTextureName();
 
+	Transform transform;
 private:
 
 	virtual void CleanUp();
@@ -65,6 +63,7 @@ private:
 	int depth;
 	int primCount;
 	int vertexCount;
+
 
 };
 
