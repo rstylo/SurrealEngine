@@ -1,15 +1,13 @@
-/*
-* Class: Entity.h
-* Description: This class is used for reading and calling commands. It can als be use to print text on to the console
-* Note : Class is as of now reliant to sceneManager
+/*! \file  Entity.h
+	\brief This class is a resource holder object with a position and own identity in a scene
 */
 
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
-#include <d3dx9.h>							//d3dx variabelen en calls
-#include <Windows.h>						//null pointer
-#include <cstdint>							//voor uint32_t
+#include <d3dx9.h>							
+#include <Windows.h>						
+#include <cstdint>							
 #include <list>
 #include <string>
 
@@ -22,17 +20,17 @@ class Mesh;
 class Entity
 {
 public:
-	Entity(Vector3, Vector3);							//starting position and rotation
+	Entity(Vector3, Vector3);										//! starting position and rotation
 	virtual ~Entity();
 
-	virtual void SetupMatrices(Renderer*, Transform);				//sets the world transform of this entity
-	virtual void Draw(Renderer*);						//draws the resources this entity has
+	virtual void SetupMatrices(Renderer*, Transform);				//! sets the world transform of this entity
+	virtual void Draw(Renderer*);									//! draws the resources this entity has
 	
 
-	virtual void AddResource(Resource*);						//add resource to the to be draw resources
+	virtual void AddResource(Resource*);							//! add resource to the to be draw resources
 	virtual bool Init(Renderer*);						
 
-	virtual uint32_t GetId();									//used to indetify the entity
+	virtual uint32_t GetId();										//! used to indetify the entity
 
 	Transform transform;
 
@@ -40,9 +38,9 @@ public:
 
 private:
 
-	uint32_t id;												//voor unique ids
+	uint32_t id;													//! voor unique ids
 
-	std::list<Resource*> myResources;							//to be drawn resources
+	std::list<Resource*> myResources;								//! to be drawn resources
 	
 };
 

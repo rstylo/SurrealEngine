@@ -18,3 +18,8 @@ uint32_t Resource::GetId()
 {
 	return id;
 }
+
+void Resource::Invalidate()
+{
+	CleanUp();
+}

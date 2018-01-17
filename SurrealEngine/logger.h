@@ -1,8 +1,7 @@
-/*
-* Class: Logger.h
-* Description :
-* Note :
+/*! \file  Logger.h
+\brief Logs a message
 */
+
 
 
 #ifndef LOGGER_H_

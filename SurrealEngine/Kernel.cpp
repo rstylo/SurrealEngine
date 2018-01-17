@@ -34,7 +34,7 @@ Kernel::~Kernel()
 
 bool Kernel::Init(bool windowed)
 {
-	
+
 
 	gameDisplay = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
 	devDisplay = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
@@ -56,8 +56,8 @@ bool Kernel::Init(bool windowed)
 				printf("Input handler succefully initialized... \n");
 
 				sceneManager = new SceneManager();											//aanmaken van scenemanager
-				//sceneManager->CreateScene("Scene0");
-				//sceneManager->LoadScene("Scene0");
+																							//sceneManager->CreateScene("Scene0");
+																							//sceneManager->LoadScene("Scene0");
 				sceneManager->LoadSceneFromFile("level.txt");
 
 
@@ -68,7 +68,7 @@ bool Kernel::Init(bool windowed)
 			}
 		}
 	}
-	
+
 
 
 	MessageBox(NULL, "failed initializing Game class", NULL, NULL);
@@ -119,7 +119,7 @@ void Kernel::Update() {
 
 
 		console->Update();
-		if(inputHandler->CheckKeyboardPressed('b'))
+		if (inputHandler->CheckKeyboardPressed('b'))
 			console->ReadLine();
 
 		inputHandler->Update();

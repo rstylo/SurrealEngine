@@ -132,7 +132,7 @@ void SceneManager::SetupScene(Renderer* renderer, InputHandler* _inputHandler, H
 }
 
 
-void SceneManager::SpawnEntity()
+void SceneManager::SpawnEntityMesh()
 {
 	int extraParams[6];
 	std::cout << "=Postion=\nx: ";
@@ -152,7 +152,32 @@ void SceneManager::SpawnEntity()
 	std::cout << "MeshfileName:\n";
 	std::cin >> meshName;
 
-	currentScene->CreateEntityWithMesh(Vector3(extraParams[0], extraParams[1], extraParams[2]), Vector3(extraParams[3], extraParams[4], extraParams[5]), resourceManager->CreateMesh(meshName));
+	currentScene->CreateEntityWithResource(Vector3(extraParams[0], extraParams[1], extraParams[2]), Vector3(extraParams[3], extraParams[4], extraParams[5]), resourceManager->CreateMesh(meshName));
+
+
+}
+
+void SceneManager::SpawnEntityObject()
+{
+	int extraParams[6];
+	std::cout << "=Postion=\nx: ";
+	std::cin >> extraParams[0];
+	std::cout << "y: ";
+	std::cin >> extraParams[1];
+	std::cout << "z: ";
+	std::cin >> extraParams[2];
+	std::cout << "=Rotation=\nx: ";
+	std::cin >> extraParams[3];
+	std::cout << "y: ";
+	std::cin >> extraParams[4];
+	std::cout << "z: ";
+	std::cin >> extraParams[5];
+
+	std::string objectName;
+	std::cout << "name the object:\n";
+	std::cin >> objectName;
+
+	currentScene->CreateEntityWithResource(Vector3(extraParams[0], extraParams[1], extraParams[2]), Vector3(extraParams[3], extraParams[4], extraParams[5]), resourceManager->CreateObj(objectName));
 
 
 }
@@ -274,7 +299,7 @@ void SceneManager::LoadSceneFromFile(std::string fileName)
 				file >> extraParams[i];
 			}
 
-			currentScene->CreateEntityWithMesh(
+			currentScene->CreateEntityWithResource(
 				Vector3(extraParams[0], extraParams[1], extraParams[2]),
 				Vector3(extraParams[3], extraParams[4], extraParams[5]),
 				resourceManager->CreateMesh(meshName)

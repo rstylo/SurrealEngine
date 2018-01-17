@@ -1,7 +1,5 @@
-/*
-* Class: Kernel.h
-* Description : 
-* Note : 
+/*! \file  Kernel.h
+	\brief This class's main purpose is to initiate the 3d engine and control of the main routine
 */
 
 
@@ -28,22 +26,22 @@ public:
 	Kernel();
 	~Kernel();
 
-	bool Init(bool);
+	bool Init(bool);				//! initialise in windowed mode or not
 
-	void Update();
-	void Draw();
+	void Update();					//! main routine
+	void Draw();					//! rendering routine
 
 public:
-	Wnd* gameDisplay;
-	Wnd* devDisplay;
+	Wnd* gameDisplay;				//! window on which player view is displayed
+	Wnd* devDisplay;				//! window on which the scene can be viewed in a different perspetive
 private:
 
 	bool initialized;
-	Renderer* renderer;
-	SceneManager* sceneManager;
+	Renderer* renderer;				
+	SceneManager* sceneManager;		//!  pointer to a manager that control the current scene
 	//LPDIRECT3DDEVICE9* device;
 
-	InputHandler* inputHandler;
+	InputHandler* inputHandler;		//!  pointer to inputhandler class, from which camera can get inputs
 	Console* console;
 
 

@@ -1,7 +1,5 @@
-/*
-* Class: Wnd.h
-* Description :
-*Note :
+/*! \file  WND.h
+	\brief this class is a wrapper class of the Windows window from windowsAPI, for creating windows on which view is to be displayed
 */
 
 #ifndef WND_H_
@@ -20,7 +18,7 @@ public:
 	bool Init(int, int);
 	bool IsInitialized();
 	bool Run();
-	LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);															//Functie voor message handling, wParam n lParam ... extra information dat niet perce nodig is
+	LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);															//! Message handling
 
 public:
 	HWND hWnd;

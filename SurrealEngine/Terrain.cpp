@@ -71,22 +71,22 @@ bool Terrain::Init(Renderer* renderer)
 
 
 		//constante varibablen declarenen voor grote van de array
-		const int numOfVertices = width * depth;						//4 vertices per quad
-		const int numOfIndices = width * depth * 6;						//6 indicies per quad
+		const int numOfVertices = width * depth;						//! 4 vertices per quad
+		const int numOfIndices = width * depth * 6;						//! 6 indicies per quad
 
-		primCount = width * depth * 2;										//2 triangles per quad
+		primCount = width * depth * 2;										//! 2 triangles per quad
 		vertexCount = numOfVertices;
 
-		xyzTextureVertex* vertices = new xyzTextureVertex[numOfVertices];	//vertex array
-		WORD* indicies = new WORD[numOfIndices];							//vertex-index array
+		xyzTextureVertex* vertices = new xyzTextureVertex[numOfVertices];	//! create vertex array
+		WORD* indicies = new WORD[numOfIndices];							//! create vertex-index array
 
-		int sizeOfVertices = numOfVertices * sizeof(xyzTextureVertex);		//sizeof the vertex array
-		int sizeOfIndices = numOfIndices * sizeof(WORD);					//sizeof the indexarray
+		int sizeOfVertices = numOfVertices * sizeof(xyzTextureVertex);		//! sizeof the vertex array
+		int sizeOfIndices = numOfIndices * sizeof(WORD);					//! sizeof the indexarray
 
-		int vCounter = 0;													//current index for inserting vertices
-		int iCounter = 0;													//current index for inserting vertex-indecis
+		int vCounter = 0;													//! current index for inserting vertices
+		int iCounter = 0;													//! current index for inserting vertex-indecis
 
-		D3DXVECTOR2 textureCords;
+		D3DXVECTOR2 textureCords;											//! texture coordinates (u,v)
 		textureCords.x = 0;
 		textureCords.y = 0;
 
@@ -100,8 +100,8 @@ bool Terrain::Init(Renderer* renderer)
 
 			for (int z = 0; z < depth; z++)
 			{
-				//get height for current [pint
-				float height0 = (float)heightData[x * depth + z]; //inline stament to check if outofbound
+				//! get height for current [pint
+				float height0 = (float)heightData[x * depth + z]; //! inline stament to check if outofbound
 
 
 				int p2 = vCounter;
@@ -112,7 +112,7 @@ bool Terrain::Init(Renderer* renderer)
 
 				int p3 = (z + 1 < depth && vCounter + 1 >= depth) ? vCounter + 1 - depth : p1;
 
-				//index nmr naar vertex om twee driehoeken te vormen
+				//! index of vertices to create to triangles
 				indicies[iCounter]     = p2;
 				indicies[iCounter + 1] = p1;
 				indicies[iCounter + 2] = p4;
@@ -127,7 +127,7 @@ bool Terrain::Init(Renderer* renderer)
 
 
 
-				//current vertice
+				//! create current vertice and insert hegiht data
 				vertices[vCounter] = { 0.0f + x, height0, 0.0f + z, textureCords.x, textureCords.y, 0x00800000 };
 				vCounter++;
 
@@ -147,7 +147,7 @@ bool Terrain::Init(Renderer* renderer)
 
 
 
-		//create the to be drawn vertex buffer
+		//! create the to be drawn vertex buffer
 		if (!SUCCEEDED(device->CreateVertexBuffer(sizeOfVertices,
 			0, FVF_TEXTURED_NORMAL_VERTEX_STRUCTURE,
 			D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
@@ -157,7 +157,7 @@ bool Terrain::Init(Renderer* renderer)
 			return false;
 		}
 
-		//create the index buffer for the to be drawn vertices
+		//! create the index buffer for the to be drawn vertices
 		if (!SUCCEEDED(device->CreateIndexBuffer(sizeOfIndices,
 			D3DUSAGE_WRITEONLY, D3DFMT_INDEX16,
 			D3DPOOL_MANAGED, &indexBuffer, NULL)))
@@ -167,7 +167,7 @@ bool Terrain::Init(Renderer* renderer)
 			return false;
 		}
 
-		//insert the vertices into the to be drawn vertexbuffer
+		//! insert the vertices into the to be drawn vertexbuffer
 		VOID* pVertices;
 		if (!SUCCEEDED(vertexBuffer->Lock(0, sizeOfVertices, (void**)&pVertices, 0)))
 		{
@@ -179,7 +179,7 @@ bool Terrain::Init(Renderer* renderer)
 		vertexBuffer->Unlock();
 
 
-		//insert the indecis into the to be drawn indexbuffer
+		//! insert the indecis into the to be drawn indexbuffer
 		VOID* pIndicies;
 		if (!SUCCEEDED(indexBuffer->Lock(0, sizeOfIndices, (void**)&pIndicies, 0)))
 		{
@@ -192,7 +192,7 @@ bool Terrain::Init(Renderer* renderer)
 
 		printf("Terrain vertexbuffers succefully created...\n");
 
-		//get the texture
+		//! get the texture
 		D3DXCreateTextureFromFile(device, textureName.c_str(), &texture);
 		if (!texture)
 		{

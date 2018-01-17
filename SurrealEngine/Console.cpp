@@ -7,9 +7,9 @@ Console::Console(SceneManager* _sceneManager)
 {
 	
 	sceneManager = _sceneManager;
-
-	//commands
-	commands["spawn entity"] = &SceneManager::SpawnEntity;				//set value to static ponter to member of scenemanager 
+	
+	commands["spawn mesh"] = &SceneManager::SpawnEntityMesh;						//! set value to static ponter to function member of scenemanager
+	commands["spawn object"] = &SceneManager::SpawnEntityObject;						//! set value to static ponter to member of scenemanager
 	commands["set scene"] = &SceneManager::SetScene;
 	commands["create scene"] = &SceneManager::CreateScene;
 	commands["change terrain"] = &SceneManager::ChangeTerrain;
@@ -26,7 +26,7 @@ Console::~Console()
 void Console::DoCommand(std::string commandText)
 {
 	if (commands.find(commandText) != commands.end())
-		(sceneManager->*(commands.find(commandText)->second))();		//call function from current sceneManager
+		(sceneManager->*(commands.find(commandText)->second))();		//! call function from current sceneManager
 	else
 		PrintL("command not found....");
 }
@@ -52,25 +52,25 @@ void Console::ReadLine()
 }
 void Console::Update()
 {
-	if (currentLine != "-" && currentLine != "")													//- is char for stopping inbut
+	if (currentLine != "-" && currentLine != "")													//! '-' is char for stopping inbut
 	{
-		int wordCount = -1;																			//if wordcount is still -1 means that the currentLine was empty
-		bool inWord = false;																		//needed to switch between words
+		int wordCount = -1;																			//! if wordcount is still -1 means that the currentLine was empty
+		bool inWord = false;																		//! needed to switch between words
 
-		std::string param[10];																		//every word, decided by spaces, is inserted into this array
+		std::string param[10];																		//! every word, decided by spaces, is inserted into this array
 		
-		for (int currentChar = 0; currentChar < currentLine.size(); currentChar++)					//for each letter in the current lne
+		for (int currentChar = 0; currentChar < currentLine.size(); currentChar++)					//! for each letter in the current lne
 		{
-			if (currentLine[currentChar] != ' ')													//if its not space then its a word	else its the start of a new word	
+			if (currentLine[currentChar] != ' ')													//! if its not space then its a word	else its the start of a new word	
 			{
-				if (inWord == false)																//start new word if last char was a space
+				if (inWord == false)																//! start new word if last char was a space
 				{
 					wordCount++;
 					inWord = true;
 				}
 
 				if (wordCount < 10)
-					param[wordCount] += currentLine[currentChar];									//add current letter at the end of the currentword				
+					param[wordCount] += currentLine[currentChar];									//! add current letter at the end of the currentword				
 			}
 			else
 			{

@@ -1,8 +1,8 @@
 /*
-* Class: Renderer.h
-* Description : Class from witch renderer's must inherit from
-* Note : this class doesnt have an actual implementation
+/*! \file  Renderer.h
+\brief a abstract class from which renderering classes must inherit
 */
+
 
 #ifndef RENDERER_H_
 #define RENDERER_H_

@@ -76,12 +76,12 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 	}
 
 	// Turn off culling, so we see the front and back of the triangle
-	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);	//drawn on D3DCULL_CCW
 
 	device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 	// Turn off D3D lighting, since we are providing our own vertex colors
 	device->LightEnable(0, TRUE);
-	device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	device->SetRenderState(D3DRS_AMBIENT, 0x008D6056);
 
 

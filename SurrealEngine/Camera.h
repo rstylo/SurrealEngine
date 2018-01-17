@@ -1,8 +1,7 @@
-/*
-* Name: Camera.h
-* Description: This class is used for setting up the view matrix of the current scene
-* Note: no actual scene is needed for use of this class
+/*! \file Camera.h
+	\brief This class is used for setting up the view matrix of the current scene
 */
+
 
 
 #ifndef CAMERA_H_
@@ -13,24 +12,24 @@
 #include "InputHandler.h"
 #include "Transform.h"
 
-const float pi = 3.141592654f;
+const float pi = 3.141592654f;																		
 
 class Camera
 {
 public:
-	Camera(Vector3, Vector3, HWND*, InputHandler*);				//HWND with the window in which the view is to be displayed and a inputhandler from witch it can get real time input
+	Camera(Vector3, Vector3, HWND*, InputHandler*);													//!  HWND with the window in which the view is to be displayed and a inputhandler from witch it can get real time input
 	virtual ~Camera();
 
-	virtual void SetupView(Renderer*);																//rendering routine
+	virtual void SetupView(Renderer*);																//! rendering routine 
 
-	virtual void SetLookAt(bool);
+	virtual void SetLookAt(bool);																	//! set lookat position for the camera to look at
 
-	virtual void Update();																			//main routine, used for moving and rotating the view matrix
+	virtual void Update();																			//!  main routine, used for moving and rotating the camera
 
-	virtual void MoveTo(float);																		//move the camera towards a certain angle
-	virtual void Rotate(float, float);																//rotate transform pitch and yaw
+	virtual void MoveTo(float);																		//!  move the camera towards a certain angle
+	virtual void Rotate(float, float);																//!  rotate transform pitch and yaw 
 
-	virtual void MoveLeft();																		//"overloaded" moveTo funtion
+	virtual void MoveLeft();																		//! "overloaded" moveTo funtion
 	virtual void MoveRight();
 	virtual void MoveForwards();
 	virtual void MoveBackwards();
@@ -42,15 +41,15 @@ public:
 
 private:
 
-	Vector3 rotation;
-	Vector3 position;
+	Vector3 rotation;																				//!  variable holding rotation vector
+	Vector3 position;																				//!  variable holding position vector
 
-	D3DXVECTOR3 up;
+	D3DXVECTOR3 up;																					//!  variable defining what up is from the views perspective
 
-	HWND* hwnd;
-	InputHandler* inputHandler;
+	HWND* hwnd;																						//!  pointer pointing to the window for which the cam is displaying, generally used for checking if a window is focussed on
+	InputHandler* inputHandler;																		//!  pointer to inputhandler class, from which camera can get inputs
 
-	float cameraHeight;
+	float cameraHeight;																				
 	bool lookingAt;
 
 	float mouseX;

@@ -1,8 +1,9 @@
-/*
-* Class: SkyBox.h
-* Description: this class is used to draw and move the skybox texture
-* Note :
+
+
+/*! \file  Skybox.h
+	\brief this class is used to draw and move the skybox texture
 */
+
 
 #ifndef SKYBOX_H_
 #define SKYBOX_H_

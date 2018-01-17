@@ -1,7 +1,6 @@
-/*
-* Class: SceneManager.h
-* Description : This class manages scenes. loads and unloads them. And devicde which one is to be renderd
-* Note :
+
+/*! \file  Scene.h
+	\brief This class manages scenes. loads and unloads them. And decides which one is to be renderd
 */
 
 
@@ -37,29 +36,30 @@ public:
 	virtual bool AddScene(Scene*);
 	virtual Scene* GetScene(std::string);
 	
-	virtual void LoadScene(std::string);										//start loading process a given scene
-	virtual void UnloadScene();													
-	virtual bool IsLoading();
+	virtual void LoadScene(std::string);										//! start loading process for a given scene
+	virtual void UnloadScene();													//! free scene space
+	virtual bool IsLoading();													
 
-	virtual void SetupScene(Renderer*, InputHandler*, HWND*, HWND*);	//load the current scene's  objects into directx device
+	virtual void SetupScene(Renderer*, InputHandler*, HWND*, HWND*);			//! load the current scene's  objects into directx device
  
-	virtual void LoadSceneFromFile(std::string);
-	virtual void SaveSceneToFile();
+	virtual void LoadSceneFromFile(std::string);								//! load scene from text file
+	virtual void SaveSceneToFile();												//! save scene into text file
 
-	 //Command functions, will wait for input
-	 void SpawnEntity();			
-	 void CreateScene();	 
-	 void SetScene();
-	 void ChangeTerrain();
-	 void MoveEntity();
-	 void MoveTerrain();
+	
+	 void SpawnEntityMesh();														 //! Command function, will wait for input from console
+	 void SpawnEntityObject();														 //! Command function, will wait for input from console
+	 void CreateScene();														 //! Command function, will wait for input from console
+	 void SetScene();															//! Command function, will wait for input from console
+	 void ChangeTerrain();														//! Command function, will wait for input from console
+	 void MoveEntity();															//! Command function, will wait for input from console
+	 void MoveTerrain();														//! Command function, will wait for input from console
 
 
 	Scene* currentScene;
 
 private:
-	ResourceManager* resourceManager;
-	std::map<std::string, Scene*> scenes;
+	ResourceManager* resourceManager;											//! pointer to resourceManager that holds all active and not active resources
+	std::map<std::string, Scene*> scenes;										//! all scenes with their identification name
 	
 	bool loading;
 	bool initialized;

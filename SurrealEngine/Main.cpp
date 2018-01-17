@@ -1,3 +1,8 @@
+/*! \file  Main.h
+\brief this class is used to move drawable objects around in the world
+*/
+
+
 #include <Windows.h>
 #include <iostream>
 

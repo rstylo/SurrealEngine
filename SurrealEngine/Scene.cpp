@@ -92,7 +92,7 @@ void Scene::SetupTerrain(Renderer* renderer)
 	if (terrain != NULL)
 	{
 		
-		terrain->InitWithTexture(renderer);
+		terrain->Init(renderer);
 	}
 
 }
@@ -196,7 +196,7 @@ void Scene::AddEntity(Entity* _entity)
 		return;
 	}
 
-	entities[_entity->GetId()] = _entity;								//in geval van geen key zal de enty toegevoegd worden met zijn eigen id als key
+	entities[_entity->GetId()] = _entity;									//in geval van geen key zal de enty toegevoegd worden met zijn eigen id als key
 	printf("added entity %d... \n", _entity->GetId());
 
 }
@@ -252,7 +252,7 @@ std::string Scene::GetName()
 	return name;
 }
 
-void Scene::CreateEntityWithMesh(Vector3 _position, Vector3 _rotation, Resource* mesh)
+void Scene::CreateEntityWithResource(Vector3 _position, Vector3 _rotation, Resource* mesh)
 {
 
 	Entity* entity1 = new Entity(_position, _rotation);
@@ -260,6 +260,7 @@ void Scene::CreateEntityWithMesh(Vector3 _position, Vector3 _rotation, Resource*
 
 	entity1->AddResource(mesh);
 }
+
 
 bool Scene::CreateTerrainWithTexture(std::string map, std::string texture)
 {

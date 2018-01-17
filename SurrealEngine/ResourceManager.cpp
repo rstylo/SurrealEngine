@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 #include "Resource.h"
 #include "Mesh.h"
+#include "Object.h"
 
 ResourceManager::ResourceManager()
 {
@@ -37,6 +38,17 @@ bool ResourceManager::AddResource(Resource* _resource)
 
 		//register the meshName
 		meshes[isMesh->GetMeshName()] = isMesh->GetId();
+	}
+
+	//is the resource an object?
+	if (Object* isObject = dynamic_cast<Object*>(_resource))
+	{
+		//check if mesh with the same name already exists
+		if (objects.find(isObject->GetObjectName()) != objects.end())
+			return false;
+
+		//register the meshName
+		objects[isObject->GetObjectName()] = isObject->GetId();
 	}
 
 	//Add the resource
@@ -76,4 +88,26 @@ Resource* ResourceManager::CreateMesh(std::string meshName)
 	AddResource(mesh);
 	
 	return mesh;
+}
+
+Resource * ResourceManager::GetObj(std::string objectName)
+{
+	if (objects.find(objectName) != objects.end())
+		return resources.find(objects.find(objectName)->second)->second;
+
+	return NULL;
+}
+
+Resource * ResourceManager::CreateObj(std::string objName)
+{
+	//if an object with a similar name exist return that one
+	if (GetObj(objName) != NULL)
+	{
+		return GetObj(objName);
+	}
+
+	Resource* object = new Object(objName);
+	AddResource(object);
+
+	return object;
 }
