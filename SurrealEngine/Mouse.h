@@ -1,3 +1,8 @@
+/*! \file  Keyboard.h
+\brief an extention of inputhandler that hold and gets mouse inputs
+*/
+
+
 #ifndef MOUSE_H_
 #define MOUSE_H_
 
@@ -24,7 +29,7 @@ public:
 	bool Init(HWND*);
 	void SaveReleaseDevice();
 	virtual bool SetWindow(HWND*);
-	virtual bool DoAcquire();
+	virtual bool DoAcquire();				
 	virtual bool UpdateValues();
 	virtual MouseValues* GetValues();
 

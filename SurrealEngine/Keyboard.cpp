@@ -15,6 +15,7 @@ Keyboard::~Keyboard()
 
 bool Keyboard::Init()
 {
+	//! initialise keyboard
 	HRESULT hr = dInput->CreateDevice(GUID_SysKeyboard, &dDevice, NULL);
 	if FAILED(hr)
 	{
@@ -33,6 +34,7 @@ bool Keyboard::Init()
 
 bool Keyboard::SetWindow(HWND* _hwnd)
 {
+	//! set the focus window
 	if (dDevice != NULL) {
 		dDevice->Unacquire();
 		if (!SUCCEEDED(dDevice->SetCooperativeLevel(*_hwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
@@ -58,6 +60,7 @@ void Keyboard::SaveReleaseDevice()
 
 bool Keyboard::UpdateKeyBuffer()
 {
+	//! update currently pressed keys information 
 	if (dDevice != NULL)
 	{
 		if (!SUCCEEDED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer))) {

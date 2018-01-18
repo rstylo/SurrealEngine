@@ -1,42 +1,47 @@
+/*! \file  Entity.h
+	\brief This class is a resource holder object with a position and own identity in a scene
+*/
+
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
-#include <d3dx9.h>							//d3dx variabelen en calls
-#include <Windows.h>						//null pointer
-#include <cstdint>							//voor uint32_t
+#include <d3dx9.h>							
+#include <Windows.h>						
+#include <cstdint>							
 #include <list>
 #include <string>
 
+#include "Transform.h"
 #define _USE_MATH_DEFINES
 
 class Resource;
-class Object;
-class Rectangle;
+class Mesh;
 
 class Entity
 {
 public:
-	Entity(float, float, float);
+	Entity(Vector3, Vector3);										//! starting position and rotation
 	virtual ~Entity();
 
-	virtual void Draw(LPDIRECT3DDEVICE9);
-	virtual void AddResource(Resource*);
+	virtual void SetupMatrices(Renderer*, Transform);				//! sets the world transform of this entity
+	virtual void Draw(Renderer*);									//! draws the resources this entity has
+	
 
+	virtual void AddResource(Resource*);							//! add resource to the to be draw resources
+	virtual bool Init(Renderer*);						
 
-	virtual void Update();
-	virtual uint32_t GetId();
+	virtual uint32_t GetId();										//! used to indetify the entity
+
+	Transform transform;
+
+	virtual std::string GetEntityInfo();
 
 private:
 
-	uint32_t id;												//voor unique ids
+	uint32_t id;													//! voor unique ids
 
-	std::list<Resource*> myResources;	
-
-	Object* my3dObject;
-
-	D3DXVECTOR3 position;										//ELKE entity moet een positie in de wereld hebben
-
-
+	std::list<Resource*> myResources;								//! to be drawn resources
+	
 };
 
 #endif // !ENTITY_H_

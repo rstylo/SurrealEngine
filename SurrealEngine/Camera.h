@@ -1,39 +1,62 @@
+/*! \file Camera.h
+	\brief This class is used for setting up the view matrix of the current scene
+*/
+
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
+#include "Renderer.h"
 #include <d3dx9.h>
 #include "InputHandler.h"
+#include "Transform.h"
+
+const float pi = 3.141592654f;
 
 class Camera
 {
 public:
-	Camera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3, HWND*, InputHandler*);
+	Camera(Vector3, Vector3, HWND*, InputHandler*);				//HWND with the window in which the view is to be displayed and a inputhandler from witch it can get real time input
 	virtual ~Camera();
 
-	virtual void SetupView(LPDIRECT3DDEVICE9);
-	virtual void LookAt(D3DXVECTOR3);
-	virtual void Update();
-	virtual void MoveTo(D3DXVECTOR3);
-	virtual void Rotate(float, float);
+	virtual void SetupView(Renderer*);							//rendering routine
 
-	virtual void MoveLeft();
+	virtual void SetLookAt(bool);
+
+	virtual void Update();										//main routine, used for moving and rotating the view matrix
+
+	virtual void MoveTo(float);									//move the camera towards a certain angle
+	virtual void MoveToTwo(float);									//moves the camera towards two angles
+	virtual void Rotate(float, float);							//rotate transform pitch and yaw
+
+	virtual void MoveLeft();									//"overloaded" moveTo funtion
 	virtual void MoveRight();
 	virtual void MoveForwards();
 	virtual void MoveBackwards();
 	virtual void MoveUp();
 	virtual void MoveDown();
 
+	virtual void SetHeight(byte*, int, int);
+
+	virtual Vector3 GetPosition();
+	virtual Vector3 GetRotation();
+
 private:
 
-	D3DXVECTOR3 rotation;
-	D3DXVECTOR3 position;
-	D3DXVECTOR3 eye;
-	D3DXVECTOR3 lookAt;
-	D3DXVECTOR3 up;
+	Vector3 rotation;
+	Vector3 position;
+
+	byte* heightData;
+	int depth;
+	int width;
 
 	HWND* hwnd;
 	InputHandler* inputHandler;
 
+	float cameraHeight;
+	bool lookingAt;
+
+	float mouseX;
+	float mouseY;
 
 };
 #endif // CAMERA_H_

@@ -14,6 +14,8 @@ Logger::~Logger()
 }
 
 void Logger::Logtime() {
+
+	//! print current time into the log
 	time_t  now;
 	struct tm timestruct;
 	now = time(NULL);
@@ -30,6 +32,7 @@ void Logger::Logtime() {
 
 void Logger::Log(int value)
 {
+	//! log a number
 	file1.open("logfile.txt", std::ios::app);
 	file1 << value;
 	file1 << std::endl;
@@ -38,6 +41,7 @@ void Logger::Log(int value)
 
 void Logger::Log(std::string text)
 {
+	//! log text
 	file1.open("logfile.txt", std::ios::app);
 	file1 << text;
 	file1 << std::endl;

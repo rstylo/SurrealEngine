@@ -135,15 +135,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="DirectXRenderer.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="RectObj.h" />
+    <ClInclude Include="OpenGLRenderer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -151,10 +153,12 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Terrain.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Wnd.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="DirectXRenderer.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="InputHandler.cpp" />
@@ -162,9 +166,10 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="RectObj.cpp" />
+    <ClCompile Include="OpenGLRenderer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -172,6 +177,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Wnd.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

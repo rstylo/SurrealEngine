@@ -22,14 +22,16 @@ It decrease the reference count of the specified interface.
 
 DirectXRenderer::DirectXRenderer()
 {
+
 }
 
 
 DirectXRenderer::~DirectXRenderer()
 {
+	//! releases directx and its device to free space
 	if (device != NULL)
 	{
-		device->Release();					//release gebruiken omdat er geen new werd gebruikt om de object te creëren, en er is gebruik van auto/smart pointer (weet niet precies de werking van long pointer)
+		device->Release();					
 		device = NULL;
 	}
 
@@ -42,6 +44,9 @@ DirectXRenderer::~DirectXRenderer()
 
 bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 {
+	//! Initialise directx and its rendering device with a window in windowed or not.
+
+
 	//drd pointer met variablen
 	direct3d = Direct3DCreate9(D3D_SDK_VERSION);  //D3D9b_SDK_VERSION??
 
@@ -76,14 +81,14 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 	}
 
 	// Turn off culling, so we see the front and back of the triangle
-	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);	//drawn on D3DCULL_CCW
 
 	device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 	// Turn off D3D lighting, since we are providing our own vertex colors
 	device->LightEnable(0, TRUE);
-	device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	device->SetRenderState(D3DRS_AMBIENT, 0x008D6056);
-	
+
 
 	return true;
 
@@ -92,11 +97,14 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 
 void DirectXRenderer::Clear(D3DCOLOR color)
 {
+	//! clear the back buffer and zbuffer with a color for the background
 	device->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, 1.0f, 0);	//backbuffer clear 
 }
 
 bool DirectXRenderer::Begin() {
-	if(SUCCEEDED(device->BeginScene()))
+	//! start the drawing process for a frame, returns false when unsuccesful
+
+	if (SUCCEEDED(device->BeginScene()))
 	{
 		return true;
 	}
@@ -104,15 +112,19 @@ bool DirectXRenderer::Begin() {
 }
 
 void DirectXRenderer::End() {
+	//! Ends the frame
+
 	device->EndScene();
 }
 
 void DirectXRenderer::Present(HWND wnd) {
+	//! presents the created frame to the screen
 	device->Present(NULL, NULL, wnd, NULL);
 }
 
 LPDIRECT3DDEVICE9* DirectXRenderer::GetDevice()
 {
+	//! get rendering device
 	return &device;
 }
 

@@ -1,3 +1,9 @@
+/*! \file  Logger.h
+\brief Logs a message
+*/
+
+
+
 #ifndef LOGGER_H_
 #define LOGGER_H_
 

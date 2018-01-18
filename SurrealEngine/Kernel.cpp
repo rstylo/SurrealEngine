@@ -1,14 +1,14 @@
 #include "Kernel.h"
 #include "Renderer.h"
 #include "DirectXRenderer.h"
+#include "OpenGLRenderer.h"
 #include "Wnd.h"
 
 #include "SceneManager.h"
-#include "ResourceManager.h"
+#include "Console.h"
 #include "InputHandler.h"
 
-#include "Scene.h"
-#include "Camera.h"
+
 
 
 Kernel::Kernel()
@@ -25,12 +25,6 @@ Kernel::~Kernel()
 		sceneManager = NULL;
 	}
 
-	if (resourceManager != NULL)
-	{
-		delete resourceManager;
-		resourceManager = NULL;
-	}
-
 	if (inputHandler != NULL)
 	{
 		delete inputHandler;
@@ -40,12 +34,14 @@ Kernel::~Kernel()
 
 bool Kernel::Init(bool windowed)
 {
-
+	//! initialises renderer, window, scenemanager and console and creates a starting scene
 
 	gameDisplay = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
 	devDisplay = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
 
+
 	renderer = new DirectXRenderer();
+	//renderer = new OpenGLRenderer();
 
 	if (gameDisplay->Init(0, 0) && devDisplay->Init(1280, 0))									//initialiseer beide windows
 	{
@@ -60,12 +56,12 @@ bool Kernel::Init(bool windowed)
 				printf("Input handler succefully initialized... \n");
 
 				sceneManager = new SceneManager();											//aanmaken van scenemanager
-				resourceManager = new ResourceManager();
+																							//sceneManager->CreateScene("Scene0");
+																							//sceneManager->LoadScene("Scene0");
+				sceneManager->LoadSceneFromFile("level.txt");
 
 
-				device = renderer->GetDevice();
-				sceneManager->Init(inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
-				sceneManager->SetupScene(*device);
+				console = new Console(sceneManager);
 
 				initialized = true;
 				return true;
@@ -81,13 +77,14 @@ bool Kernel::Init(bool windowed)
 
 void Kernel::Draw()
 {
+	//! Initiates drawing routine
 	if (initialized)
 	{
 		//gameView
 		renderer->Clear(D3DCOLOR_XRGB(0, 255, 255));
 		if (renderer->Begin())
 		{
-			sceneManager->Draw(*device, 0);
+			sceneManager->Draw(renderer, 0);
 			renderer->End();
 		}
 
@@ -98,7 +95,7 @@ void Kernel::Draw()
 		renderer->Clear(D3DCOLOR_XRGB(0, 255, 255));
 		if (renderer->Begin())
 		{
-			sceneManager->Draw(*device, 1);
+			sceneManager->Draw(renderer, 1);
 			renderer->End();
 		}
 
@@ -107,6 +104,7 @@ void Kernel::Draw()
 }
 
 void Kernel::Update() {
+	//! Initiates Updating routine
 	while (gameDisplay->Run() && devDisplay->Run() && !inputHandler->CheckKeyboardPressed('`')) //~ gebruikt als char voor escape
 	{
 		if (*inputHandler->GetWindow() != GetFocus()) {
@@ -115,8 +113,17 @@ void Kernel::Update() {
 			else if (gameDisplay->hWnd == GetFocus())
 				inputHandler->SetWindow(&gameDisplay->hWnd);
 		}
+
+		if (sceneManager->IsLoading() == true)
+			sceneManager->SetupScene(renderer, inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
+
 		sceneManager->Update();
-		resourceManager->Update();
+
+
+		console->Update();
+		if (inputHandler->CheckKeyboardPressed('b'))
+			console->ReadLine();
+
 		inputHandler->Update();
 		Draw();
 	}
