@@ -57,6 +57,8 @@ public:
 	virtual void AddEntity(Entity*);
 	virtual Entity* GetEntity(uint32_t);
 
+	virtual void SetCameraHeightMap();
+
 	virtual void MoveTerrainTo(Vector3, Vector3);
 
 	virtual void RemoveEntity(uint32_t);

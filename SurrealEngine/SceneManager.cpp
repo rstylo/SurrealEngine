@@ -119,13 +119,15 @@ void SceneManager::SetupScene(Renderer* renderer, InputHandler* _inputHandler, H
 	if (currentScene != NULL && loading == true)
 	{
 		currentScene->AddCamera(0, Vector3(-0.5, 0, 0), Vector3(-5, -15, 0), _hwnd, _inputHandler); //game camera
-		currentScene->AddCamera(1, Vector3(1.5*pi, 0, 0), Vector3(0, -80, 0), _hwnd2, _inputHandler); //dev camera
+		currentScene->AddCamera(1, Vector3(1.5*pi, 0, 0), Vector3(-50, -80, -50), _hwnd2, _inputHandler); //dev camera
 
 		currentScene->InitEntities(renderer);
 
 		currentScene->SetupSkybox(renderer);
 		currentScene->SetupTerrain(renderer);
 		currentScene->SetupLight(renderer);
+		
+		currentScene->SetCameraHeightMap();
 
 		loading = false;
 	}
