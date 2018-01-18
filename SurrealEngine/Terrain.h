@@ -39,6 +39,11 @@ public:
 	virtual std::string GetMapFileName();
 	virtual std::string GetTextureName();
 
+	virtual byte* getHeightArray();
+	virtual int getTerrainWidth();
+	virtual int getTerrainDepth();
+	virtual bool getInitialized();
+
 	Transform transform;
 private:
 

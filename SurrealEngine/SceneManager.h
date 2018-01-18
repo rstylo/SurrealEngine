@@ -44,7 +44,7 @@ public:
 	virtual void SetupScene(Renderer*, InputHandler*, HWND*, HWND*);	//load the current scene's  objects into directx device
  
 	virtual void LoadSceneFromFile(std::string);
-	virtual void SaveSceneToFile();
+	virtual void SaveSceneToFile(std::string);
 
 	 //Command functions, will wait for input
 	 void SpawnEntity();			
@@ -53,6 +53,7 @@ public:
 	 void ChangeTerrain();
 	 void MoveEntity();
 	 void MoveTerrain();
+	 void SaveScene();
 
 
 	Scene* currentScene;

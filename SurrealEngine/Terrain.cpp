@@ -319,3 +319,23 @@ std::string Terrain::GetTextureName()
 {
 	return textureName;
 }
+
+byte* Terrain::getHeightArray()
+{
+	return heightData;
+}
+
+int Terrain::getTerrainWidth()
+{
+	return width;
+}
+
+int Terrain::getTerrainDepth()
+{
+	return depth;
+}
+
+bool Terrain::getInitialized()
+{
+	return initialized;
+}
