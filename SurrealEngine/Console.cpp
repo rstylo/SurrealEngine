@@ -3,7 +3,7 @@
 
 
 
-Console::Console(SceneManager* _sceneManager)
+Console::Console(SceneManager* _sceneManager, bool expert)
 {
 	
 	sceneManager = _sceneManager;
@@ -11,7 +11,10 @@ Console::Console(SceneManager* _sceneManager)
 	//commands
 	commands["spawn entity"] = &SceneManager::SpawnEntity;				//set value to static ponter to member of scenemanager 
 	commands["set scene"] = &SceneManager::SetScene;
-	commands["create scene"] = &SceneManager::CreateScene;
+	if(expert == false)
+		commands["create scene"] = &SceneManager::CreateScene;
+	else
+		commands["create scene"] = &SceneManager::CreateLevel;
 	commands["change terrain"] = &SceneManager::ChangeTerrain;
 	commands["move entity"] = &SceneManager::MoveEntity;
 	commands["move terrain"] = &SceneManager::MoveTerrain;
@@ -39,6 +42,7 @@ void Console::PrintHelp()
 	{
 		PrintL(it->first);
 	}
+	PrintL("Press 'b' to enter the commands");
 	PrintL("'-' or enter to quit read line");
 }
 

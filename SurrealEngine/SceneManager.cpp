@@ -319,3 +319,19 @@ void SceneManager::SaveSceneToFile(std::string fileName)
 	saveFile.close();
 
 }
+
+void SceneManager::CreateLevel() {
+	std::string sceneName, terrainMap, terrainTexture, skyboxImg;
+	std::cout << "Enter the name of the scene you want to create: ";
+	std::cin >> sceneName;
+	CreateScene(sceneName);
+	LoadScene(sceneName);
+	std::cout << "Terrain bitmap: ";
+	std::cin >> terrainMap;
+	std::cout << "Terrain texture: ";
+	std::cin >> terrainTexture;
+	currentScene->CreateTerrainWithTexture(terrainMap, terrainTexture);
+	std::cout << "Skybox image: ";
+	std::cin >> skyboxImg;
+	currentScene->SetSkyboxTexture(skyboxImg);
+}

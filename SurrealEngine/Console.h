@@ -20,7 +20,7 @@ class Scene;
 class Console
 {
 public:
-	Console(SceneManager*);						//must have a seen manager to work
+	Console(SceneManager*,bool);						//must have a seen manager to work
 	virtual ~Console();
 
 	virtual void ReadLine();					// read current line in console

@@ -101,8 +101,11 @@ bool InputHandler::CheckKeyboardPressed(char _key)
 		return keyboard->CheckKeyPressed(DIK_E);
 	case 'q':
 		return keyboard->CheckKeyPressed(DIK_Q);
+	case 'h':
+		return keyboard->CheckKeyPressed(DIK_H);
 	case '`':
 		return keyboard->CheckKeyPressed(DIK_ESCAPE);
+	
 	}
 
 	return false;

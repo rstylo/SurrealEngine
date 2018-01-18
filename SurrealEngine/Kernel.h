@@ -29,6 +29,7 @@ public:
 	~Kernel();
 
 	bool Init(bool);
+	bool Init(bool,int,int,int,int);
 
 	void Update();
 	void Draw();
@@ -42,6 +43,7 @@ private:
 	Renderer* renderer;
 	SceneManager* sceneManager;
 	//LPDIRECT3DDEVICE9* device;
+	bool expert;
 
 	InputHandler* inputHandler;
 	Console* console;

@@ -45,6 +45,7 @@ public:
  
 	virtual void LoadSceneFromFile(std::string);
 	virtual void SaveSceneToFile(std::string);
+	virtual void CreateLevel();
 
 	 //Command functions, will wait for input
 	 void SpawnEntity();			

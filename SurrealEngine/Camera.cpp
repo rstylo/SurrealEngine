@@ -85,10 +85,10 @@ void Camera::Update()
 			MoveDown();
 		}
 		if (inputHandler->CheckKeyboardPressed('e')) {
-			Rotate(0, 1);
+			Rotate(1, 0);
 		}
 		if (inputHandler->CheckKeyboardPressed('q')) {
-			Rotate(0, -1);
+			Rotate(-1, 0);
 		}
 
 		if (heightData != NULL && depth != NULL ) {
