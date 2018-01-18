@@ -99,9 +99,11 @@ void Scene::SetupTerrain(Renderer* renderer)
 void Scene::SetupMatrices(Renderer* renderer, int cam)
 {
 	originTransform.SetupMatrices(renderer);
-	if (cameras[cam] != NULL) {
-		originTransform.SetPosition(cameras[cam]->GetPosition());
-		originTransform.SetRotation(cameras[cam]->GetRotation());
+	if (!cameras.empty()) {
+		if (cameras[cam] != NULL) {
+			originTransform.SetPosition(cameras[cam]->GetPosition());
+			originTransform.SetRotation(cameras[cam]->GetRotation());
+		}
 	}
 }
 
@@ -212,8 +214,9 @@ Entity* Scene::GetEntity(uint32_t _uuid)
 void Scene::SetCameraHeightMap()
 {
 	if (!(cameras.empty() && terrain != NULL)) {
-		if(terrain->getInitialized())
-		cameras[0]->SetHeight(terrain->getHeightArray(), terrain->getTerrainDepth(), terrain->getTerrainWidth());
+		if(cameras[0]  != NULL)
+			if(terrain->getInitialized())
+			cameras[0]->SetHeight(terrain->getHeightArray(), terrain->getTerrainDepth(), terrain->getTerrainWidth());
 	}
 }
 
@@ -239,12 +242,12 @@ void Scene::MoveEntityTo(uint32_t _uuid, Vector3 position, Vector3 rotation)
 
 void Scene::Update()
 {
-	if(cameras[0] != NULL)
-		cameras[0]->Update();					//hoort hier niet
-	if (cameras[1] != NULL)
-		cameras[1]->Update();					//hoort hier niet
-	//if(skybox!=NULL && cameras[0] != NULL)
-		//skybox->Update(cameras[0]->GetPosition());
+	if (!cameras.empty()) {
+		if (cameras[0] != NULL)
+			cameras[0]->Update();					//hoort hier niet
+		if (cameras[1] != NULL)
+			cameras[1]->Update();					//hoort hier niet
+	}
 }
 
 std::string Scene::CurrentDirectory(std::string str)

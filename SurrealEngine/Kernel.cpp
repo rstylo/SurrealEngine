@@ -38,7 +38,7 @@ bool Kernel::Init(bool windowed)
 
 	gameDisplay = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
 	devDisplay = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
-
+	SetWindowPos(GetConsoleWindow(),0,1280,420,0,0, SWP_NOSIZE|SWP_NOZORDER);
 
 	renderer = new DirectXRenderer();
 	//renderer = new OpenGLRenderer();
@@ -119,9 +119,10 @@ void Kernel::Update() {
 
 
 		console->Update();
-		if(inputHandler->CheckKeyboardPressed('b'))
+		if (inputHandler->CheckKeyboardPressed('b')) {
+			console->PrintHelp();
 			console->ReadLine();
-
+		}
 		inputHandler->Update();
 		Draw();
 	}
