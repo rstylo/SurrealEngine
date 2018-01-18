@@ -212,7 +212,6 @@ Entity* Scene::GetEntity(uint32_t _uuid)
 void Scene::SetCameraHeightMap()
 {
 	if (!(cameras.empty() && terrain != NULL)) {
-		printf("asd");
 		if(terrain->getInitialized())
 		cameras[0]->SetHeight(terrain->getHeightArray(), terrain->getTerrainDepth(), terrain->getTerrainWidth());
 	}
