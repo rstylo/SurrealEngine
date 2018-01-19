@@ -4,6 +4,7 @@
 
 #include "OpenGLRenderer.h"
 
+
 OpenGLRenderer::OpenGLRenderer()
 {
 }
@@ -30,5 +31,13 @@ void OpenGLRenderer::End() {
 }
 
 void OpenGLRenderer::Present(HWND wnd) {
+}
+
+void OpenGLRenderer::Log(std::string, std::string)
+{
+}
+
+void OpenGLRenderer::Flush()
+{
 }
 

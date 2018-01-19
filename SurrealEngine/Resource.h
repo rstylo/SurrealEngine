@@ -1,7 +1,5 @@
-/*
-* Class: Resource.h
-* Description : base class from which resource type classes can inherit from
-* Note : 
+/*! \file  Resource.h
+	\brief identifies and holds meshes and objects 
 */
 
 #ifndef RESOURCE_H_
@@ -22,7 +20,12 @@ public:
 
 	virtual bool Init(Renderer*) = 0;
 	virtual void Draw(Renderer*) = 0;
+
+	virtual void CleanUp() = 0;
+
+
 	virtual uint32_t GetId();						//needs a identifacation number, despite being any other derived version of this class,
+	virtual void Invalidate();
 	
 protected:
 	uint32_t id;

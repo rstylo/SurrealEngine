@@ -1,7 +1,5 @@
-/*
-* Class: SkyBox.h
-* Description: this class is used to draw and move the skybox texture
-* Note :
+/*! \file  Skybox.h
+	\brief this class is used to draw and move the skybox texture
 */
 
 #ifndef SKYBOX_H_
@@ -44,6 +42,7 @@ private:
 	LPDIRECT3DTEXTURE9 skyboxTexture;
 	Vector3 middle;
 
+	Logger logger;
 };
 
 #endif // !SKYBOX_H_

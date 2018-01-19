@@ -35,10 +35,12 @@ Kernel::~Kernel()
 bool Kernel::Init(bool windowed)
 {
 	expert = false;
+	//! initialises renderer, window, scenemanager and console and creates a starting scene
 
 	gameDisplay = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
 	devDisplay = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
 	SetWindowPos(GetConsoleWindow(),0,1280,420,0,0, SWP_NOSIZE|SWP_NOZORDER);
+
 
 	renderer = new DirectXRenderer();
 	//renderer = new OpenGLRenderer();
@@ -46,18 +48,18 @@ bool Kernel::Init(bool windowed)
 	if (gameDisplay->Init(0, 0) && devDisplay->Init(1280, 0))									//initialiseer beide windows
 	{
 		printf("GameWindow and devWindow succefully initialised... \n");
+		renderer->Log("GameWindow and devWindow succefully initialised...", "Info");
 		if (renderer->Init(gameDisplay->hWnd, true))
 		{
-			printf("GameRenderer and developersWindow succefully initialised... \n");
-
+			printf("GameRenderer succefully initialised... \n");
+			renderer->Log("GameRenderer succefully initialised...", "Info");
 			inputHandler = new InputHandler();
 			if (inputHandler->Init(&gameDisplay->hWnd)) {
 				inputHandler->SetWindow(&gameDisplay->hWnd);
 				printf("Input handler succefully initialized... \n");
+				renderer->Log("Input handler succefully initialized...", "Info");
 
 				sceneManager = new SceneManager();											//aanmaken van scenemanager
-				//sceneManager->CreateScene("Scene0");
-				//sceneManager->LoadScene("Scene0");
 				sceneManager->LoadSceneFromFile("level.txt");
 
 
@@ -110,18 +112,19 @@ bool Kernel::Init(bool windowed,int width, int height, int width2, int height2)
 	if (gameDisplay->Init(0, 0) && devDisplay->Init(width, 0))									//initialiseer beide windows
 	{
 		printf("GameWindow and devWindow succefully initialised... \n");
+		renderer->Log("GameWindow and devWindow succefully initialised...", "Info");
 		if (renderer->Init(gameDisplay->hWnd, true))
 		{
-			printf("GameRenderer and developersWindow succefully initialised... \n");
-
+			printf("GameRenderer succefully initialised... \n");
+			renderer->Log("GameRenderer succefully initialised...", "Info");
 			inputHandler = new InputHandler();
 			if (inputHandler->Init(&gameDisplay->hWnd)) {
 				inputHandler->SetWindow(&gameDisplay->hWnd);
 				printf("Input handler succefully initialized... \n");
+				renderer->Log("Input handler succefully initialized...", "Info");
 
-				sceneManager = new SceneManager();											//aanmaken van scenemanager
-																							//sceneManager->CreateScene("Scene0");
-																							//sceneManager->LoadScene("Scene0");
+				sceneManager = new SceneManager();											
+
 				if (levelchoice == "import")
 					sceneManager->LoadSceneFromFile(level);
 				else
@@ -134,15 +137,13 @@ bool Kernel::Init(bool windowed,int width, int height, int width2, int height2)
 			}
 		}
 	}
-
-
-
-	MessageBox(NULL, "failed initializing Game class", NULL, NULL);
+	logger.Log("failed initializing Game class", "Error");
 	return false;
 }
 
 void Kernel::Draw()
 {
+	//! Initiates drawing routine
 	if (initialized)
 	{
 		//gameView
@@ -170,6 +171,9 @@ void Kernel::Draw()
 
 void Kernel::Update() {
 	bool hpressed = false;
+	bool bpressed = false;
+	int logtime = 0;
+	//! Initiates Updating routine
 	while (gameDisplay->Run() && devDisplay->Run() && !inputHandler->CheckKeyboardPressed('`')) //~ gebruikt als char voor escape
 	{
 		if (*inputHandler->GetWindow() != GetFocus()) {
@@ -181,16 +185,26 @@ void Kernel::Update() {
 
 		if (sceneManager->IsLoading() == true) {
 			sceneManager->SetupScene(renderer, inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
-			std::cout << "Press 'h' to view the help/command list" << std::endl;
+			std::cout << "Press 'h' to view the help/command list" << std::endl << std::endl;
 		}
 		sceneManager->Update();
-
-
-		console->Update();
+		
+		if (inputHandler->CheckKeyboardPressed('b')) {
+			if (bpressed == false) {
+				std::cout << "Enter a command: " << std::endl;
+				SetFocus(GetConsoleWindow());
+				bpressed = true;
+			}
+		}
+		else {
+			if (bpressed == true)
+				bpressed = false;
+		}
 		
 		if (inputHandler->CheckKeyboardPressed('h')) {
 			if (hpressed == false) {
 				console->PrintHelp();
+				std::cout << std::endl;
 				hpressed = true;
 			}
 		}
@@ -200,10 +214,17 @@ void Kernel::Update() {
 		}
 		
 		if (inputHandler->CheckKeyboardPressed('b')) {
-			std::cout << "Enter a command: " << std::endl;
 			console->ReadLine();
 		}
+		console->Update();
 		inputHandler->Update();
+		
 		Draw();
+
+		logtime++;
+		if (logtime > 10) {
+			renderer->Flush();
+			logtime = 0;
+		}
 	}
 }

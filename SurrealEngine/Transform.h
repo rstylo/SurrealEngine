@@ -1,7 +1,5 @@
-/*
-* Class: Transform.h
-* Description : this class stores the position and rotation of world objects. And setup world matrices for other classes to use
-* Note :
+/*! \file  Transform.h
+	\brief this class is used to move drawable objects around in the world
 */
 
 #ifndef TRANSFORM_H_
@@ -13,7 +11,7 @@
 struct Vector3 {
 	float x, y, z;
 	Vector3() {};
-	Vector3(float _x, float _y, float _z) 
+	Vector3(float _x, float _y, float _z)
 	{
 		x = _x;
 		y = _y;
@@ -58,7 +56,6 @@ private:
 	Vector3 rotation;
 	Vector3 scale;
 
-	
 };
 
 #endif // TRANSFORM_H_

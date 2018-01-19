@@ -15,9 +15,12 @@ Keyboard::~Keyboard()
 
 bool Keyboard::Init()
 {
+	//! initialise keyboard
 	HRESULT hr = dInput->CreateDevice(GUID_SysKeyboard, &dDevice, NULL);
 	if FAILED(hr)
 	{
+		printf("Failed creating a keyboard device");
+		logger.Log("Failed creating a keyboard device", "Error");
 		SaveReleaseDevice();
 		return false;
 	}
@@ -25,6 +28,8 @@ bool Keyboard::Init()
 	hr = dDevice->SetDataFormat(&c_dfDIKeyboard);
 	if FAILED(hr)
 	{
+		printf("Failed setting the keyboard data format");
+		logger.Log("Failed setting the keyboard data format", "Error");
 		SaveReleaseDevice();
 		return false;
 	}
@@ -33,10 +38,13 @@ bool Keyboard::Init()
 
 bool Keyboard::SetWindow(HWND* _hwnd)
 {
+	//! set the focus window
 	if (dDevice != NULL) {
 		dDevice->Unacquire();
 		if (!SUCCEEDED(dDevice->SetCooperativeLevel(*_hwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
 		{
+			printf("Failed setting the keyboard cooperative level");
+			logger.Log("Failed setting the keyboard cooperative level", "Error");
 			SaveReleaseDevice();
 			return false;
 		}
@@ -58,6 +66,7 @@ void Keyboard::SaveReleaseDevice()
 
 bool Keyboard::UpdateKeyBuffer()
 {
+	//! update currently pressed keys information 
 	if (dDevice != NULL)
 	{
 		if (!SUCCEEDED(dDevice->GetDeviceState(sizeof(keybuffer), (LPVOID)&keybuffer))) {

@@ -1,7 +1,5 @@
-/*
-* Class: Logger.h
-* Description :
-* Note :
+/*! \file  Logger.h
+\brief Logs a message
 */
 
 
@@ -19,7 +17,8 @@ public:
 
 	virtual void Logtime();
 	virtual void Log( int );
-	void Log( std::string );
+	virtual void Log( std::string );
+	virtual void Log( std::string, std::string );
 	void Flush();
 
 private:

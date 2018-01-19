@@ -2,6 +2,7 @@
 
 struct CUSTOMVERTEX
 {
+	//! skybox vertex with a position and texture coordinates
 	D3DXVECTOR3 position;
 	FLOAT tu, tv;
 };
@@ -20,12 +21,14 @@ Skybox::~Skybox()
 
 bool Skybox::Init(Renderer* renderer)
 {
+	//! initialise skyboxes vertex/index buffers if texture is set
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
 		// Use D3DX to create a texture from a file based image
 		if (FAILED(D3DXCreateTextureFromFile(device, textureName.c_str(), &skyboxTexture)))
 		{
 			MessageBox(NULL, "Could not find skybox texture", NULL, NULL);
+			logger.Log("Could not find skybox texture", "Warning");
 			return false;
 		}
 		
@@ -34,12 +37,14 @@ bool Skybox::Init(Renderer* renderer)
 			D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
 		{
 			MessageBox(NULL, "Could not create vertexbuffer", NULL, NULL);
+			logger.Log("Could not create vertexbuffer", "Error");
 			return false;
 		}
 
 		if (FAILED(device->CreateIndexBuffer(36 * sizeof(short), D3DUSAGE_WRITEONLY,
 			D3DFMT_INDEX16, D3DPOOL_DEFAULT, &indexBuffer, NULL))) {
 			MessageBox(NULL, "Could not create indexbuffer", NULL, NULL);
+			logger.Log("Could not create indexbuffer", "Error");
 			return false;
 		}
 		return true;
@@ -48,12 +53,15 @@ bool Skybox::Init(Renderer* renderer)
 }
 void Skybox::Update(Vector3 _position)
 {
+	//! updates skybox position to given vector
 	transform.SetPosition(Vector3(_position.x, _position.y, _position.z));
 	transform.SetRotation(Vector3(0, 0, 0));
 }
 
 void Skybox::Invalidate()
 {
+
+	//! releases texture data and vertex/index buffers to free space
 	if (skyboxTexture != NULL)
 	{
 		skyboxTexture->Release();
@@ -73,12 +81,13 @@ void Skybox::Invalidate()
 
 void Skybox::Create()
 {
-	
+	//! creates skybox
 	int size = 100;
 
 	CUSTOMVERTEX* vertices;
 	if (FAILED(vertexBuffer->Lock(0, 0, (void**)&vertices, 0))) {
 		MessageBox(NULL, "Could not lock vertexbuffer", NULL, NULL);
+		logger.Log("Could not lock vertexbuffer", "Error");
 		return;
 	}
 
@@ -99,10 +108,10 @@ void Skybox::Create()
 
 	vertices[12].position = -D3DXVECTOR3(-size, -size, size);	//vertex 0
 	vertices[13].position = -D3DXVECTOR3(-size, size, size);		//vertex 1
-	
+
 	D3DSURFACE_DESC values;
 	skyboxTexture->GetLevelDesc(0, &values);
-	
+
 	const float height = values.Height;
 	const float width = values.Width;
 
@@ -163,6 +172,7 @@ void Skybox::Create()
 	VOID* pIndices;
 	if (FAILED(indexBuffer->Lock(0, 0, (void**)&pIndices, 0))) {
 		MessageBox(NULL, "Could not lock indexbuffer", NULL, NULL);
+		logger.Log("Could not lock indexbuffer", "Error");
 		return;
 	}
 	memcpy(pIndices, indices, sizeof(indices));
@@ -171,11 +181,13 @@ void Skybox::Create()
 
 void Skybox::SetupMatrices(Renderer* renderer, Transform origin)
 {
+	//!change skyboxe's position
 	transform.SetupMatricesRotate(renderer, origin.GetRotation());
 }
 
 void Skybox::Draw(Renderer* renderer)
 {
+	//! draws skybox if initialised
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
 		if (vertexBuffer && indexBuffer && skyboxTexture)
@@ -199,10 +211,12 @@ void Skybox::Draw(Renderer* renderer)
 
 void Skybox::SetTexture(std::string texture)
 {
+	//! set the skybox texture
 	textureName = texture;
 }
 
 std::string Skybox::GetTexture()
 {
+	//! returns skybox's texturename
 	return textureName;
 }

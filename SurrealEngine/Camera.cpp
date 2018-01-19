@@ -5,7 +5,6 @@
 
 Camera::Camera(Vector3 _rotation, Vector3 _translation, HWND* _hwnd, InputHandler* _inputHandler)
 {
-
 	cameraHeight = 0;
 
 	lookingAt = false;
@@ -29,9 +28,10 @@ Camera::~Camera()
 
 void Camera::SetupView(Renderer* renderer)
 {
+	//! setup view matrix
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 _device = *dxrenderer->GetDevice();
-		
+
 		//!create projection matrix with 0.25PI as the view direction in y, 1 unit from the view as near viewplane and 1000 as far viewplane
 		D3DXMATRIX projectionMtrx;
 		D3DXMatrixPerspectiveFovLH(&projectionMtrx, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f);
@@ -41,18 +41,21 @@ void Camera::SetupView(Renderer* renderer)
 
 void Camera::SetLookAt(bool state)
 {
+	//! set position camera should look at
 	lookingAt = state;
 }
 
 void Camera::Update()
 {
+
+	//! get input and move/rotate accordingly the camera depending
 	if (*hwnd == GetFocus()) {
 		if (inputHandler->CheckKeyboardPressed('w')) {
 			if (inputHandler->CheckKeyboardPressed('a')) {
-				MoveToTwo(rotation.y + (0.25 * pi));
+				MoveTo(rotation.y + (0.25 * pi));
 			}
 			else if (inputHandler->CheckKeyboardPressed('d')) {
-				MoveToTwo(rotation.y - (0.25 * pi));
+				MoveTo(rotation.y - (0.25 * pi));
 			}
 			else {
 				MoveForwards();
@@ -60,10 +63,10 @@ void Camera::Update()
 		}
 		else if (inputHandler->CheckKeyboardPressed('s')) {
 			if (inputHandler->CheckKeyboardPressed('a')) {
-				MoveToTwo(rotation.y + (0.75 * pi));
+				MoveTo(rotation.y + (0.75 * pi));
 			}
 			else if (inputHandler->CheckKeyboardPressed('d')) {
-				MoveToTwo(rotation.y - (0.75 * pi));
+				MoveTo(rotation.y - (0.75 * pi));
 			}
 			else {
 				MoveBackwards();
@@ -77,7 +80,7 @@ void Camera::Update()
 				MoveRight();
 			}
 		}
-		
+
 		if (inputHandler->CheckKeyboardPressed('.')) {
 			MoveUp();
 		}
@@ -91,7 +94,7 @@ void Camera::Update()
 			Rotate(-1, 0);
 		}
 
-		if (heightData != NULL && depth != NULL ) {
+		if (heightData != NULL && depth != NULL) {
 			if (-position.x > 0 && -position.x < width && -position.z > 0 && -position.z < depth) {
 				if (position.y > -heightData[(int)-position.x * depth + (int)-position.z] - 5)
 					position.y = -heightData[(int)-position.x * depth + (int)-position.z] - 5;
@@ -112,6 +115,7 @@ void Camera::Update()
 
 void Camera::MoveTo(float rot)
 {
+	//! move to a position relative to the camera current position using radians
 	float speed = 0.25;
 	position.z -= cos(rot)*speed;
 	position.x += sin(rot)*speed;
@@ -119,13 +123,15 @@ void Camera::MoveTo(float rot)
 
 void Camera::MoveToTwo(float rot)
 {
-	float speed = 0.25/sqrt(2);
+	//! move to a position relative to the camera current position(squared) using radians
+	float speed = 0.25 / sqrt(2);
 	position.z -= cos(rot)*speed;
 	position.x += sin(rot)*speed;
 }
 
 void Camera::Rotate(float x, float y)
 {
+	//! rotate the camera depending on a x andy position, generally from a mouse
 	float speed = 2;
 	rotation.x -= speed*y / 100;
 	rotation.y -= speed*x / 100;

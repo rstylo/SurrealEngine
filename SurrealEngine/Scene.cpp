@@ -7,13 +7,13 @@
 Scene::Scene(std::string _name)
 	:name(_name)
 {
-
+	//! initialiazes with scene name, unique id, skybox, terrain and origin transform
 	id = reinterpret_cast<uint32_t>(this);
 
 	skybox = new Skybox();
 
 	terrain = new Terrain();
-	
+
 	originTransform.SetPosition(Vector3(0, 0, 0));
 	originTransform.SetRotation(Vector3(0, 0, 0));
 		
@@ -22,6 +22,8 @@ Scene::Scene(std::string _name)
 
 Scene::~Scene()
 {
+
+	//! deletes all objects in scene
 	for (auto it = cameras.begin(); it != cameras.end(); it++)
 	{
 		delete it->second;
@@ -54,13 +56,10 @@ uint32_t Scene::GetId()
 
 bool Scene::InitEntities(Renderer* renderer)
 {
+	//! calls init function in entity
 	for (auto it = entities.begin(); it != entities.end(); it++)
 	{
-		if (it->second->Init(renderer) == false)
-		{
-			/*if(skybox->Init(renderer, "skybox.jpg"))
-				skybox->Create();*/
-		}
+		it->second->Init(renderer);
 	}
 
 	return true;
@@ -69,15 +68,17 @@ bool Scene::InitEntities(Renderer* renderer)
 
 void Scene::InvalidateObjects()
 {
-	if(skybox != NULL)
+	//! releases all drawable objects to free space
+	if (skybox != NULL)
 		skybox->Invalidate();
-	if(terrain != NULL)
+	if (terrain != NULL)
 		terrain->Invalidate();
 
 }
 
 void Scene::SetupSkybox(Renderer* renderer)
-{		
+{
+	//! initialises skybox if present
 	if (skybox != NULL)
 	{
 		if (skybox->Init(renderer))
@@ -87,10 +88,10 @@ void Scene::SetupSkybox(Renderer* renderer)
 
 void Scene::SetupTerrain(Renderer* renderer)
 {
-
+	//! initialises terrain if present
 	if (terrain != NULL)
 	{
-		
+
 		terrain->Init(renderer);
 	}
 
@@ -98,8 +99,9 @@ void Scene::SetupTerrain(Renderer* renderer)
 
 void Scene::SetupMatrices(Renderer* renderer, int cam)
 {
+	//! setups scene's for a specific view world matrices 
 	originTransform.SetupMatrices(renderer);
-	if (!cameras.empty()) {
+	if (!(cameras.empty())) {
 		if (cameras[cam] != NULL) {
 			originTransform.SetPosition(cameras[cam]->GetPosition());
 			originTransform.SetRotation(cameras[cam]->GetRotation());
@@ -107,8 +109,20 @@ void Scene::SetupMatrices(Renderer* renderer, int cam)
 	}
 }
 
+void Scene::SetCameraHeightMap()
+{
+	//! sets the height of the camera to terrain height if the terrain is available
+	if (!(cameras.empty() && terrain != NULL)) {
+		if (cameras[0] != NULL)
+			if (terrain->getInitialized())
+				cameras[0]->SetHeight(terrain->getHeightArray(), terrain->getTerrainDepth(), terrain->getTerrainWidth());
+	}
+}
+
 void Scene::SetupView(Renderer* renderer, int cam)
 {
+
+	//! setups camera's view matrix
 	auto it = cameras.find(cam);
 
 	if (it != cameras.end() && it->second != NULL)
@@ -118,11 +132,13 @@ void Scene::SetupView(Renderer* renderer, int cam)
 	else
 	{
 		printf("failed displaying camera view for cam: %d \n", &cam);
+		logger.Log("Failed displaying camera view for cam: " + std::to_string(cam), "Error");
 	}
 }
 
 void Scene::SetupLight(Renderer* renderer)
 {
+	//! initialises ambient lighting, will only work for normalised vertices
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 _device = *dxrenderer->GetDevice();
 		D3DMATERIAL9 material;
@@ -155,6 +171,7 @@ void Scene::SetupLight(Renderer* renderer)
 
 void Scene::Draw(Renderer* renderer)
 {
+	//! drawing routine, draws skybox, terrain and all entities and their resources if possible
 	if (skybox != NULL)
 	{
 		skybox->SetupMatrices(renderer, originTransform);
@@ -176,14 +193,18 @@ void Scene::Draw(Renderer* renderer)
 
 void Scene::AddCamera(int cam, Vector3 _rotation, Vector3 _position, HWND* _hwnd, InputHandler* _inputHandler)
 {
+	//! add a camera with a identification number with a rotation and position vector. 
 	if (cameras.find(cam) == cameras.end())
 		cameras[cam] = new Camera(_rotation, _position, _hwnd, _inputHandler);
 	else
 		printf("camera %d already exists!! \n", cam);
+		logger.Log("Tried to add camera " + std::to_string(cam) + " but it already exists", "Warning");
 }
+
 
 Camera* Scene::GetCamera(int cam)
 {
+	//! returns corresponding camera, 0 = game window
 	if (cameras.find(cam) != cameras.end())
 		return cameras.find(cam)->second;
 
@@ -192,66 +213,67 @@ Camera* Scene::GetCamera(int cam)
 
 void Scene::AddEntity(Entity* _entity)
 {
-	if (entities.find(_entity->GetId()) != entities.end()) {				//check of er niet een identieke entity al bestaat, door alleen de key die unqiue is te vergelijken
+	//! add an entity for managing purpose
+	if (entities.find(_entity->GetId()) != entities.end()) {				
 		printf("entity %d already exists!! \n", _entity->GetId());
+		logger.Log("Entity " + std::to_string(_entity->GetId()) + " already existed", "Info");
 		return;
 	}
 
-	entities[_entity->GetId()] = _entity;								//in geval van geen key zal de enty toegevoegd worden met zijn eigen id als key
+	entities[_entity->GetId()] = _entity;									
 	printf("added entity %d... \n", _entity->GetId());
-
+	logger.Log("Added entity " + std::to_string(_entity->GetId()), "Info");
 }
 
 Entity* Scene::GetEntity(uint32_t _uuid)
 {
+	//! returns pointer to entity
 	if (entities.find(_uuid) != entities.end())
 		return entities.find(_uuid)->second;
 
 	std::cout << " could not find entity " << _uuid << std::endl;
+	logger.Log("Could not find entity " + std::to_string(_uuid), "Warning");
 	return NULL;
-}
-
-void Scene::SetCameraHeightMap()
-{
-	if (!(cameras.empty() && terrain != NULL)) {
-		if(cameras[0]  != NULL)
-			if(terrain->getInitialized())
-			cameras[0]->SetHeight(terrain->getHeightArray(), terrain->getTerrainDepth(), terrain->getTerrainWidth());
-	}
 }
 
 void Scene::RemoveEntity(uint32_t _uuid)
 {
+	//! removes specified entity, if existing in this scene
 	if (entities.find(_uuid) != entities.end())
 		delete entities.find(_uuid)->second;
 	else
 		std::cout << " could not find entity "<< _uuid << std::endl;
+		logger.Log("Could not find entity " + std::to_string(_uuid), "Warning");
 }
 
 void Scene::MoveTerrainTo(Vector3 position, Vector3 rotation)
 {
+	//! move the terrain with a position and rotation vector
 	terrain->transform.SetPosition(position);
 	terrain->transform.SetRotation(rotation);
 }
 
 void Scene::MoveEntityTo(uint32_t _uuid, Vector3 position, Vector3 rotation)
 {
+	//! changes specified entities transform to a position and rotation
 	GetEntity(_uuid)->transform.SetPosition(position);
 	GetEntity(_uuid)->transform.SetRotation(rotation);
 }
 
 void Scene::Update()
 {
+	//! update routine for the scene, updates camera
 	if (!cameras.empty()) {
 		if (cameras[0] != NULL)
-			cameras[0]->Update();					//hoort hier niet
+			cameras[0]->Update();
 		if (cameras[1] != NULL)
-			cameras[1]->Update();					//hoort hier niet
+			cameras[1]->Update();
 	}
 }
 
 std::string Scene::CurrentDirectory(std::string str)
 {
+	//! return path to currentdirectory + a name
 	char dir[MAX_PATH + 1];
 	GetCurrentDirectoryA(sizeof(dir), dir); // **** win32 specific ****
 	return dir + str;
@@ -259,12 +281,13 @@ std::string Scene::CurrentDirectory(std::string str)
 
 std::string Scene::GetName()
 {
+	//! get identification scene's name
 	return name;
 }
 
-void Scene::CreateEntityWithMesh(Vector3 _position, Vector3 _rotation, Resource* mesh)
+void Scene::CreateEntityWithResource(Vector3 _position, Vector3 _rotation, Resource* mesh)
 {
-
+	//! creates an entity with a resource
 	Entity* entity1 = new Entity(_position, _rotation);
 	AddEntity(entity1);
 
@@ -273,6 +296,7 @@ void Scene::CreateEntityWithMesh(Vector3 _position, Vector3 _rotation, Resource*
 
 bool Scene::CreateTerrainWithTexture(std::string map, std::string texture)
 {
+	//! creates/changes terrain with a given heightmap and texture
 	if (terrain == NULL)
 	{
 		terrain = new Terrain();
@@ -283,15 +307,14 @@ bool Scene::CreateTerrainWithTexture(std::string map, std::string texture)
 	{
 		terrain->SetMapAndTexture(map, texture);
 		printf("terrain already exists in scene, map and texture have been changed!! \n");
+		logger.Log("Terrain already existed in scene. Map and texture have been changed", "Info");
 		return false;
-	}
-
-	
+	}	
 }
 
-
-bool Scene::SetSkyboxTexture(std::string texture)
+bool Scene::CreateSkyboxWithTexture(std::string texture)
 {
+	//! creates/changes skybox with a given texture
 	if (skybox == NULL)
 	{
 		skybox = new Skybox();
@@ -301,29 +324,31 @@ bool Scene::SetSkyboxTexture(std::string texture)
 	else
 	{
 		skybox->SetTexture(texture);
-		printf("skybox already exists in scene, texture have been changed!! \n");
+		printf("skybox already exists in scene, texture has been changed!! \n");
+		logger.Log("Skybox already existed in scene. Texture has been changed", "Info");
 		return false;
 	}
 }
 
-//get information of the scene to save to a file
 std::string Scene::GetSceneInfo()
 {
+	//! get information of the scene to save to a file
 	std::string sceneInfo;
 	sceneInfo += "scene\n";
-	sceneInfo += GetName() + "\n";
+	sceneInfo += GetName();
+	sceneInfo += "\n";
 
 	sceneInfo += "terrain\n";
-	sceneInfo += terrain->GetMapFileName() + "\n";
-	sceneInfo += terrain->GetTextureName() + "\n";
-
-
+	sceneInfo += terrain->GetMapFileName();
+	sceneInfo += "\n";
+	sceneInfo += terrain->GetTextureName();
+	sceneInfo += "\n";
 	sceneInfo += "skybox\n";
-	sceneInfo += skybox->GetTexture() + "\n";
+	sceneInfo += skybox->GetTexture();
+	sceneInfo += "\n";
 
-	for (auto it = entities.begin(); it != entities.end(); it++)		//iterate door alle entities
+	for (auto it = entities.begin(); it != entities.end(); it++)		
 	{
-		sceneInfo += "entity\n";
 		sceneInfo += it->second->GetEntityInfo();
 	}
 

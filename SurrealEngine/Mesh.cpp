@@ -15,19 +15,24 @@ Mesh::~Mesh()
 
 bool Mesh::Init(Renderer* renderer)
 {
+
+	//! intialise the mesh, returns if creation is succeful using a texture and a model
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
+
+
 		if (initialized == false)
 		{
-
+			CleanUp();
 			LPD3DXBUFFER materialBuffer;
 
-			if (!SUCCEEDED(D3DXLoadMeshFromX(meshPath.c_str(), D3DXMESH_SYSTEMMEM,
+			if ( !SUCCEEDED(D3DXLoadMeshFromX(meshPath.c_str(), D3DXMESH_SYSTEMMEM,
 				device, NULL,
 				&materialBuffer, NULL, &numOfMaterials,
 				&mesh)))
 			{
-				MessageBox(NULL, (std::string("Could not find " + meshPath)).c_str(), NULL, NULL);
+				MessageBox(NULL, (std::string("Could not find " + meshPath )).c_str(), NULL, NULL);
+				renderer->Log("Could not find " + meshPath, "Error");
 				CleanUp();
 				return false;
 			}
@@ -35,6 +40,8 @@ bool Mesh::Init(Renderer* renderer)
 
 			D3DXMATERIAL* d3dxMaterials = (D3DXMATERIAL*)materialBuffer->GetBufferPointer();
 			materials = new D3DMATERIAL9[numOfMaterials];
+
+
 			if (materials == NULL)
 			{
 				return false;
@@ -74,6 +81,7 @@ bool Mesh::Init(Renderer* renderer)
 							&textures[i]))))
 						{
 							MessageBox(NULL, "Could not find texture map", NULL, NULL);
+							renderer->Log("Could not find texture map", "Error");
 						}
 					}
 				}
@@ -82,17 +90,15 @@ bool Mesh::Init(Renderer* renderer)
 			// Done with the material buffer
 			materialBuffer->Release();
 			initialized = true;
-
-
-
-			return true;
 		}
+		return true;
 	}
-	return true;
+	return false;
 }
 
 void Mesh::Draw(Renderer* renderer)
 {
+	//! draw the mesh if already inialised
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
 		if (textures && materials && initialized == true)
@@ -106,13 +112,16 @@ void Mesh::Draw(Renderer* renderer)
 			}
 		}
 	}
-
-	if(initialized == false)
+	if (initialized == false) {
 		printf("resource %d was not initialized\n", GetId());
+		renderer->Log("resource" + std::to_string(GetId()) + "was not initialized", "Error");
+	}
+	
 }
 
 std::string Mesh::GetMeshName()
 {
+	
 	return meshPath;
 }
 
@@ -139,4 +148,3 @@ void Mesh::CleanUp()
 
 	initialized = false;
 }
-

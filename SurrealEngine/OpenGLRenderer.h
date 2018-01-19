@@ -15,15 +15,17 @@ public:
 	OpenGLRenderer();
 	virtual ~OpenGLRenderer();
 
-	virtual bool Init(HWND, bool);				
+	virtual bool Init(HWND, bool);
 	virtual void Clear(D3DCOLOR);
+
 	virtual bool Begin();
 	virtual void End();
 	virtual void Present(HWND);
-	//virtual LPDIRECT3DDEVICE9* GetDevice();
-
+	virtual void Log(std::string, std::string);
+	virtual void Flush();
 
 private:
+
 };
 
-#endif 
+#endif

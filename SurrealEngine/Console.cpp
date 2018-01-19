@@ -2,14 +2,14 @@
 #include "SceneManager.h"
 
 
-
 Console::Console(SceneManager* _sceneManager, bool expert)
 {
 	
 	sceneManager = _sceneManager;
-
-	//commands
-	commands["spawn entity"] = &SceneManager::SpawnEntity;				//set value to static ponter to member of scenemanager 
+	//! registers àll command functions in scenemanager by using a void pointer to static member of scenemanager
+	//! 
+	commands["spawn mesh"] = &SceneManager::SpawnEntityMesh;
+	commands["spawn object"] = &SceneManager::SpawnEntityObject;
 	commands["set scene"] = &SceneManager::SetScene;
 	if(expert == false)
 		commands["create scene"] = &SceneManager::CreateScene;
@@ -29,14 +29,18 @@ Console::~Console()
 }
 void Console::DoCommand(std::string commandText)
 {
+	//! check and do the command if possible, by calling the void* to memeber of scenemanager it with a scenemanager object
 	if (commands.find(commandText) != commands.end())
-		(sceneManager->*(commands.find(commandText)->second))();		//call function from current sceneManager
-	else
+		(sceneManager->*(commands.find(commandText)->second))();		
+	else {
 		PrintL("command not found....");
+		logger.Log("command not found: " + commandText, "Warning");
+	}
 }
 
 void Console::PrintHelp()
 {
+	//! prints a list of all registerd commands
 	PrintL("List of commands:");
 	for (auto it = commands.begin(); it != commands.end(); it++)
 	{
@@ -48,8 +52,7 @@ void Console::PrintHelp()
 
 void Console::ReadLine()
 {
-	 std::cout << std::endl;
-
+	//! get current line in console
 	std::getline(std::cin, currentLine);
 
 
@@ -57,25 +60,26 @@ void Console::ReadLine()
 }
 void Console::Update()
 {
-	if (currentLine != "-" && currentLine != "")													//- is char for stopping inbut
+	//! splits the read line into parameters, and calls doCommand with the first 2 words of the line
+	if (currentLine != "-" && currentLine != "")													//! '-' is the char for stopping console input
 	{
-		int wordCount = -1;																			//if wordcount is still -1 means that the currentLine was empty
-		bool inWord = false;																		//needed to switch between words
+		int wordCount = -1;																			// if wordcount is still -1 means that the currentLine was empty
+		bool inWord = false;																		// needed to switch between words
 
-		std::string param[10];																		//every word, decided by spaces, is inserted into this array
+		std::string param[10];																		//! every word, decided by spaces, is inserted into a array
 		
-		for (int currentChar = 0; currentChar < currentLine.size(); currentChar++)					//for each letter in the current lne
+		for (int currentChar = 0; currentChar < currentLine.size(); currentChar++)					//! for each letter in the current lne
 		{
-			if (currentLine[currentChar] != ' ')													//if its not space then its a word	else its the start of a new word	
+			if (currentLine[currentChar] != ' ')													//! if its not a space then its a word,	else its the start of a new word	
 			{
-				if (inWord == false)																//start new word if last char was a space
+				if (inWord == false)																//! starst new word if last char was a space
 				{
 					wordCount++;
 					inWord = true;
 				}
 
 				if (wordCount < 10)
-					param[wordCount] += currentLine[currentChar];									//add current letter at the end of the currentword				
+					param[wordCount] += currentLine[currentChar];									//! adds current letter at the end of the currentword				
 			}
 			else
 			{

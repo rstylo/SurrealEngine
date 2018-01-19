@@ -2,6 +2,7 @@
 
 struct xyzTextureVertex
 {
+	//! terrain vertex with position, texture, diffuse color and normal.
 	D3DXVECTOR3 position;
 	FLOAT tu, tv;
 
@@ -24,6 +25,7 @@ struct xyzTextureVertex
 Terrain::Terrain()
 	:primCount(0), vertexCount(0)
 {
+	//! initialises with transform position and rotation all set to origin point
 	transform.SetPosition(Vector3(0, 0, 0));
 	transform.SetRotation(Vector3(0, 0, 0));
 
@@ -37,6 +39,7 @@ Terrain::~Terrain()
 
 void Terrain::SetMapAndTexture(std::string _heightMapFileName, std::string _textureName)
 {
+	//! sets terrains heightmap and texturename, and readies initialiazation before next draw routine
 	heightMapFileName = _heightMapFileName;
 	textureName = _textureName;
 	initialized = false;
@@ -44,6 +47,7 @@ void Terrain::SetMapAndTexture(std::string _heightMapFileName, std::string _text
 
 void Terrain::Invalidate()
 {
+	//! reales vertex and index buffers + texture to free space
 	initialized = false;
 	CleanUp();
 }
@@ -55,6 +59,9 @@ void Terrain::SetupMatrices(Renderer* renderer, Transform origin)
 
 bool Terrain::Init(Renderer* renderer)
 {
+	//! initialises with one vertice *width*lenght of a given heightmap with a texture
+	//! no normals or color included!!
+
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 device = *dxrenderer->GetDevice();
 		CleanUp();
@@ -63,47 +70,50 @@ bool Terrain::Init(Renderer* renderer)
 		if (!LoadBMP(heightMapFileName.c_str()))
 		{
 			MessageBox(NULL, "failed loading heightmap", NULL, NULL);
+			logger.Log("Failed loading heightmap", "Error");
 			initialized = false;
 			return false;
 
 		}
 		printf("succesfully loaded the heightmap... \n");
+		logger.Log("Succesfully loaded the heightmap", "Info");
 
 
-		//constante varibablen declarenen voor grote van de array
-		const int numOfVertices = width * depth;						//4 vertices per quad
-		const int numOfIndices = width * depth * 6;						//6 indicies per quad
+		//! Creates terrain with
+		const int numOfVertices = width * depth;						//! -1 vertices per quad
+		const int numOfIndices = width * depth * 6;						//! -6 indicies per quad
 
-		primCount = width * depth * 2;										//2 triangles per quad
+		primCount = width * depth * 2;										//! -2 triangles per quad
 		vertexCount = numOfVertices;
 
-		xyzTextureVertex* vertices = new xyzTextureVertex[numOfVertices];	//vertex array
-		WORD* indicies = new WORD[numOfIndices];							//vertex-index array
+		xyzTextureVertex* vertices = new xyzTextureVertex[numOfVertices];	//! - vertex array
+		WORD* indicies = new WORD[numOfIndices];							//! - index array
 
-		int sizeOfVertices = numOfVertices * sizeof(xyzTextureVertex);		//sizeof the vertex array
-		int sizeOfIndices = numOfIndices * sizeof(WORD);					//sizeof the indexarray
+		int sizeOfVertices = numOfVertices * sizeof(xyzTextureVertex);		//! - sizeof the vertex array
+		int sizeOfIndices = numOfIndices * sizeof(WORD);					//! - sizeof the indexarray
 
-		int vCounter = 0;													//current index for inserting vertices
-		int iCounter = 0;													//current index for inserting vertex-indecis
+		int vCounter = 0;													//! - current index for inserting vertices
+		int iCounter = 0;													//! - current index for inserting vertex-indecis
 
-		D3DXVECTOR2 textureCords;
+		D3DXVECTOR2 textureCords;											//! - texture coordinates (u,v)
 		textureCords.x = 0;
 		textureCords.y = 0;
 
-		float uScale = 4 / width;
+		float uScale = 4 / width;											//! - texture scale
 		float vScale = 4 / depth;
 
 
-		//iterate though x and y
+		//! Iterate though x and z
 		for (int x = 0; x < width; x++)
 		{
 
 			for (int z = 0; z < depth; z++)
 			{
-				//get height for current [pint
-				float height0 = (float)heightData[x * depth + z]; //inline stament to check if outofbound
+				//! - gets height for currentpoint from heightmap
+				float height0 = (float)heightData[x * depth + z]; //! inline stament to check if outofbound
 
 
+				//! - decides point for the to be drawn quad
 				int p2 = vCounter;
 
 				int p1 = (vCounter >= depth) ? vCounter - depth : p2;
@@ -112,7 +122,7 @@ bool Terrain::Init(Renderer* renderer)
 
 				int p3 = (z + 1 < depth && vCounter + 1 >= depth) ? vCounter + 1 - depth : p1;
 
-				//index nmr naar vertex om twee driehoeken te vormen
+				// - inserts index of vertex-array to create two triangles
 				indicies[iCounter]     = p2;
 				indicies[iCounter + 1] = p1;
 				indicies[iCounter + 2] = p4;
@@ -127,7 +137,7 @@ bool Terrain::Init(Renderer* renderer)
 
 
 
-				//current vertice
+				//! - creates current vertice on point x,z and inserts height data.
 				vertices[vCounter] = { 0.0f + x, height0, 0.0f + z, textureCords.x, textureCords.y, 0x00800000 };
 				vCounter++;
 
@@ -147,31 +157,34 @@ bool Terrain::Init(Renderer* renderer)
 
 
 
-		//create the to be drawn vertex buffer
+		// create the to be drawn vertex buffer
 		if (!SUCCEEDED(device->CreateVertexBuffer(sizeOfVertices,
 			0, FVF_TEXTURED_NORMAL_VERTEX_STRUCTURE,
 			D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
 		{
 			printf("failed creating vertex buffer... \n");
+			logger.Log("Failed creating vertex buffer", "Warning");
 			initialized = false;
 			return false;
 		}
 
-		//create the index buffer for the to be drawn vertices
+		// create the index buffer for the to be drawn vertices
 		if (!SUCCEEDED(device->CreateIndexBuffer(sizeOfIndices,
 			D3DUSAGE_WRITEONLY, D3DFMT_INDEX16,
 			D3DPOOL_MANAGED, &indexBuffer, NULL)))
 		{
 			printf("failed creating index buffer... \n");
+			logger.Log("Failed creating index buffer", "Warning");
 			initialized = false;
 			return false;
 		}
 
-		//insert the vertices into the to be drawn vertexbuffer
+		// insert the vertices into the to be drawn vertexbuffer
 		VOID* pVertices;
 		if (!SUCCEEDED(vertexBuffer->Lock(0, sizeOfVertices, (void**)&pVertices, 0)))
 		{
 			printf("failed filling the vertex buffer... \n");
+			logger.Log("Failed filling the vertex buffer", "Warning");
 			initialized = false;
 			return false;
 		}
@@ -179,11 +192,12 @@ bool Terrain::Init(Renderer* renderer)
 		vertexBuffer->Unlock();
 
 
-		//insert the indecis into the to be drawn indexbuffer
+		// insert the indecis into the to be drawn indexbuffer
 		VOID* pIndicies;
 		if (!SUCCEEDED(indexBuffer->Lock(0, sizeOfIndices, (void**)&pIndicies, 0)))
 		{
 			printf("failed filling the index buffer... \n");
+			logger.Log("Failed filling the index buffer", "Warning");
 			initialized = false;
 			return false;
 		}
@@ -191,16 +205,19 @@ bool Terrain::Init(Renderer* renderer)
 		indexBuffer->Unlock();
 
 		printf("Terrain vertexbuffers succefully created...\n");
+		logger.Log("Terrain vertexbuffers succefully created", "Info");
 
-		//get the texture
+		//! gets the texture
 		D3DXCreateTextureFromFile(device, textureName.c_str(), &texture);
 		if (!texture)
 		{
 			MessageBox(NULL, "failed initialising texture", NULL, NULL);
+			logger.Log("Failed initialising texture", "Error");
 			initialized = false;
 			return false;
 		}
 
+		//! returns true is succesful
 		initialized = true;
 		return true;
 	}
@@ -208,7 +225,7 @@ bool Terrain::Init(Renderer* renderer)
 
 void Terrain::Draw(Renderer* renderer)
 {
-	
+	//! draws the terrain if initialised
 	if (initialized == false)
 	{
 		Init(renderer);
@@ -239,7 +256,7 @@ void Terrain::Draw(Renderer* renderer)
 
 void Terrain::CleanUp()
 {
-
+	//! releases vertexbuffer and indexbuffer + texture
 	if (vertexBuffer != NULL)
 	{
 		vertexBuffer->Release();
@@ -267,7 +284,8 @@ void Terrain::CleanUp()
 
 bool Terrain::LoadBMP(std::string argFileName)
 {
-
+	//! load height map from give path and inserts into heightmap data
+	//! is called on program initialization
 	HDC deviceContext;										
 	HANDLE bmp;									
 	HINSTANCE hInstance = NULL;					
@@ -285,6 +303,7 @@ bool Terrain::LoadBMP(std::string argFileName)
 	{
 		char s[100];
 		wsprintf(s, "Can't find HeightMask %s", argFileName);
+		logger.Log("Can't find HeightMask" + argFileName, "Error");
 		MessageBox(NULL, s, "ERROR ERROR ERROR", MB_OK);
 		return false;		
 	}

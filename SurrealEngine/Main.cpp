@@ -1,3 +1,6 @@
+/*! \file  Main.cpp
+\brief this class is used to move drawable objects around in the world
+*/
 #include <Windows.h>
 #include <iostream>
 #include "Kernel.h"
@@ -5,7 +8,6 @@
 int main()
 {
 	Kernel kernel;
-
 	std::cout << "Welcome at Surrealengine" << std::endl;
 	std::string interfaceType;
 	std::cout << "Would you like the 'beginner' or 'advanced' interface?:" << std::endl;
@@ -16,8 +18,9 @@ int main()
 	}
 	//! The n00b interface
 	if(interfaceType == "beginner"){
+		//! intialises kernel and initiates its main routine
 		if (kernel.Init(true))
-			kernel.Update();
+				kernel.Update();
 	}
 	//! The sandbox interface
 	if (interfaceType == "advanced") {

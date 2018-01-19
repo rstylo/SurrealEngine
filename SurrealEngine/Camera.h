@@ -1,10 +1,6 @@
-/*
-* Name: Camera.h
-* Description: This class is used for setting up the camera's world matrix of the current scene
-* Note: no actual scene is needed for use of this class
+/*! \file Camera.h
+	\brief This class is used for setting up the view matrix of the current scene
 */
-
-
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
