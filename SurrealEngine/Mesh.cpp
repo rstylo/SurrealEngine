@@ -31,10 +31,16 @@ bool Mesh::Init(Renderer* renderer)
 				&materialBuffer, NULL, &numOfMaterials,
 				&mesh)))
 			{
-				MessageBox(NULL, (std::string("Could not find " + meshPath )).c_str(), NULL, NULL);
-				renderer->Log("Could not find " + meshPath, "Error");
-				CleanUp();
-				return false;
+				if (!SUCCEEDED(D3DXLoadMeshFromX(("..\\" + meshPath).c_str(), D3DXMESH_SYSTEMMEM,
+					device, NULL,
+					&materialBuffer, NULL, &numOfMaterials,
+					&mesh)))
+				{
+					MessageBox(NULL, (std::string("Could not find " + meshPath)).c_str(), NULL, NULL);
+					renderer->Log("Could not find " + meshPath, "Error");
+					CleanUp();
+					return false;
+				}
 			}
 
 

@@ -82,7 +82,7 @@ void SceneManager::Update()
 
 void SceneManager::LoadScene(std::string sceneName)
 {
-	//! laods scene with given name and sets it to current scene if existing. Unloads other scene to free space
+	//! loads scene with given name and sets it to current scene if existing. Unloads other scene to free space
 	if (GetScene(sceneName) != NULL)
 	{
 		UnloadScene();
@@ -222,7 +222,7 @@ void SceneManager::CreateScene()
 
 	//set default values
 	Scene* newScene = GetScene(sceneName);
-	newScene->CreateTerrainWithTexture("map1.bmp", "texture1.jpg");
+	newScene->CreateTerrainWithTexture("map.bmp", "texture1.jpg");
 	newScene->CreateSkyboxWithTexture("skybox.jpg");
 }
 
@@ -299,6 +299,14 @@ void SceneManager::MoveTerrain()
 void SceneManager::LoadSceneFromFile(std::string fileName)
 {
 	std::ifstream file(fileName);
+	if (file.fail()) {
+		file.open(("..\\" + fileName));
+		if (file.fail()) {
+			logger.Log("File " + fileName + " not found", "Error");
+			std::cout << "File " + fileName + " not found" << std::endl;
+			return;
+		}
+	}
 	std::string line;
 	while (std::getline(file, line)) //read all lines
 	{
@@ -307,8 +315,8 @@ void SceneManager::LoadSceneFromFile(std::string fileName)
 			std::string sceneName;
 			std::getline(file, sceneName);
 
-			this->CreateScene(sceneName);
-			this->LoadScene(sceneName);
+			CreateScene(sceneName);
+			LoadScene(sceneName);
 		}
 		else if (line == "terrain")
 		{
@@ -366,11 +374,7 @@ void SceneManager::CreateLevel() {
 	std::cin >> sceneName;
 	CreateScene(sceneName);
 	LoadScene(sceneName);
-	std::cout << "Terrain bitmap: ";
-	std::cin >> terrainMap;
-	std::cout << "Terrain texture: ";
-	std::cin >> terrainTexture;
-	currentScene->CreateTerrainWithTexture(terrainMap, terrainTexture);
+	ChangeTerrain();
 	std::cout << "Skybox image: ";
 	std::cin >> skyboxImg;
 	currentScene->CreateSkyboxWithTexture(skyboxImg);

@@ -24,7 +24,6 @@ public:
 	virtual void Update();										//main routine, used for moving and rotating the view matrix
 
 	virtual void MoveTo(float);									//move the camera towards a certain angle
-	virtual void MoveToTwo(float);									//moves the camera towards two angles
 	virtual void Rotate(float, float);							//rotate transform pitch and yaw
 
 	virtual void MoveLeft();									//"overloaded" moveTo funtion

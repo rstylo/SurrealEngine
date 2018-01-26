@@ -211,10 +211,13 @@ bool Terrain::Init(Renderer* renderer)
 		D3DXCreateTextureFromFile(device, textureName.c_str(), &texture);
 		if (!texture)
 		{
-			MessageBox(NULL, "failed initialising texture", NULL, NULL);
-			logger.Log("Failed initialising texture", "Error");
-			initialized = false;
-			return false;
+			D3DXCreateTextureFromFile(device, ("..\\"+textureName).c_str(), &texture);
+			if (!texture) {
+				MessageBox(NULL, "failed initialising texture", NULL, NULL);
+				logger.Log("Failed initialising texture", "Error");
+				initialized = false;
+				return false;
+			}
 		}
 
 		//! returns true is succesful
@@ -301,11 +304,14 @@ bool Terrain::LoadBMP(std::string argFileName)
 	bmp = LoadImage(hInstance, argFileName.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	if (bmp == NULL)	
 	{
-		char s[100];
-		wsprintf(s, "Can't find HeightMask %s", argFileName);
-		logger.Log("Can't find HeightMask" + argFileName, "Error");
-		MessageBox(NULL, s, "ERROR ERROR ERROR", MB_OK);
-		return false;		
+		bmp = LoadImage(hInstance, ("..\\" + argFileName).c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+		if (bmp == NULL) {
+			char s[100];
+			wsprintf(s, "Can't find HeightMask %s", argFileName);
+			logger.Log("Can't find HeightMask" + argFileName, "Error");
+			MessageBox(NULL, s, "ERROR ERROR ERROR", MB_OK);
+			return false;
+		}
 	}
 
 	SelectObject(deviceContext, bmp);

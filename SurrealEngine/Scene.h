@@ -84,8 +84,6 @@ private:
 	std::map<int, Camera*> cameras;
 	std::map<uint32_t, Entity*> entities;
 
-	
-
 
 };
 

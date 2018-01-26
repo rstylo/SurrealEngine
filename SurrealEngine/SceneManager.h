@@ -59,7 +59,7 @@ public:
 private:
 	ResourceManager* resourceManager;											//! pointer to resourceManager that holds all active and not active resources
 	std::map<std::string, Scene*> scenes;										//! all scenes with their identification name
-	
+
 	bool loading;
 	bool initialized;
 	

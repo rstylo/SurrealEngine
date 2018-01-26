@@ -51,6 +51,7 @@ void Logger::Log(int value)
 void Logger::Log(std::string text, std::string type)
 {
 	//! log error type
+	Logtime();
 	file1.open("logfile.txt", std::ios::app);
 	file1 << "<<" << type << ">>" << std::endl;
 	file1 << text;

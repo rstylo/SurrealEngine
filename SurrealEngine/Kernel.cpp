@@ -85,11 +85,15 @@ bool Kernel::Init(bool windowed,int width, int height, int width2, int height2)
 	devDisplay = new Wnd("DevWindow", "Dev window", width2, height2);							//window die view van een andere persoctive geeft
 
 	std::string rendertype, levelchoice, level;
-	std::cout << "Renderer (choose between 'DirectX' and 'OpenGL'):  ";
-	while (rendertype != "DirectX" && rendertype != "OpenGL") {
+	std::cout << "Renderer (choose between 'directx' and 'opengl'):  ";
+	while (rendertype != "directx" && rendertype != "opengl") {
 		std::cin >> rendertype;
-		if(rendertype != "DirectX" && rendertype != "OpenGL")
+		if(rendertype != "directx" && rendertype != "opengl")
 			std::cout << "Please select one of the above" << std::endl;
+		if (rendertype == "opengl") {
+			std::cout << "OpenGL is not available yet, DirectX is automatically chosen" << std::endl;
+			rendertype = "directx";
+		}
 	}
 	std::cout << "Would you like to create a scene or import a levelfile? (please enter 'import' or 'create'):" << std::endl;
 	while (levelchoice != "import" && levelchoice != "create") {
@@ -102,9 +106,9 @@ bool Kernel::Init(bool windowed,int width, int height, int width2, int height2)
 		std::cin >> level;
 	}
 
-	if(rendertype == "DirectX")
+	if(rendertype == "directx")
 		renderer = new DirectXRenderer();
-	if (rendertype == "OpenGL")
+	if (rendertype == "opengl")
 		renderer = new OpenGLRenderer();
 
 	SetWindowPos(GetConsoleWindow(), 0, width, height2, 0, 0, SWP_NOSIZE | SWP_NOZORDER);

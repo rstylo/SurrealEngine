@@ -67,10 +67,13 @@ bool Object::Init(Renderer* renderer)
 			D3DXCreateTextureFromFile(device, textureName.c_str(), &texture);
 			if (!texture)
 			{
-				MessageBox(NULL, "failed initialising texture @ object", NULL, NULL);
-				renderer->Log("Failed initialising texture @ object", "Warning");
-				initialised = false;
-				return false;
+				D3DXCreateTextureFromFile(device, ("..\\" + textureName).c_str(), &texture);
+				if(!texture){
+					MessageBox(NULL, "failed initialising texture @ object", NULL, NULL);
+					renderer->Log("Failed initialising texture @ object", "Warning");
+					initialised = false;
+					return false;
+				}
 			}
 
 			vertexBuffer = NULL;

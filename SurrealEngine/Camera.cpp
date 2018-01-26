@@ -121,14 +121,6 @@ void Camera::MoveTo(float rot)
 	position.x += sin(rot)*speed;
 }
 
-void Camera::MoveToTwo(float rot)
-{
-	//! move to a position relative to the camera current position(squared) using radians
-	float speed = 0.25 / sqrt(2);
-	position.z -= cos(rot)*speed;
-	position.x += sin(rot)*speed;
-}
-
 void Camera::Rotate(float x, float y)
 {
 	//! rotate the camera depending on a x andy position, generally from a mouse

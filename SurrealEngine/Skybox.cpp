@@ -27,16 +27,18 @@ bool Skybox::Init(Renderer* renderer)
 		// Use D3DX to create a texture from a file based image
 		if (FAILED(D3DXCreateTextureFromFile(device, textureName.c_str(), &skyboxTexture)))
 		{
-			MessageBox(NULL, "Could not find skybox texture", NULL, NULL);
-			logger.Log("Could not find skybox texture", "Warning");
-			return false;
+			if (FAILED(D3DXCreateTextureFromFile(device, ("..\\" + textureName).c_str(), &skyboxTexture))) {
+				MessageBox(NULL, "Could not find skybox texture", NULL, NULL);
+				logger.Log("Could not find skybox texture", "Warning");
+				return false;
+			}
 		}
 		
 		if (FAILED(device->CreateVertexBuffer(14 * sizeof(CUSTOMVERTEX),
 			0, D3DFVF_XYZ | D3DFVF_TEX1,
 			D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
 		{
-			MessageBox(NULL, "Could not create vertexbuffer", NULL, NULL);
+			MessageBox(NULL,  "Could not create vertexbuffer", NULL, NULL);
 			logger.Log("Could not create vertexbuffer", "Error");
 			return false;
 		}
