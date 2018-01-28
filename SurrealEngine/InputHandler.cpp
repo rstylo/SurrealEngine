@@ -33,6 +33,8 @@ bool InputHandler::Init(HWND* _hwnd)
 	//! initialise input handler with a window that needs to focussed on to get input
 	if FAILED(DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dInput, NULL))
 	{
+		printf("failed creating a directInput device\n");
+		logger.Log("Failed creating a directInput device", "Error");
 		return false;
 	}
 
@@ -42,11 +44,13 @@ bool InputHandler::Init(HWND* _hwnd)
 	SetFocus(*_hwnd);
 	if (!(mouse->Init(_hwnd) && keyboard->Init()))
 	{
-		printf("failed initializing keyboard/mouse");
+		printf("failed initializing keyboard/mouse\n");
+		logger.Log("Failed initializing keyboard/mouse", "Error");
 		SaveReleaseDevice();
 	}
 
-
+	printf("Initialized the mouse and keyboard\n");
+	logger.Log("Initialized the mouse and keyboard", "Info");
 	return true;
 }
 
@@ -107,8 +111,10 @@ bool InputHandler::CheckKeyboardPressed(char _key)
 		return keyboard->CheckKeyPressed(DIK_E);
 	case 'q':
 		return keyboard->CheckKeyPressed(DIK_Q);
+	case 'h':
+		return keyboard->CheckKeyPressed(DIK_H);
 	case '`':
-		return keyboard->CheckKeyPressed(DIK_ESCAPE);
+		return keyboard->CheckKeyPressed(DIK_ESCAPE);	
 	}
 
 	return false;

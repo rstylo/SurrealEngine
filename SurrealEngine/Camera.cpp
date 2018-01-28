@@ -5,8 +5,6 @@
 
 Camera::Camera(Vector3 _rotation, Vector3 _translation, HWND* _hwnd, InputHandler* _inputHandler)
 {
-	
-
 	cameraHeight = 0;
 
 	lookingAt = false;
@@ -20,7 +18,7 @@ Camera::Camera(Vector3 _rotation, Vector3 _translation, HWND* _hwnd, InputHandle
 	position.z = _translation.z;
 
 	hwnd = _hwnd;
-	inputHandler = _inputHandler;
+	inputHandler = _inputHandler;			
 }
 
 
@@ -30,7 +28,6 @@ Camera::~Camera()
 
 void Camera::SetupView(Renderer* renderer)
 {
-
 	//! setup view matrix
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
 		LPDIRECT3DDEVICE9 _device = *dxrenderer->GetDevice();
@@ -44,7 +41,6 @@ void Camera::SetupView(Renderer* renderer)
 
 void Camera::SetLookAt(bool state)
 {
-
 	//! set position camera should look at
 	lookingAt = state;
 }
@@ -56,10 +52,10 @@ void Camera::Update()
 	if (*hwnd == GetFocus()) {
 		if (inputHandler->CheckKeyboardPressed('w')) {
 			if (inputHandler->CheckKeyboardPressed('a')) {
-				MoveToTwo(rotation.y + (0.25 * pi));
+				MoveTo(rotation.y + (0.25 * pi));
 			}
 			else if (inputHandler->CheckKeyboardPressed('d')) {
-				MoveToTwo(rotation.y - (0.25 * pi));
+				MoveTo(rotation.y - (0.25 * pi));
 			}
 			else {
 				MoveForwards();
@@ -67,10 +63,10 @@ void Camera::Update()
 		}
 		else if (inputHandler->CheckKeyboardPressed('s')) {
 			if (inputHandler->CheckKeyboardPressed('a')) {
-				MoveToTwo(rotation.y + (0.75 * pi));
+				MoveTo(rotation.y + (0.75 * pi));
 			}
 			else if (inputHandler->CheckKeyboardPressed('d')) {
-				MoveToTwo(rotation.y - (0.75 * pi));
+				MoveTo(rotation.y - (0.75 * pi));
 			}
 			else {
 				MoveBackwards();
@@ -92,10 +88,10 @@ void Camera::Update()
 			MoveDown();
 		}
 		if (inputHandler->CheckKeyboardPressed('e')) {
-			Rotate(0, 1);
+			Rotate(1, 0);
 		}
 		if (inputHandler->CheckKeyboardPressed('q')) {
-			Rotate(0, -1);
+			Rotate(-1, 0);
 		}
 
 		if (heightData != NULL && depth != NULL) {
@@ -119,17 +115,8 @@ void Camera::Update()
 
 void Camera::MoveTo(float rot)
 {
-
 	//! move to a position relative to the camera current position using radians
 	float speed = 0.25;
-	position.z -= cos(rot)*speed;
-	position.x += sin(rot)*speed;
-}
-
-void Camera::MoveToTwo(float rot)
-{
-	//! move to a position relative to the camera current position(squared) using radians
-	float speed = 0.25 / sqrt(2);
 	position.z -= cos(rot)*speed;
 	position.x += sin(rot)*speed;
 }
@@ -144,8 +131,6 @@ void Camera::Rotate(float x, float y)
 
 void Camera::MoveLeft()
 {
-
-
 	float rotLeft = rotation.y + (0.5 * pi);
 	MoveTo(rotLeft);
 }

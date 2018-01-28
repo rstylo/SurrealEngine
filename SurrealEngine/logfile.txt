@@ -24,3 +24,477 @@ test
 5
 22/10/2017 - 14:05
 5
+26/1/2018 - 15:44
+26/1/2018 - 15:44
+<<Info>>
+GameWindow and devWindow succefully initialised...
+26/1/2018 - 15:44
+<<Info>>
+GameRenderer succefully initialised...
+26/1/2018 - 15:44
+<<Info>>
+Initialized the mouse and keyboard
+26/1/2018 - 15:44
+<<Info>>
+Input handler succefully initialized...
+26/1/2018 - 15:44
+<<Info>>
+Terrain already existed in scene. Map and texture have been changed
+26/1/2018 - 15:44
+<<Info>>
+Skybox already existed in scene. Texture has been changed
+26/1/2018 - 15:44
+<<Info>>
+Added entity 67770912
+26/1/2018 - 15:44
+<<Info>>
+Added entity 67770704
+26/1/2018 - 15:44
+<<Info>>
+Added entity 67770392
+26/1/2018 - 15:44
+<<Info>>
+Added entity 67769976
+26/1/2018 - 15:44
+<<Info>>
+Added entity 67770496
+26/1/2018 - 15:44
+<<Info>>
+Added entity 67769872
+26/1/2018 - 15:44
+<<Info>>
+Added entity 67770080
+26/1/2018 - 15:44
+<<Warning>>
+Tried to add camera 0 but it already exists
+26/1/2018 - 15:44
+<<Warning>>
+Tried to add camera 1 but it already exists
+26/1/2018 - 15:44
+<<Info>>
+Succesfully loaded the heightmap
+26/1/2018 - 15:44
+<<Info>>
+Terrain vertexbuffers succefully created
+28/1/2018 - 10:58
+28/1/2018 - 10:58
+<<Info>>
+GameWindow and devWindow succefully initialised...
+28/1/2018 - 10:58
+<<Info>>
+GameRenderer succefully initialised...
+28/1/2018 - 10:58
+<<Info>>
+Initialized the mouse and keyboard
+28/1/2018 - 10:58
+<<Info>>
+Input handler succefully initialized...
+28/1/2018 - 10:58
+<<Info>>
+Terrain already existed in scene. Map and texture have been changed
+28/1/2018 - 10:58
+<<Info>>
+Skybox already existed in scene. Texture has been changed
+28/1/2018 - 10:58
+<<Info>>
+Added entity 66270744
+28/1/2018 - 10:58
+<<Info>>
+Added entity 66270120
+28/1/2018 - 10:58
+<<Info>>
+Added entity 66270328
+28/1/2018 - 10:58
+<<Info>>
+Added entity 66270848
+28/1/2018 - 10:58
+<<Info>>
+Added entity 66270432
+28/1/2018 - 10:58
+<<Info>>
+Added entity 66270952
+28/1/2018 - 10:58
+<<Info>>
+Added entity 66271368
+28/1/2018 - 10:58
+<<Warning>>
+Tried to add camera 0 but it already exists
+28/1/2018 - 10:58
+<<Warning>>
+Tried to add camera 1 but it already exists
+28/1/2018 - 10:58
+<<Info>>
+Succesfully loaded the heightmap
+28/1/2018 - 10:58
+<<Info>>
+Terrain vertexbuffers succefully created
+28/1/2018 - 10:58
+<<Error>>
+Could not find 
+28/1/2018 - 10:58
+<<Error>>
+Could not find 
+28/1/2018 - 10:58
+<<Error>>
+Could not find 
+28/1/2018 - 10:58
+<<Error>>
+Could not find 
+28/1/2018 - 10:58
+<<Error>>
+Could not find 
+28/1/2018 - 10:58
+<<Error>>
+Could not find 
+28/1/2018 - 10:58
+<<Error>>
+Could not find 
+28/1/2018 - 11:00
+28/1/2018 - 11:00
+<<Info>>
+GameWindow and devWindow succefully initialised...
+28/1/2018 - 11:00
+<<Info>>
+GameRenderer succefully initialised...
+28/1/2018 - 11:00
+<<Info>>
+Initialized the mouse and keyboard
+28/1/2018 - 11:00
+<<Info>>
+Input handler succefully initialized...
+28/1/2018 - 11:00
+<<Info>>
+Terrain already existed in scene. Map and texture have been changed
+28/1/2018 - 11:00
+<<Info>>
+Skybox already existed in scene. Texture has been changed
+28/1/2018 - 11:00
+<<Info>>
+Added entity 18184680
+28/1/2018 - 11:00
+<<Info>>
+Added entity 18183016
+28/1/2018 - 11:00
+<<Info>>
+Added entity 18184264
+28/1/2018 - 11:00
+<<Info>>
+Added entity 18183952
+28/1/2018 - 11:00
+<<Info>>
+Added entity 18183328
+28/1/2018 - 11:00
+<<Info>>
+Added entity 18183432
+28/1/2018 - 11:00
+<<Info>>
+Added entity 18184576
+28/1/2018 - 11:00
+<<Warning>>
+Tried to add camera 0 but it already exists
+28/1/2018 - 11:00
+<<Warning>>
+Tried to add camera 1 but it already exists
+28/1/2018 - 11:00
+<<Info>>
+Succesfully loaded the heightmap
+28/1/2018 - 11:00
+<<Info>>
+Terrain vertexbuffers succefully created
+28/1/2018 - 11:01
+28/1/2018 - 11:01
+<<Info>>
+GameWindow and devWindow succefully initialised...
+28/1/2018 - 11:01
+<<Info>>
+GameRenderer succefully initialised...
+28/1/2018 - 11:01
+<<Info>>
+Initialized the mouse and keyboard
+28/1/2018 - 11:01
+<<Info>>
+Input handler succefully initialized...
+28/1/2018 - 11:01
+<<Info>>
+Terrain already existed in scene. Map and texture have been changed
+28/1/2018 - 11:01
+<<Info>>
+Skybox already existed in scene. Texture has been changed
+28/1/2018 - 11:01
+<<Info>>
+Added entity 7631616
+28/1/2018 - 11:01
+<<Info>>
+Added entity 7631824
+28/1/2018 - 11:01
+<<Info>>
+Added entity 7632136
+28/1/2018 - 11:01
+<<Info>>
+Added entity 7631720
+28/1/2018 - 11:01
+<<Info>>
+Added entity 7632240
+28/1/2018 - 11:01
+<<Info>>
+Added entity 7632760
+28/1/2018 - 11:01
+<<Info>>
+Added entity 7631928
+28/1/2018 - 11:01
+<<Warning>>
+Tried to add camera 0 but it already exists
+28/1/2018 - 11:01
+<<Warning>>
+Tried to add camera 1 but it already exists
+28/1/2018 - 11:01
+<<Info>>
+Succesfully loaded the heightmap
+28/1/2018 - 11:01
+<<Info>>
+Terrain vertexbuffers succefully created
+28/1/2018 - 12:26
+28/1/2018 - 12:26
+<<Info>>
+GameWindow and devWindow succefully initialised...
+28/1/2018 - 12:26
+<<Info>>
+GameRenderer succefully initialised...
+28/1/2018 - 12:26
+<<Info>>
+Initialized the mouse and keyboard
+28/1/2018 - 12:26
+<<Info>>
+Input handler succefully initialized...
+28/1/2018 - 12:26
+<<Info>>
+Terrain already existed in scene. Map and texture have been changed
+28/1/2018 - 12:26
+<<Info>>
+Skybox already existed in scene. Texture has been changed
+28/1/2018 - 12:26
+<<Info>>
+Added entity 61351680
+28/1/2018 - 12:26
+<<Info>>
+Added entity 61351368
+28/1/2018 - 12:26
+<<Info>>
+Added entity 61351472
+28/1/2018 - 12:26
+<<Info>>
+Added entity 61350848
+28/1/2018 - 12:26
+<<Info>>
+Added entity 61351056
+28/1/2018 - 12:26
+<<Info>>
+Added entity 61351160
+28/1/2018 - 12:26
+<<Info>>
+Added entity 61352200
+28/1/2018 - 12:26
+<<Warning>>
+Tried to add camera 0 but it already exists
+28/1/2018 - 12:26
+<<Warning>>
+Tried to add camera 1 but it already exists
+28/1/2018 - 12:26
+<<Info>>
+Succesfully loaded the heightmap
+28/1/2018 - 12:49
+28/1/2018 - 12:49
+<<Info>>
+GameWindow and devWindow succefully initialised...
+28/1/2018 - 12:49
+<<Info>>
+GameRenderer succefully initialised...
+28/1/2018 - 12:49
+<<Info>>
+Initialized the mouse and keyboard
+28/1/2018 - 12:49
+<<Info>>
+Input handler succefully initialized...
+28/1/2018 - 12:49
+<<Info>>
+Terrain already existed in scene. Map and texture have been changed
+28/1/2018 - 12:49
+<<Info>>
+Skybox already existed in scene. Texture has been changed
+28/1/2018 - 12:49
+<<Info>>
+Added entity 7382552
+28/1/2018 - 12:49
+<<Info>>
+Added entity 7382864
+28/1/2018 - 12:49
+<<Info>>
+Added entity 7383696
+28/1/2018 - 12:49
+<<Info>>
+Added entity 7382656
+28/1/2018 - 12:49
+<<Info>>
+Added entity 7383072
+28/1/2018 - 12:49
+<<Info>>
+Added entity 7383384
+28/1/2018 - 12:49
+<<Info>>
+Added entity 7382344
+28/1/2018 - 12:49
+<<Warning>>
+Tried to add camera 0 but it already exists
+28/1/2018 - 12:49
+<<Warning>>
+Tried to add camera 1 but it already exists
+28/1/2018 - 12:49
+<<Info>>
+Succesfully loaded the heightmap
+28/1/2018 - 12:52
+28/1/2018 - 12:52
+<<Info>>
+GameWindow and devWindow succefully initialised...
+28/1/2018 - 12:52
+<<Info>>
+GameRenderer succefully initialised...
+28/1/2018 - 12:52
+<<Info>>
+Initialized the mouse and keyboard
+28/1/2018 - 12:52
+<<Info>>
+Input handler succefully initialized...
+28/1/2018 - 12:52
+<<Info>>
+Terrain already existed in scene. Map and texture have been changed
+28/1/2018 - 12:52
+<<Info>>
+Skybox already existed in scene. Texture has been changed
+28/1/2018 - 12:52
+<<Info>>
+Added entity 66826696
+28/1/2018 - 12:52
+<<Info>>
+Added entity 66825968
+28/1/2018 - 12:52
+<<Info>>
+Added entity 66824928
+28/1/2018 - 12:52
+<<Info>>
+Added entity 66825240
+28/1/2018 - 12:52
+<<Info>>
+Added entity 66825344
+28/1/2018 - 12:52
+<<Info>>
+Added entity 66826072
+28/1/2018 - 12:52
+<<Info>>
+Added entity 66825552
+28/1/2018 - 12:52
+<<Warning>>
+Tried to add camera 0 but it already exists
+28/1/2018 - 12:52
+<<Warning>>
+Tried to add camera 1 but it already exists
+28/1/2018 - 12:52
+<<Info>>
+Succesfully loaded the heightmap
+28/1/2018 - 12:54
+28/1/2018 - 12:54
+<<Info>>
+GameWindow and devWindow succefully initialised...
+28/1/2018 - 12:54
+<<Info>>
+GameRenderer succefully initialised...
+28/1/2018 - 12:54
+<<Info>>
+Initialized the mouse and keyboard
+28/1/2018 - 12:54
+<<Info>>
+Input handler succefully initialized...
+28/1/2018 - 12:54
+<<Info>>
+Terrain already existed in scene. Map and texture have been changed
+28/1/2018 - 12:54
+<<Info>>
+Skybox already existed in scene. Texture has been changed
+28/1/2018 - 12:54
+<<Info>>
+Added entity 10587864
+28/1/2018 - 12:54
+<<Info>>
+Added entity 10587240
+28/1/2018 - 12:54
+<<Info>>
+Added entity 10588696
+28/1/2018 - 12:54
+<<Info>>
+Added entity 10587552
+28/1/2018 - 12:54
+<<Info>>
+Added entity 10588384
+28/1/2018 - 12:54
+<<Info>>
+Added entity 10587136
+28/1/2018 - 12:54
+<<Info>>
+Added entity 10587344
+28/1/2018 - 12:54
+<<Warning>>
+Tried to add camera 0 but it already exists
+28/1/2018 - 12:54
+<<Warning>>
+Tried to add camera 1 but it already exists
+28/1/2018 - 12:54
+<<Info>>
+Succesfully loaded the heightmap
+28/1/2018 - 13:02
+28/1/2018 - 13:02
+<<Info>>
+GameWindow and devWindow succefully initialised...
+28/1/2018 - 13:02
+<<Info>>
+GameRenderer succefully initialised...
+28/1/2018 - 13:02
+<<Info>>
+Initialized the mouse and keyboard
+28/1/2018 - 13:02
+<<Info>>
+Input handler succefully initialized...
+28/1/2018 - 13:02
+<<Info>>
+Terrain already existed in scene. Map and texture have been changed
+28/1/2018 - 13:02
+<<Info>>
+Skybox already existed in scene. Texture has been changed
+28/1/2018 - 13:02
+<<Info>>
+Added entity 13731144
+28/1/2018 - 13:02
+<<Info>>
+Added entity 13731768
+28/1/2018 - 13:02
+<<Info>>
+Added entity 13732496
+28/1/2018 - 13:02
+<<Info>>
+Added entity 13732392
+28/1/2018 - 13:02
+<<Info>>
+Added entity 13732600
+28/1/2018 - 13:02
+<<Info>>
+Added entity 13731248
+28/1/2018 - 13:02
+<<Info>>
+Added entity 13731872
+28/1/2018 - 13:02
+<<Warning>>
+Tried to add camera 0 but it already exists
+28/1/2018 - 13:02
+<<Warning>>
+Tried to add camera 1 but it already exists
+28/1/2018 - 13:02
+<<Info>>
+Succesfully loaded the heightmap

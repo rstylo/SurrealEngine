@@ -12,6 +12,7 @@
 #include <sstream>
 #include "DirectXRenderer.h"
 #include "OpenGLRenderer.h"
+#include "Logger.h"
 
 class Renderer;
 class Wnd;
@@ -27,6 +28,7 @@ public:
 	~Kernel();
 
 	bool Init(bool);				//! initialise in windowed mode or not
+	bool Init(bool,int,int,int,int);
 
 	void Update();					//! main routine
 	void Draw();					//! rendering routine
@@ -39,12 +41,13 @@ private:
 	bool initialized;
 	Renderer* renderer;				
 	SceneManager* sceneManager;		//!  pointer to a manager that control the current scene
-	//LPDIRECT3DDEVICE9* device;
 
 	InputHandler* inputHandler;		//!  pointer to inputhandler class, from which camera can get inputs
+	bool expert;
+
 	Console* console;
 
-
+	Logger logger;
 
 
 };

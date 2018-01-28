@@ -2,17 +2,19 @@
 #include "SceneManager.h"
 
 
-
-Console::Console(SceneManager* _sceneManager)
+Console::Console(SceneManager* _sceneManager, bool expert)
 {
 	
 	sceneManager = _sceneManager;
 	//! registers àll command functions in scenemanager by using a void pointer to static member of scenemanager
 	//! 
-	commands["spawn mesh"] = &SceneManager::SpawnEntityMesh;						
-	commands["spawn object"] = &SceneManager::SpawnEntityObject;						
+	commands["spawn mesh"] = &SceneManager::SpawnEntityMesh;
+	commands["spawn object"] = &SceneManager::SpawnEntityObject;
 	commands["set scene"] = &SceneManager::SetScene;
-	commands["create scene"] = &SceneManager::CreateScene;
+	if(expert == false)
+		commands["create scene"] = &SceneManager::CreateScene;
+	else
+		commands["create scene"] = &SceneManager::CreateLevel;
 	commands["change terrain"] = &SceneManager::ChangeTerrain;
 	commands["move entity"] = &SceneManager::MoveEntity;
 	commands["move terrain"] = &SceneManager::MoveTerrain;
@@ -30,8 +32,10 @@ void Console::DoCommand(std::string commandText)
 	//! check and do the command if possible, by calling the void* to memeber of scenemanager it with a scenemanager object
 	if (commands.find(commandText) != commands.end())
 		(sceneManager->*(commands.find(commandText)->second))();		
-	else
+	else {
 		PrintL("command not found....");
+		logger.Log("command not found: " + commandText, "Warning");
+	}
 }
 
 void Console::PrintHelp()
@@ -42,14 +46,13 @@ void Console::PrintHelp()
 	{
 		PrintL(it->first);
 	}
+	PrintL("Press 'b' to enter the commands");
 	PrintL("'-' or enter to quit read line");
 }
 
 void Console::ReadLine()
 {
 	//! get current line in console
-	 std::cout << std::endl;
-
 	std::getline(std::cin, currentLine);
 
 

@@ -20,6 +20,7 @@ public:
 
 	virtual bool Init(Renderer*) = 0;
 	virtual void Draw(Renderer*) = 0;
+
 	virtual void CleanUp() = 0;
 
 

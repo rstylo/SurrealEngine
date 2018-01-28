@@ -37,7 +37,6 @@ private:
 	std::map<std::string, uint32_t> meshes;			//! holds id's to meshes
 	std::map<std::string, uint32_t> objects;		//! holds id's to objects
 
-
 };
 
 #endif // !RESOURCEMANAGER_H_

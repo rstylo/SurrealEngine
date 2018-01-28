@@ -1,7 +1,6 @@
 /*! \file Camera.h
 	\brief This class is used for setting up the view matrix of the current scene
 */
-
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
@@ -25,7 +24,6 @@ public:
 	virtual void Update();										//main routine, used for moving and rotating the view matrix
 
 	virtual void MoveTo(float);									//move the camera towards a certain angle
-	virtual void MoveToTwo(float);									//moves the camera towards two angles
 	virtual void Rotate(float, float);							//rotate transform pitch and yaw
 
 	virtual void MoveLeft();									//"overloaded" moveTo funtion

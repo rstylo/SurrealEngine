@@ -2,7 +2,6 @@
 	\brief this class is used to move drawable objects around in the world
 */
 
-
 #ifndef TRANSFORM_H_
 #define TRANSFORM_H_
 
@@ -56,7 +55,6 @@ private:
 	Vector3 position;
 	Vector3 rotation;
 	Vector3 scale;
-
 
 };
 

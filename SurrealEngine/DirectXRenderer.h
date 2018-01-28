@@ -1,15 +1,13 @@
-
-
 /*! \file DirectXRender.h
 	\brief This class is used for setting the render configuration for directx9 only
 */
-
 
 #ifndef DIRECTXRENDERER_H_
 #define DIRECTXRENDERER_H_
 
 #include <d3d9.h> // direct3d 
 #include "Renderer.h"
+#include "Logger.h"
 
 class DirectXRenderer : public Renderer
 {
@@ -23,6 +21,9 @@ public:
 	virtual void End();							//! clear the backbuffer, end of a frame
 	virtual void Present(HWND);					//! display the created backbuffer
 	virtual LPDIRECT3DDEVICE9* GetDevice();		//! returns pointer to a long pointer of d3d rendering device 
+	
+	virtual void Log(std::string, std::string);	//! lets the logger log an error, warning or info
+	virtual void Flush();						//! flushes the logger
 
 
 private:
@@ -30,6 +31,7 @@ private:
 
 	LPDIRECT3D9 direct3d;						//! d3d long pointer
 
+	Logger logger;								//!	 Logger that tracks info, warnings, errors
 };
 
 #endif // RENDERER_H_#pragma once

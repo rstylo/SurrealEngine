@@ -2,7 +2,6 @@
 \brief an extention of inputhandler that hold and gets keyboard inputs
 */
 
-
 #ifndef OBJECT_H_
 #define OBJECT_H_
 

@@ -1,28 +1,10 @@
-/*
-
-Hier wat info over delete en release
-you call reset and it frees the old one.To free it without replacement, you call release.When it goes out of scope, it's destroyed
-
-1) delete
-delete de-allocates the memory allocated by new operator.
-Its part of standard C++.
-2) Release
-Release is related with COM interface.
-It decrease the reference count of the specified interface.
-
-
-*/
-
-
-
-
 #include "DirectXRenderer.h"
-
+#include "logger.h"
 
 
 DirectXRenderer::DirectXRenderer()
 {
-
+	logger.Logtime();
 }
 
 
@@ -50,8 +32,6 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 	//drd pointer met variablen
 	direct3d = Direct3DCreate9(D3D_SDK_VERSION);  //D3D9b_SDK_VERSION??
 
-
-
 	//belangrijkje params voor d3d deviice
 	D3DPRESENT_PARAMETERS presParams;				//"presentation" parameters
 	ZeroMemory(&presParams, sizeof(presParams));
@@ -77,6 +57,7 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 	if (!SUCCEEDED(direct3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &presParams, &device))) //mixed vortex = gecompineerd hardware n software 3d berekeningen
 	{
 		MessageBox(NULL, "issue creating gfx device", NULL, NULL);
+		logger.Log("issue creating gfx device", "Error");
 		return false;
 	}
 
@@ -126,5 +107,15 @@ LPDIRECT3DDEVICE9* DirectXRenderer::GetDevice()
 {
 	//! get rendering device
 	return &device;
+}
+
+void DirectXRenderer::Log(std::string text, std::string type)
+{
+	logger.Log(text, type);
+}
+
+void DirectXRenderer::Flush()
+{
+	logger.Flush();
 }
 

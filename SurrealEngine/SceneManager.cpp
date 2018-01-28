@@ -49,6 +49,7 @@ bool SceneManager::AddScene(Scene* _scene)
 	if (scenes.find(_scene->GetName()) != scenes.end())
 	{
 		std::cout << "Scene: " << _scene->GetName() << " already exists!!" << std::endl;
+		logger.Log("Failed to create Scene. " + _scene->GetName() + " already exists.", "Warning");
 		return false;
 	}
 	scenes[_scene->GetName()] = _scene;
@@ -75,12 +76,13 @@ void SceneManager::Update()
 	else 
 	{
 		printf("no scene selected!");
+		logger.Log("no scene selected!", "Warning");
 	}
 }
 
 void SceneManager::LoadScene(std::string sceneName)
 {
-	//! laods scene with given name and sets it to current scene if existing. Unloads other scene to free space
+	//! loads scene with given name and sets it to current scene if existing. Unloads other scene to free space
 	if (GetScene(sceneName) != NULL)
 	{
 		UnloadScene();
@@ -92,6 +94,7 @@ void SceneManager::LoadScene(std::string sceneName)
 	else
 	{
 		std::cout << "could not find scene: " << sceneName << std::endl;
+		logger.Log("could not find scene: " + sceneName, "Warning");
 	}
 
 
@@ -126,12 +129,11 @@ void SceneManager::Draw(Renderer* renderer, int cam)
 
 void SceneManager::SetupScene(Renderer* renderer, InputHandler* _inputHandler, HWND* _hwnd, HWND* _hwnd2)
 {
-
 	//! setup scene with a inputhandler and two windows to display on
 	if (currentScene != NULL && loading == true)
 	{
 		currentScene->AddCamera(0, Vector3(-0.5, 0, 0), Vector3(-5, -15, 0), _hwnd, _inputHandler); //game camera
-		currentScene->AddCamera(1, Vector3(1.5*pi, 0, 0), Vector3(0, -80, 0), _hwnd2, _inputHandler); //dev camera
+		currentScene->AddCamera(1, Vector3(1.5*pi, 0, 0), Vector3(-50, -80, -50), _hwnd2, _inputHandler); //dev camera
 
 		currentScene->InitEntities(renderer);
 
@@ -139,16 +141,17 @@ void SceneManager::SetupScene(Renderer* renderer, InputHandler* _inputHandler, H
 		currentScene->SetupTerrain(renderer);
 		currentScene->SetupLight(renderer);
 
+		currentScene->SetCameraHeightMap();
+
 		loading = false;
 	}
 }
 
-
 void SceneManager::SpawnEntityMesh()
 {
-	int extraParams[6];
+	float extraParams[6];
 	std::cout << "=Postion=\nx: ";
-	std::cin  >> extraParams[0];
+	std::cin >> extraParams[0];
 	std::cout << "y: ";
 	std::cin >> extraParams[1];
 	std::cout << "z: ";
@@ -165,13 +168,11 @@ void SceneManager::SpawnEntityMesh()
 	std::cin >> meshName;
 
 	currentScene->CreateEntityWithResource(Vector3(extraParams[0], extraParams[1], extraParams[2]), Vector3(extraParams[3], extraParams[4], extraParams[5]), resourceManager->CreateMesh(meshName));
-
-
 }
 
 void SceneManager::SpawnEntityObject()
 {
-	int extraParams[6];
+	float extraParams[6];
 	std::cout << "=Postion=\nx: ";
 	std::cin >> extraParams[0];
 	std::cout << "y: ";
@@ -221,7 +222,7 @@ void SceneManager::CreateScene()
 
 	//set default values
 	Scene* newScene = GetScene(sceneName);
-	newScene->CreateTerrainWithTexture("map1.bmp", "texture1.jpg");
+	newScene->CreateTerrainWithTexture("map.bmp", "texture1.jpg");
 	newScene->CreateSkyboxWithTexture("skybox.jpg");
 }
 
@@ -237,6 +238,7 @@ void SceneManager::ChangeTerrain()
 		std::cout << "TextureFileName:\n";
 		std::cin >> textureName;
 		currentScene->CreateTerrainWithTexture(hMapName, textureName);
+		loading = true;
 	}
 }
 
@@ -244,10 +246,11 @@ void SceneManager::MoveEntity()
 {
 	if (currentScene != NULL)
 	{
-		int extraParams[7];
+		float extraParams[6];
+		int entityId;
 		std::cout << "EntityId:\n: ";
-		std::cin >> extraParams[6];
-		if (!currentScene->GetEntity(extraParams[6]))
+		std::cin >> entityId;
+		if (!currentScene->GetEntity(entityId))
 		{
 			return;
 		}
@@ -265,7 +268,8 @@ void SceneManager::MoveEntity()
 		std::cout << "z: ";
 		std::cin >> extraParams[5];
 
-		currentScene->MoveEntityTo(extraParams[6], Vector3(extraParams[0], extraParams[1], extraParams[2]), Vector3(extraParams[3], extraParams[4], extraParams[5]));
+		currentScene->MoveEntityTo(entityId, Vector3(extraParams[0], extraParams[1], extraParams[2]), Vector3(extraParams[3], extraParams[4], extraParams[5]));
+		std::cout << "Entity " << entityId << " moved" << std::endl;
 	}
 }
 
@@ -273,7 +277,7 @@ void SceneManager::MoveTerrain()
 {
 	if (currentScene != NULL)
 	{
-		int extraParams[6];
+		float extraParams[6];
 
 		std::cout << "=Postion-\nx: ";
 		std::cin >> extraParams[0];
@@ -295,6 +299,14 @@ void SceneManager::MoveTerrain()
 void SceneManager::LoadSceneFromFile(std::string fileName)
 {
 	std::ifstream file(fileName);
+	if (file.fail()) {
+		file.open(("..\\" + fileName));
+		if (file.fail()) {
+			logger.Log("File " + fileName + " not found", "Error");
+			std::cout << "File " + fileName + " not found" << std::endl;
+			return;
+		}
+	}
 	std::string line;
 	while (std::getline(file, line)) //read all lines
 	{
@@ -303,8 +315,8 @@ void SceneManager::LoadSceneFromFile(std::string fileName)
 			std::string sceneName;
 			std::getline(file, sceneName);
 
-			this->CreateScene(sceneName);
-			this->LoadScene(sceneName);
+			CreateScene(sceneName);
+			LoadScene(sceneName);
 		}
 		else if (line == "terrain")
 		{
@@ -350,7 +362,21 @@ void SceneManager::SaveSceneToFile(std::string fileName)
 	saveFile.open(fileName + ".txt");
 
 	saveFile << currentScene->GetSceneInfo();
-
+	
 	saveFile.close();
+	std::cout << "Saved scene to file " << fileName << ".txt" << std::endl;
+	logger.Log("Saved scene to file " + fileName+".txt", "Info");
+}
 
+void SceneManager::CreateLevel() {
+	std::string sceneName, terrainMap, terrainTexture, skyboxImg;
+	std::cout << "Enter the name of the scene you want to create: ";
+	std::cin >> sceneName;
+	CreateScene(sceneName);
+	LoadScene(sceneName);
+	ChangeTerrain();
+	std::cout << "Skybox image: ";
+	std::cin >> skyboxImg;
+	currentScene->CreateSkyboxWithTexture(skyboxImg);
+	logger.Log("Created scene " + sceneName, "Info");
 }

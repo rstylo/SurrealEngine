@@ -1,4 +1,3 @@
-//#include "stdafx.h"
 #include "Wnd.h"
 
 
@@ -64,6 +63,7 @@ bool Wnd::Init(int startX, int startY)
 	{
 		initialized = false;
 		MessageBox(NULL,"Failed creating window!!", NULL, NULL);
+		logger.Log("Failed creating window", "Error");
 		return false;
 	}
 

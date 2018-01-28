@@ -1,5 +1,4 @@
-
-/*! \file  Scene.h
+/*! \file  SceneManager.h
 	\brief This class manages scenes. loads and unloads them. And decides which one is to be renderd
 */
 
@@ -44,7 +43,7 @@ public:
 
 	virtual void LoadSceneFromFile(std::string);
 	virtual void SaveSceneToFile(std::string);
-
+	virtual void CreateLevel();
 		
 	 void SpawnEntityMesh();													//! Command function, will wait for input from console
 	 void SpawnEntityObject();													//! Command function, will wait for input from console
@@ -55,16 +54,16 @@ public:
 	 void MoveEntity();															//! Command function, will wait for input from console
 	 void MoveTerrain();														//! Command function, will wait for input from console
 
-
 	Scene* currentScene;
 
 private:
 	ResourceManager* resourceManager;											//! pointer to resourceManager that holds all active and not active resources
 	std::map<std::string, Scene*> scenes;										//! all scenes with their identification name
-	
+
 	bool loading;
 	bool initialized;
 	
+	Logger logger;
 
 };
 

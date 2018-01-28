@@ -2,13 +2,12 @@
 \brief an extention of inputhandler that hold and gets mouse inputs
 */
 
-
 #ifndef MOUSE_H_
 #define MOUSE_H_
 
 #include <d3d9.h>
 #include <dinput.h>
-#include "InputHandler.h"
+#include "Logger.h"
 
 struct MouseValues {
 	long x;
@@ -42,6 +41,8 @@ private:
 	MouseValues mouseValues;
 
 	DIDEVICEOBJECTDATA od[6];
+
+	Logger logger;
 
 };
 

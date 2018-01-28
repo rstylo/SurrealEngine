@@ -1,5 +1,6 @@
 /*! \file  InputHander.h
 	\brief This class's main purpose is to get input from input devices
+
 */
 
 #ifndef INPUTHANDLER_H_
@@ -8,9 +9,10 @@
 #include <string>
 #include <d3d9.h>
 #include <dinput.h>
+#include "Logger.h"
 
-class Mouse;					
-class Keyboard;					
+class Mouse;					//mouse device
+class Keyboard;					//keyboard device
 
 class InputHandler
 {
@@ -39,6 +41,7 @@ private:
 	HWND* CurrentWindow;
 	LPDIRECTINPUT dInput;
 
+	Logger logger;
 
 };
 

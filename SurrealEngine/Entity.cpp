@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "Resource.h"
+#include "Mesh.h"
 
 
 
@@ -24,7 +25,7 @@ bool Entity::Init(Renderer* renderer)									//de entity draw functie draw all 
 	return true;
 }
 
-void Entity::SetupMatrices(Renderer* renderer, Transform origin)						//setup world matrix for the position in with the resources are to pe drawn 
+void Entity::SetupMatrices(Renderer* renderer, Transform origin)		//setup world matrix for the position in with the resources are to pe drawn 
 {
 	//! calls transform's SetupMatrices
 	transform.SetupMatrices(renderer, origin);
@@ -34,7 +35,7 @@ void Entity::Draw(Renderer* renderer)									//de entity draw functie draw all 
 	//! draws all resource this entity holds, initialising them first if needed
 	for (auto it = myResources.begin(); it != myResources.end(); it++)
 	{
-		if ((*it)->Init(renderer))												//if the current resource is already initialized
+		if ((*it)->Init(renderer))											//if the current resource is already initialized
 			(*it)->Draw(renderer);											//draw it
 	}
 }
@@ -67,37 +68,37 @@ std::string Entity::GetEntityInfo()			//get information off this entity to save
 	//! returns this entytie information for saving the scene
 	std::string entityInfo;
 	entityInfo = "entity\n";
-
 	//name van mesh
-	/*for (auto it = myResources.begin(); it != myResources.end(); it++)
+	for (auto it = myResources.begin(); it != myResources.end(); it++)
 	{
 		//get mesh name by casting the resource to mesh
 		
-		if (Mesh* mesh = dynamic_cast<Mesh>(*it)
+		if (Mesh* mesh = dynamic_cast<Mesh*>(*it))
 		{
-
+			entityInfo += mesh->GetMeshName();
+			entityInfo += "\n";
 			break;
 		}
 		
-	}*/
+	}
 
 	//positie en rotatie van mesh
 	Vector3 pos = transform.GetPosition();
 	Vector3 rot = transform.GetRotation();
 
-	entityInfo += pos.x;
+	entityInfo += std::to_string(pos.x);
 	entityInfo += "\n";
-	entityInfo += pos.y;
+	entityInfo += std::to_string(pos.y);
 	entityInfo += "\n";
-	entityInfo += pos.z;
-	entityInfo += "\n";
-
-	entityInfo += rot.x;
-	entityInfo += "\n";
-	entityInfo += rot.y;
-	entityInfo += "\n";
-	entityInfo += rot.z;
+	entityInfo += std::to_string(pos.z);
 	entityInfo += "\n";
 
+	entityInfo += std::to_string(rot.x);
+	entityInfo += "\n";
+	entityInfo += std::to_string(rot.y);
+	entityInfo += "\n";
+	entityInfo += std::to_string(rot.z);
+	entityInfo += "\n";
+	
 	return entityInfo;
 }

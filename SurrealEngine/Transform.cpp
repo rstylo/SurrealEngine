@@ -5,11 +5,11 @@
 
 Transform::Transform()
 {
-
 	//! initialize position, rotation, scale vectors
 	position = Vector3(0, 0, 0);
 	rotation = Vector3(0, 0, 0);
 	scale = Vector3(1, 1, 1);
+
 }
 
 
@@ -66,6 +66,7 @@ void Transform::SetupMatrices(Renderer* renderer, Transform origin)
 		D3DXMatrixRotationX(&rotX, temprotation.x);
 		D3DXMatrixRotationY(&rotY, temprotation.y);
 		D3DXMatrixRotationZ(&rotZ, temprotation.z);
+
 
 		cameraMtrx = trans* rotZ * rotY * rotX;
 

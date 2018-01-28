@@ -9,6 +9,7 @@
 #include <map>
 #include <iostream>
 #include <d3d9.h>
+#include "Logger.h"
 
 
 
@@ -18,7 +19,7 @@ class Scene;
 class Console
 {
 public:
-	Console(SceneManager*);						//! must have a seen manager to work
+	Console(SceneManager*, bool);						//! must have a seen manager to work
 	virtual ~Console();
 
 	virtual void ReadLine();					//! read current line in console
@@ -38,6 +39,7 @@ private:
 
 	SceneManager* sceneManager;
 	std::map<std::string, void(SceneManager::*)(void)> commands;	//! map with command name as the key and void* to a scenemanager function scenemanager as value
+	Logger logger;
 };
 
 //

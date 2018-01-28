@@ -46,7 +46,7 @@ public:
 
 	virtual void SetupSkybox(Renderer*);
 	virtual void SetupTerrain(Renderer*);
-	
+
 	virtual void CreateEntityWithResource(Vector3, Vector3, Resource*);				//! create an entity with a mesh
 	
 
@@ -78,11 +78,11 @@ private:
 	Terrain* terrain;
 	Skybox* skybox;
 
+	Logger logger;
+
 
 	std::map<int, Camera*> cameras;
 	std::map<uint32_t, Entity*> entities;
-
-	
 
 
 };

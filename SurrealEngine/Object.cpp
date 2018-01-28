@@ -67,9 +67,13 @@ bool Object::Init(Renderer* renderer)
 			D3DXCreateTextureFromFile(device, textureName.c_str(), &texture);
 			if (!texture)
 			{
-				MessageBox(NULL, "failed initialising texture @ object", NULL, NULL);
-				initialised = false;
-				return false;
+				D3DXCreateTextureFromFile(device, ("..\\" + textureName).c_str(), &texture);
+				if(!texture){
+					MessageBox(NULL, "failed initialising texture @ object", NULL, NULL);
+					renderer->Log("Failed initialising texture @ object", "Warning");
+					initialised = false;
+					return false;
+				}
 			}
 
 			vertexBuffer = NULL;
@@ -132,6 +136,7 @@ bool Object::Init(Renderer* renderer)
 				D3DPOOL_DEFAULT, &vertexBuffer, NULL)))
 			{
 				printf("failed creating vertex buffer %d... \n");
+				renderer->Log("Failed creating vertex buffer", "Error");
 				return false;
 			}
 
@@ -140,6 +145,7 @@ bool Object::Init(Renderer* renderer)
 				D3DPOOL_MANAGED, &indexBuffer, NULL)))
 			{
 				printf("failed creating index buffer %d... \n");
+				renderer->Log("Failed creating index buffer", "Error");
 				return false;
 			}
 
@@ -147,6 +153,7 @@ bool Object::Init(Renderer* renderer)
 			if (!SUCCEEDED(vertexBuffer->Lock(0, sizeOfVertices, (void**)&pVertices, 0)))
 			{
 				printf("failed filling the vertex buffer %d... \n");
+				renderer->Log("Failed filling the vertex buffer", "Error");
 				return false;
 			}
 			memcpy(pVertices, vertices, sizeOfIndices);
@@ -156,6 +163,7 @@ bool Object::Init(Renderer* renderer)
 			if (!SUCCEEDED(indexBuffer->Lock(0, sizeof(indicies), (void**)&pIndicies, 0)))
 			{
 				printf("failed filling the index buffer %d... \n");
+				renderer->Log("Failed filling the index buffer", "Error");
 				return false;
 			}
 

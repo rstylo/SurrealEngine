@@ -7,6 +7,7 @@
 #include <Windows.h>
 #include <string>
 #include <iostream>
+#include "Logger.h"
 
 class Wnd
 {
@@ -34,6 +35,7 @@ private:
 	//WPARAM wParam;
 	//LPARAM lParam;
 	bool initialized;
+	Logger logger;
 };
 
 #endif // !WND_H_

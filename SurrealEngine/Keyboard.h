@@ -7,6 +7,7 @@
 
 #include <d3d9.h>
 #include <dinput.h>
+#include "Logger.h"
 
 class Keyboard
 {
@@ -25,6 +26,7 @@ private:
 	LPDIRECTINPUT dInput;						//! directx input from which keyboard is created
 	LPDIRECTINPUTDEVICE dDevice;				//! directx input device
 	byte keybuffer[256];						//! currently pressed keys
+	Logger logger;
 };
 
 #endif

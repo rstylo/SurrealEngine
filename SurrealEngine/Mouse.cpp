@@ -20,26 +20,27 @@ Mouse::~Mouse()
 }
 
 bool Mouse::Init(HWND* _hwnd) {
-	HRESULT result = DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (VOID**)&dInput, NULL);
-	if (FAILED(result))
-	{
-		return false;
-	}
 
-	result = dInput->CreateDevice(GUID_SysMouse, &dDevice, NULL);
+	HRESULT result = dInput->CreateDevice(GUID_SysMouse, &dDevice, NULL);
 	if (FAILED(result))
 	{
+		printf("Failed creating a mouse device\n");
+		logger.Log("Failed creating a mouse device", "Error");
 		return false;
 	}
 
 	result = dDevice->SetDataFormat(&c_dfDIMouse);
 	if (FAILED(result))
 	{
+		printf("Failed setting the mouse data format\n");
+		logger.Log("Failed setting the mouse data format", "Error");
 		return false;
 	}
 
 	if (!SUCCEEDED(dDevice->SetCooperativeLevel(*_hwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
 	{
+		printf("Failed setting the mouse cooperative level\n");
+		logger.Log("Failed setting the mouse cooperative level", "Error");
 		SaveReleaseDevice();
 		return false;
 	}
@@ -47,6 +48,8 @@ bool Mouse::Init(HWND* _hwnd) {
 	result = dDevice->SetProperty(DIPROP_BUFFERSIZE, &dipdw.diph);
 	if (FAILED(result))
 	{
+		printf("Failed setting the mouse property\n");
+		logger.Log("Failed setting the mouse property", "Error");
 		return false;
 	}
 	return true;
@@ -57,6 +60,8 @@ bool Mouse::SetWindow(HWND* _hwnd)
 	if (dDevice != NULL)
 		if (!SUCCEEDED(dDevice->SetCooperativeLevel(*_hwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
 		{
+			printf("Failed setting the mouse cooperative level\n");
+			logger.Log("Failed setting the mouse cooperative level", "Error");
 			SaveReleaseDevice();
 			return false;
 		}
