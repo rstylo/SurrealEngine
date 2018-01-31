@@ -39,7 +39,7 @@ public:
 	virtual void SetupMatrices(Renderer*, int);			//! setup origin matrix
 	virtual void SetupLight(Renderer*);					//! setup light
 
-	virtual void InvalidateObjects();					//! release drawable objects to free space 
+	virtual void InvalidateObjects(Renderer*);					//! release drawable objects to free space 
 
 	virtual bool CreateTerrainWithTexture(std::string map, std::string texture);	//! create(/change if already existing) a terrain with a heightmap and a texture
 	virtual bool CreateSkyboxWithTexture(std::string texture);						//! create(/change if already existing change)  a skybox with a texture
@@ -77,8 +77,6 @@ private:
 
 	Terrain* terrain;
 	Skybox* skybox;
-
-	Logger logger;
 
 
 	std::map<int, Camera*> cameras;

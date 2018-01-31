@@ -28,7 +28,7 @@ public:
 	virtual void SetTexture(std::string);
 	
 	virtual std::string GetObjectName();
-	virtual void CleanUp();
+	virtual void CleanUp(Renderer*);
 
 	
 

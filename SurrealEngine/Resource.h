@@ -21,11 +21,11 @@ public:
 	virtual bool Init(Renderer*) = 0;
 	virtual void Draw(Renderer*) = 0;
 
-	virtual void CleanUp() = 0;
+	virtual void CleanUp(Renderer*) = 0;
 
 
 	virtual uint32_t GetId();						//needs a identifacation number, despite being any other derived version of this class,
-	virtual void Invalidate();
+	virtual void Invalidate(Renderer*);
 	
 protected:
 	uint32_t id;

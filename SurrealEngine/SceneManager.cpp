@@ -17,6 +17,7 @@ SceneManager::SceneManager()
 void SceneManager::Init(Renderer* device)
 {
 	//! is empty
+	renderer = device;
 }
 
 SceneManager::~SceneManager()
@@ -104,7 +105,7 @@ void SceneManager::UnloadScene()
 {
 	//! unloads current scene
 	if(currentScene != NULL)
-		currentScene->InvalidateObjects();
+		currentScene->InvalidateObjects(renderer);
 
 	currentScene = NULL;
 }

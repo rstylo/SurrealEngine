@@ -60,6 +60,7 @@ bool Kernel::Init(bool windowed)
 				renderer->Log("Input handler succefully initialized...", "Info");
 
 				sceneManager = new SceneManager();											//aanmaken van scenemanager
+				sceneManager->Init(renderer);
 				sceneManager->LoadSceneFromFile("level.txt");
 
 

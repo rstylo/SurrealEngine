@@ -5,8 +5,7 @@
 #ifndef TRANSFORM_H_
 #define TRANSFORM_H_
 
-#include "directxrenderer.h"
-#include <d3dx9.h>
+
 
 struct Vector3 {
 	float x, y, z;
@@ -17,20 +16,10 @@ struct Vector3 {
 		y = _y;
 		z = _z;
 	};
-	Vector3 operator-(Vector3 temp) {
-		float _x = x - temp.x;
-		float _y = y - temp.y;
-		float _z = z - temp.z;
-		return Vector3(_x, _y, _z);
-	}
-
-	Vector3 operator+(Vector3 temp) {
-		float _x = x + temp.x;
-		float _y = y + temp.y;
-		float _z = z + temp.z;
-		return Vector3(_x, _y, _z);
-	}
 };
+
+
+class Renderer;
 
 class Transform
 {
@@ -52,6 +41,7 @@ public:
 	virtual void SetScale(Vector3);
 
 private:
+
 	Vector3 position;
 	Vector3 rotation;
 	Vector3 scale;

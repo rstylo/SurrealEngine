@@ -28,30 +28,11 @@ Object::Object(std::string _objectName)
 
 Object::~Object()
 {
-	CleanUp();
 }
 
-void Object::CleanUp()
+void Object::CleanUp(Renderer*)
 {
-	if (vertexBuffer != NULL)
-	{
-		vertexBuffer->Release();
-		vertexBuffer = NULL;
-	}
-
-	if (indexBuffer != NULL)
-	{
-		indexBuffer->Release();
-		indexBuffer = NULL;
-	}
-
-	if (texture != NULL)
-	{
-		texture->Release();
-		texture = NULL;
-	}
-
-	initialised = false;
+	
 }
 
 bool Object::Init(Renderer* renderer)
@@ -61,7 +42,7 @@ bool Object::Init(Renderer* renderer)
 
 		if (initialised == false)
 		{
-			CleanUp();
+			CleanUp(renderer);
 
 			//get the texture
 			D3DXCreateTextureFromFile(device, textureName.c_str(), &texture);

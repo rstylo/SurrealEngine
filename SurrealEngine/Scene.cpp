@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Entity.h"
 #include "Skybox.h"
+#include "DirectXRenderer.h"
 
 Scene::Scene(std::string _name)
 	:name(_name)
@@ -11,6 +12,7 @@ Scene::Scene(std::string _name)
 	id = reinterpret_cast<uint32_t>(this);
 
 	skybox = new Skybox();
+	skybox->SetTexture("texture1.jpg");
 
 	terrain = new Terrain();
 
@@ -66,13 +68,13 @@ bool Scene::InitEntities(Renderer* renderer)
 }
 
 
-void Scene::InvalidateObjects()
+void Scene::InvalidateObjects(Renderer* renderer)
 {
 	//! releases all drawable objects to free space
 	if (skybox != NULL)
-		skybox->Invalidate();
+		skybox->Invalidate(renderer);
 	if (terrain != NULL)
-		terrain->Invalidate();
+		terrain->Invalidate(renderer);
 
 }
 
@@ -132,7 +134,6 @@ void Scene::SetupView(Renderer* renderer, int cam)
 	else
 	{
 		printf("failed displaying camera view for cam: %d \n", &cam);
-		logger.Log("Failed displaying camera view for cam: " + std::to_string(cam), "Error");
 	}
 }
 
@@ -198,7 +199,7 @@ void Scene::AddCamera(int cam, Vector3 _rotation, Vector3 _position, HWND* _hwnd
 		cameras[cam] = new Camera(_rotation, _position, _hwnd, _inputHandler);
 	else
 		printf("camera %d already exists!! \n", cam);
-		logger.Log("Tried to add camera " + std::to_string(cam) + " but it already exists", "Warning");
+		//logger.Log("Tried to add camera " + std::to_string(cam) + " but it already exists", "Warning");
 }
 
 
@@ -216,13 +217,11 @@ void Scene::AddEntity(Entity* _entity)
 	//! add an entity for managing purpose
 	if (entities.find(_entity->GetId()) != entities.end()) {				
 		printf("entity %d already exists!! \n", _entity->GetId());
-		logger.Log("Entity " + std::to_string(_entity->GetId()) + " already existed", "Info");
 		return;
 	}
 
 	entities[_entity->GetId()] = _entity;									
 	printf("added entity %d... \n", _entity->GetId());
-	logger.Log("Added entity " + std::to_string(_entity->GetId()), "Info");
 }
 
 Entity* Scene::GetEntity(uint32_t _uuid)
@@ -232,7 +231,6 @@ Entity* Scene::GetEntity(uint32_t _uuid)
 		return entities.find(_uuid)->second;
 
 	std::cout << " could not find entity " << _uuid << std::endl;
-	logger.Log("Could not find entity " + std::to_string(_uuid), "Warning");
 	return NULL;
 }
 
@@ -243,7 +241,6 @@ void Scene::RemoveEntity(uint32_t _uuid)
 		delete entities.find(_uuid)->second;
 	else
 		std::cout << " could not find entity "<< _uuid << std::endl;
-		logger.Log("Could not find entity " + std::to_string(_uuid), "Warning");
 }
 
 void Scene::MoveTerrainTo(Vector3 position, Vector3 rotation)
@@ -307,7 +304,6 @@ bool Scene::CreateTerrainWithTexture(std::string map, std::string texture)
 	{
 		terrain->SetMapAndTexture(map, texture);
 		printf("terrain already exists in scene, map and texture have been changed!! \n");
-		logger.Log("Terrain already existed in scene. Map and texture have been changed", "Info");
 		return false;
 	}	
 }
@@ -325,7 +321,6 @@ bool Scene::CreateSkyboxWithTexture(std::string texture)
 	{
 		skybox->SetTexture(texture);
 		printf("skybox already exists in scene, texture has been changed!! \n");
-		logger.Log("Skybox already existed in scene. Texture has been changed", "Info");
 		return false;
 	}
 }

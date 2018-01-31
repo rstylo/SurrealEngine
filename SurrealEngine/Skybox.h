@@ -5,11 +5,11 @@
 #ifndef SKYBOX_H_
 #define SKYBOX_H_
 
-#include <d3dx9.h>
+class D3DTexture;
+class D3DVertexBuffer;
+
 #include <string>
 #include "Transform.h"
-
-#define FVF_VERTEX_TEXTURESTRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1) //flexible vertex format
 
 
 class Skybox
@@ -22,7 +22,7 @@ public:
 
 	virtual void Update(Vector3);
 	virtual void Create();
-	virtual void Invalidate();
+	virtual void Invalidate(Renderer*);
 
 
 	virtual void SetupMatrices(Renderer*, Transform);
@@ -37,12 +37,11 @@ private:
 
 	Transform transform;
 
-	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
-	LPDIRECT3DINDEXBUFFER9 indexBuffer;
-	LPDIRECT3DTEXTURE9 skyboxTexture;
 	Vector3 middle;
 
-	Logger logger;
+	//Logger logger;
+
+	uint32_t id;
 };
 
 #endif // !SKYBOX_H_

@@ -21,6 +21,7 @@ class Renderer;
 class ResourceManager;
 class Terrain;
 
+
 class SceneManager
 {
 public:
@@ -64,6 +65,8 @@ private:
 	bool initialized;
 	
 	Logger logger;
+
+	Renderer* renderer;
 
 };
 

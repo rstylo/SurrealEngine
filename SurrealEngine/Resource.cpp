@@ -19,7 +19,7 @@ uint32_t Resource::GetId()
 	return id;
 }
 
-void Resource::Invalidate()
+void Resource::Invalidate(Renderer* renderer)
 {
-	CleanUp();
+	CleanUp(renderer);
 }
