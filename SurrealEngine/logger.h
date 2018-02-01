@@ -1,5 +1,7 @@
-/*! \file  Logger.h
-\brief Logs a message
+/*
+* Class: Logger.h
+* Description :
+* Note :
 */
 
 
@@ -17,12 +19,12 @@ public:
 
 	virtual void Logtime();
 	virtual void Log( int );
-	virtual void Log( std::string );
-	virtual void Log( std::string, std::string );
+	void Log(std::string, std::string);
+	void Log( std::string );
 	void Flush();
 
 private:
-	std::ofstream file1;
+	std::ofstream file;
 };
 
 #endif

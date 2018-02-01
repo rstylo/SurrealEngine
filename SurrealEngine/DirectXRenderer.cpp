@@ -236,6 +236,7 @@ bool DirectXRenderer::LoadHeightMapWithBmp(std::string heightMapName)
 		bmp = LoadImage(hInstance, ("..\\" + heightMapName).c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 		if (bmp == NULL) {
 			char s[100];
+			Log("Can't find find " + heightMapName, "Error");
 			wsprintf(s, "Can't find HeightMask %s", heightMapName);
 			MessageBox(NULL, s, "ERROR ERROR ERROR", MB_OK);
 			return false;

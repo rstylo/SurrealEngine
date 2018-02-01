@@ -40,30 +40,25 @@ bool Skybox::Init(Renderer* renderer)
 	int sizeOfVertices = numOfVertices * sizeof(xyzTextureVertex);		//! - sizeof the vertex array
 	int sizeOfIndices = numOfIndices * sizeof(WORD);					//! - sizeof the indexarray
 
-	/*
+	
 
-	vertices[0].position = -Vector3(-size, -size, size);
-	vertices[1].position = -Vector3(-size, size, size);
-	vertices[2].position = -Vector3(size, -size, size);
-	vertices[3].position = -Vector3(size, size, size);
-	vertices[4].position = -Vector3(size, -size, -size);
-	vertices[5].position = -Vector3(size, size, -size);
-	vertices[6].position = -Vector3(-size, -size, -size);
-	vertices[7].position = -Vector3(-size, size, -size);
+	vertices[0].position = Vector3(+size, +size,-size);
+	vertices[1].position = Vector3(+size,-size,-size);
+	vertices[2].position = Vector3(-size, +size,-size);
+	vertices[3].position = Vector3(-size,-size,-size);
+	vertices[4].position = Vector3(-size, +size, +size);
+	vertices[5].position = Vector3(-size,-size, +size);
+	vertices[6].position = Vector3(+size, +size, +size);
+	vertices[7].position = Vector3(+size,-size, +size);
 
-	vertices[8].position = -Vector3(-size, size, size);		//vertex 1 // top
-	vertices[9].position = -Vector3(-size, size, -size);		//vertex 7
+	vertices[8].position = Vector3(+size,-size,-size);		//vertex 1 // top
+	vertices[9].position = Vector3(+size,-size, +size);		//vertex 7
 
-	vertices[10].position = -Vector3(-size, -size, size);	//vertex 0 // bottom
-	vertices[11].position = -Vector3(-size, -size, -size);	//vertex 6
+	vertices[10].position = Vector3(+size, +size,-size);	//vertex 0 // bottom
+	vertices[11].position = Vector3(+size, +size, +size);	//vertex 6
 
-	vertices[12].position = -Vector3(-size, -size, size);	//vertex 0
-	vertices[13].position = -Vector3(-size, size, size);		//vertex 1
-	*/
-
-
-
-
+	vertices[12].position = Vector3(+size, +size,-size);	//vertex 0
+	vertices[13].position = Vector3(+size,-size,-size);		//vertex 1
 
 	vertices[0].tu = 0.00f;
 	vertices[0].tv = (float)1 / 3 + 1 / height;
@@ -117,10 +112,9 @@ bool Skybox::Init(Renderer* renderer)
 		2, 10, 4,	// side top
 		4, 10, 11,
 	};
+	
 
-
-	return false;
-	if (!renderer->LoadIndexedVertices(std::to_string(id), numOfIndices, numOfVertices, vertices, indicies, sizeOfVertices, sizeOfIndices))
+	if (!renderer->LoadIndexedVertices(std::to_string(id), numOfIndices/3, numOfVertices, vertices, indicies, sizeOfVertices, sizeOfIndices))
 	{
 		MessageBox(NULL, "failed loading skybox vertices", NULL, NULL);
 		return false;

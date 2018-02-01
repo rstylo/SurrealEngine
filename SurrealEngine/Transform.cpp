@@ -38,7 +38,7 @@ void Transform::SetupMatricesRotate(Renderer* renderer, Vector3 _rotation)
 	//! setup matrice with only a given rotation
 	if (renderer != NULL)
 		{
-			renderer->SetupMatricesRotate(position);
+			renderer->SetupMatricesRotate(_rotation);
 		}
 }
 
