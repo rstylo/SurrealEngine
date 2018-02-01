@@ -2,9 +2,7 @@
 #include "Mouse.h"
 #include "Keyboard.h"
 #include "Wnd.h"
-#include "Camera.h"
-#include <cstdlib>
-#include <iostream>
+
 
 InputHandler::InputHandler()
 {

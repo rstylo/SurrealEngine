@@ -6,14 +6,15 @@
 #ifndef SCENEMANAGER_H_
 #define SCENEMANAGER_H_
 
-#include <windows.h>						
-//#include <d3dx9.h>
 #include <cstdint>		//voor unique ids
 #include <map>
-#include "DirectXRenderer.h"
+#include "Renderer.h"
 
 #include <iostream>
+#include <fstream>
+
 #include <string>
+#include "logger.h"
 
 class InputHandler;
 class Scene;

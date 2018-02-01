@@ -1,10 +1,10 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "Renderer.h"
 #include "Scene.h"
 #include "Camera.h"
 
-#include <iostream>
-#include <fstream>
+
 
 SceneManager::SceneManager()
 {

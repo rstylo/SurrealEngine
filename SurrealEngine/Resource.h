@@ -5,10 +5,8 @@
 #ifndef RESOURCE_H_
 #define RESOURCE_H_
 
-#include <Windows.h>
 #include <string>
 #include <cstdint>
-#include <d3dx9.h>
 #include "Renderer.h"
 
 class Resource

@@ -7,7 +7,6 @@
 #define KERNEL_H_
 
 #include <iostream>
-#include <d3dx9.h>
 #include <string>
 #include <sstream>
 #include "DirectXRenderer.h"

@@ -9,6 +9,9 @@
 #include <string>
 #include <d3d9.h>
 #include <dinput.h>
+#include <cstdlib>
+#include <iostream>
+
 #include "Logger.h"
 
 class Mouse;					//mouse device

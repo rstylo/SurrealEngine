@@ -1,5 +1,5 @@
 #include "Transform.h"
-#include "DirectXRenderer.h"
+#include "Renderer.h"
 
 Transform::Transform()
 {
@@ -19,29 +19,26 @@ void Transform::SetupMatrices(Renderer* renderer)
 {
 	//! transforms world matrix
 	if (renderer != NULL)
-		if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer))
-		{
-			dxrenderer->SetupMatrices(position, rotation);
-		}
+	{
+		renderer->SetupMatrices(position, rotation);
+	}
 }
 
 void Transform::SetupMatrices(Renderer* renderer, Transform origin)
 {
 
 	if (renderer != NULL)
-		if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer))
-		{
-			dxrenderer->SetupMatrices(position, rotation, origin.GetPosition(), origin.GetRotation());
-		}
+	{
+		renderer->SetupMatrices(position, rotation, origin.GetPosition(), origin.GetRotation());
+	}
 }
 
 void Transform::SetupMatricesRotate(Renderer* renderer, Vector3 _rotation)
 {
 	//! setup matrice with only a given rotation
 	if (renderer != NULL)
-		if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer))
 		{
-			dxrenderer->SetupMatricesRotate(position);
+			renderer->SetupMatricesRotate(position);
 		}
 }
 

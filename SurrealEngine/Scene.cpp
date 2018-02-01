@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "Entity.h"
 #include "Skybox.h"
-#include "DirectXRenderer.h"
+#include "Renderer.h"
 
 Scene::Scene(std::string _name)
 	:name(_name)
@@ -140,34 +140,8 @@ void Scene::SetupView(Renderer* renderer, int cam)
 void Scene::SetupLight(Renderer* renderer)
 {
 	//! initialises ambient lighting, will only work for normalised vertices
-	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
-		LPDIRECT3DDEVICE9 _device = *dxrenderer->GetDevice();
-		D3DMATERIAL9 material;
-		//
-		ZeroMemory(&material, sizeof(D3DMATERIAL9));
-		material.Diffuse.r = material.Ambient.r = 1.0f;
-		material.Diffuse.g = material.Ambient.g = 1.0f;
-		material.Diffuse.b = material.Ambient.b = 1.0f;
-		material.Diffuse.a = material.Ambient.a = 1.0f;
-		_device->SetMaterial(&material);
-
-		//directional light
-		D3DXVECTOR3 direction;
-		D3DLIGHT9 light;
-
-		ZeroMemory(&light, sizeof(D3DLIGHT9));
-		light.Type = D3DLIGHT_DIRECTIONAL;
-
-		light.Diffuse.r = 0.5f;
-		light.Diffuse.g = 0.5f;
-		light.Diffuse.b = 0.5f;
-
-		direction = D3DXVECTOR3(-100.0f, -1000.0f, -100.0f);
-		D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &direction);
-		light.Range = 100.0f;
-
-		_device->SetLight(0, &light);
-	}
+	if (renderer != NULL)
+		renderer->SetupLight();
 }
 
 void Scene::Draw(Renderer* renderer)

@@ -5,7 +5,6 @@
 #ifndef OBJECT_H_
 #define OBJECT_H_
 
-#include <d3dx9.h>
 #include <list>
 #include <string>
 #include "Resource.h"
@@ -37,15 +36,12 @@ private:
 
 	std::string textureName;
 
-	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
-	LPDIRECT3DINDEXBUFFER9 indexBuffer;
-
-	LPDIRECT3DTEXTURE9 texture;
-
 	bool initialised;
 
 	int primCount;
 	int vertexCount;
+
+	uint32_t id;
 };
 
 #endif // !OBJECT_H_

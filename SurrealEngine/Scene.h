@@ -6,9 +6,7 @@
 #define SCENE_H_
 
 
-#include <d3dx9.h>
 #include <cstdint>							
-#include <Windows.h>
 #include <string>
 #include <map>
 

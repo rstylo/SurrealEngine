@@ -1,7 +1,5 @@
 #include "Kernel.h"
 #include "Renderer.h"
-#include "DirectXRenderer.h"
-#include "OpenGLRenderer.h"
 #include "Wnd.h"
 
 #include "SceneManager.h"

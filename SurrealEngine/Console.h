@@ -8,7 +8,6 @@
 #include <string>
 #include <map>
 #include <iostream>
-#include <d3d9.h>
 #include "Logger.h"
 
 

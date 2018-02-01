@@ -9,32 +9,11 @@
 #include "Renderer.h"
 #include "Logger.h"
 #include "DxManager.h"
-#include "Transform.h"
 
 #define FVF_TEXTURED_NORMAL_VERTEX_STRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1|D3DFVF_DIFFUSE|D3DFVF_NORMAL)  //! flexible vertex format
 #define FVF_TEXTUREDVERTEX_STRUCTURE (D3DFVF_XYZ|D3DFVF_TEX1)										//! flexible vertex format
 
-struct xyzTextureVertex
-{
-	//! terrain vertex with position, texture, diffuse color and normal.
-	D3DXVECTOR3 position;
-	FLOAT tu, tv;
 
-	DWORD color;        // kleur
-	D3DXVECTOR3 normal;
-
-	xyzTextureVertex() {};
-	xyzTextureVertex(float _x, float _y, float _z, FLOAT _u, FLOAT _v, DWORD _color) {
-		position.x = _x;
-		position.y = _y;
-		position.z = _z;
-		tu = _u;
-		tv = _v;
-		color = _color;
-		normal = position;
-	}
-
-};
 
 
 class DirectXRenderer : public Renderer
@@ -46,7 +25,7 @@ public:
 	virtual ~DirectXRenderer();
 
 	virtual bool Init(HWND, bool);				//! initialise the renderer with a window and a boolean for if the window should be in windowed mode or not
-	virtual void Clear(D3DCOLOR);				//! clear the backbuffer, before starting a new frame
+	virtual void Clear(DWORD);				//! clear the backbuffer, before starting a new frame
 	virtual bool Begin();						//! begin inserting into the backbuffer, start of a new frame
 	virtual void End();							//! clear the backbuffer, end of a frame
 	virtual void Present(HWND);					//! display the created backbuffer
@@ -88,6 +67,10 @@ public:
 	virtual void DrawVertices(std::string);
 	virtual void DrawVerticesBackground(std::string);
 	virtual void UnLoadVertices(std::string);
+
+	virtual void SetupView(float, float);
+
+	virtual void SetupLight();
 
 
 

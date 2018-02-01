@@ -4,14 +4,13 @@
 
 #ifndef ENTITY_H_
 #define ENTITY_H_
-
-#include <d3dx9.h>							
-#include <Windows.h>						
+						
 #include <cstdint>							
 #include <list>
 #include <string>
 
 #include "Transform.h"
+
 #define _USE_MATH_DEFINES
 
 class Resource;

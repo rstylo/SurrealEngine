@@ -84,7 +84,7 @@ bool DirectXRenderer::Init(HWND hWnd, bool windowed)
 
 }
 
-void DirectXRenderer::Clear(D3DCOLOR color)
+void DirectXRenderer::Clear(DWORD color)
 {
 	//! clear the back buffer and zbuffer with a color for the background
 	device->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, 1.0f, 0);	//backbuffer clear 
@@ -479,12 +479,12 @@ void DirectXRenderer::UnLoadTexture(std::string textureName)
 float DirectXRenderer::GetTextureWidth(std::string textureName)
 {
 	DxTexture* dxTexture = dxManager->GetTexture(textureName);
-	D3DSURFACE_DESC* value;
+	D3DSURFACE_DESC desc;
 
 	if (dxTexture != NULL && dxTexture->texture)
 	{
-		dxTexture->texture->GetLevelDesc(0, value);
-		return value->Width;
+		dxTexture->texture->GetLevelDesc(0, &desc);
+		return desc.Width;
 	}
 
 	return 0;
@@ -493,12 +493,12 @@ float DirectXRenderer::GetTextureWidth(std::string textureName)
 float DirectXRenderer::GetTextureHeight(std::string textureName)
 {
 	DxTexture* dxTexture = dxManager->GetTexture(textureName);
-	D3DSURFACE_DESC* value;
+	D3DSURFACE_DESC desc;
 
 	if (dxTexture != NULL && dxTexture->texture)
 	{
-		dxTexture->texture->GetLevelDesc(0, value);
-		return value->Height;
+		dxTexture->texture->GetLevelDesc(0, &desc);
+		return desc.Height;
 	}
 
 	return 0;
@@ -523,7 +523,7 @@ bool DirectXRenderer::LoadIndexedVertices(std::string name, int _primCount, int 
 
 	// create the to be drawn vertex buffer
 	if (!SUCCEEDED(device->CreateVertexBuffer(sizeOfVertices,
-		0, FVF_TEXTURED_NORMAL_VERTEX_STRUCTURE,
+		0, FVF_TEXTUREDVERTEX_STRUCTURE,
 		D3DPOOL_DEFAULT, &(dxVertexBuffer->vertexBuffer), NULL)))
 	{
 		printf("failed creating vertex buffer... \n");
@@ -593,5 +593,42 @@ void DirectXRenderer::DrawVerticesBackground(std::string name)
 void DirectXRenderer::UnLoadVertices(std::string name)
 {
 	dxManager->DeleteVertexBuffer(name);
+}
+
+void DirectXRenderer::SetupView(float nearViewPlane, float farViewPlane)
+{
+	//!create projection matrix with 0.25PI as the view direction in y, 1 unit from the view as near viewplane and 1000 as far viewplane
+	D3DXMATRIX projectionMtrx;
+	D3DXMatrixPerspectiveFovLH(&projectionMtrx, D3DX_PI / 4, 1.0f, nearViewPlane, farViewPlane);
+	device->SetTransform(D3DTS_PROJECTION, &projectionMtrx);
+}
+
+void DirectXRenderer::SetupLight()
+{
+	D3DMATERIAL9 material;
+	//
+	ZeroMemory(&material, sizeof(D3DMATERIAL9));
+	material.Diffuse.r = material.Ambient.r = 1.0f;
+	material.Diffuse.g = material.Ambient.g = 1.0f;
+	material.Diffuse.b = material.Ambient.b = 1.0f;
+	material.Diffuse.a = material.Ambient.a = 1.0f;
+	device->SetMaterial(&material);
+
+	//directional light
+	D3DXVECTOR3 direction;
+	D3DLIGHT9 light;
+
+	ZeroMemory(&light, sizeof(D3DLIGHT9));
+	light.Type = D3DLIGHT_DIRECTIONAL;
+
+	light.Diffuse.r = 0.5f;
+	light.Diffuse.g = 0.5f;
+	light.Diffuse.b = 0.5f;
+
+	direction = D3DXVECTOR3(-100.0f, -1000.0f, -100.0f);
+	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &direction);
+	light.Range = 100.0f;
+
+	device->SetLight(0, &light);
 }
 

@@ -10,11 +10,13 @@
 
 #include <list>
 #include <string>
-//#include <d3d9.h> 
 #include <map>
-typedef unsigned char byte;
 
 #include "Transform.h"
+
+typedef unsigned char byte;			// 0 - 255
+
+
 
 class Renderer;
 

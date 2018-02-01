@@ -1,6 +1,5 @@
 #include "Camera.h"
 #include "InputHandler.h"
-#include "DirectXRenderer.h"
 
 
 Camera::Camera(Vector3 _rotation, Vector3 _translation, HWND* _hwnd, InputHandler* _inputHandler)
@@ -29,14 +28,8 @@ Camera::~Camera()
 void Camera::SetupView(Renderer* renderer)
 {
 	//! setup view matrix
-	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer)) {
-		LPDIRECT3DDEVICE9 _device = *dxrenderer->GetDevice();
-
-		//!create projection matrix with 0.25PI as the view direction in y, 1 unit from the view as near viewplane and 1000 as far viewplane
-		D3DXMATRIX projectionMtrx;
-		D3DXMatrixPerspectiveFovLH(&projectionMtrx, D3DX_PI / 4, 1.0f, 1.0f, 1000.0f);
-		_device->SetTransform(D3DTS_PROJECTION, &projectionMtrx);
-	}
+	if (renderer != NULL)
+		renderer->SetupView(1, 1000);
 }
 
 void Camera::SetLookAt(bool state)

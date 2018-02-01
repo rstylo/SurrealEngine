@@ -5,9 +5,7 @@
 #define CAMERA_H_
 
 #include "Renderer.h"
-#include <d3dx9.h>
 #include "InputHandler.h"
-#include "Transform.h"
 
 const float pi = 3.141592654f;
 

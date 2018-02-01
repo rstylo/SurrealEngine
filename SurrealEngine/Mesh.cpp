@@ -1,5 +1,5 @@
 #include "Mesh.h"
-#include "DirectXRenderer.h"
+#include "Renderer.h"
 
 
 Mesh::Mesh(std::string _meshPath)
@@ -15,27 +15,22 @@ Mesh::~Mesh()
 
 bool Mesh::Init(Renderer* renderer)
 {
-	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer))
+	if (renderer != NULL)
 	{
-		if (!dxrenderer->LoadMesh(meshName))
+		if (!renderer->LoadMesh(meshName))
 		{
 			renderer->Log("Failed loading mesh", "Error");
 			return false;
 		}
-
 		return true;
 	}
-
 	return false;
 }
 
 void Mesh::Draw(Renderer* renderer)
 {
 	if (renderer != NULL)
-		if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer))
-		{
-			dxrenderer->DrawMesh(meshName);
-		}
+		renderer->DrawMesh(meshName);
 }
 
 std::string Mesh::GetMeshName()
@@ -46,8 +41,5 @@ std::string Mesh::GetMeshName()
 void Mesh::CleanUp(Renderer* renderer)
 {
 	if (renderer != NULL)
-		if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer))
-		{
-			dxrenderer->UnLoadMesh(meshName);
-		}
+		renderer->UnLoadMesh(meshName);
 }

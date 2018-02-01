@@ -6,7 +6,6 @@
 #ifndef RESOURCEMANAGER_H_
 #define RESOURCEMANAGER_H_
 
-#include <windows.h>						//voor unique ids
 #include <map>
 
 #include <cstdint>
