@@ -11,7 +11,7 @@ ResourceManager::ResourceManager()
 ResourceManager::~ResourceManager()
 {
 	//! deletes all resources
-	for (auto it = resources.begin(); it != resources.end(); it++)
+	for (std::map<uint32_t, Resource*>::iterator it = resources.begin(); it != resources.end(); it++)
 	{
 		delete it->second;
 	}

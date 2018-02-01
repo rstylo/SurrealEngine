@@ -26,13 +26,13 @@ Scene::~Scene()
 {
 
 	//! deletes all objects in scene
-	for (auto it = cameras.begin(); it != cameras.end(); it++)
+	for (std::map<int, Camera*>::iterator it = cameras.begin(); it != cameras.end(); it++)
 	{
 		delete it->second;
 	}
 	cameras.clear();
 
-	for (auto it = entities.begin(); it != entities.end(); it++)		//iterate door alle entities
+	for (std::map<uint32_t, Entity*>::iterator it = entities.begin(); it != entities.end(); it++)		//iterate door alle entities
 	{
 		delete it->second;												//verwijder alle values
 	}
@@ -59,7 +59,7 @@ uint32_t Scene::GetId()
 bool Scene::InitEntities(Renderer* renderer)
 {
 	//! calls init function in entity
-	for (auto it = entities.begin(); it != entities.end(); it++)
+	for (std::map<uint32_t, Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
 	{
 		it->second->Init(renderer);
 	}
@@ -125,7 +125,7 @@ void Scene::SetupView(Renderer* renderer, int cam)
 {
 
 	//! setups camera's view matrix
-	auto it = cameras.find(cam);
+	std::map<int, Camera*>::iterator it = cameras.find(cam);
 
 	if (it != cameras.end() && it->second != NULL)
 	{
@@ -159,7 +159,7 @@ void Scene::Draw(Renderer* renderer)
 		terrain->Draw(renderer);
 	}
 
-	for (auto it = entities.begin(); it != entities.end(); it++)
+	for (std::map<uint32_t, Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
 	{
 		it->second->SetupMatrices(renderer, originTransform);
 		it->second->Draw(renderer);
@@ -316,7 +316,7 @@ std::string Scene::GetSceneInfo()
 	sceneInfo += skybox->GetTexture();
 	sceneInfo += "\n";
 
-	for (auto it = entities.begin(); it != entities.end(); it++)		
+	for (std::map<uint32_t, Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
 	{
 		sceneInfo += it->second->GetEntityInfo();
 	}
