@@ -5,9 +5,6 @@
 #ifndef SKYBOX_H_
 #define SKYBOX_H_
 
-class D3DTexture;
-class D3DVertexBuffer;
-
 #include <string>
 #include "Transform.h"
 

@@ -16,7 +16,10 @@ Skybox::~Skybox()
 bool Skybox::Init(Renderer* renderer)
 {
 	//! initialise skyboxes vertex/index buffers if texture is set
-	D3DSURFACE_DESC values;
+	
+	float height = 0;
+	float width = 0;
+
 	if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer))
 	{
 		if (!dxrenderer->LoadTexture(textureName))
@@ -24,8 +27,10 @@ bool Skybox::Init(Renderer* renderer)
 			MessageBox(NULL, "failed loading skybox textures", NULL, NULL);
 			return false;
 		}
-
-		dxrenderer->GetTextureDesc(textureName, &values);
+		
+		height = dxrenderer->GetTextureHeight(textureName);
+		width = dxrenderer->GetTextureWidth(textureName);
+		
 	}
 		int size = 100;
 
@@ -61,8 +66,7 @@ bool Skybox::Init(Renderer* renderer)
 		
 		
 
-		const float height = values.Height;
-		const float width = values.Width;
+
 
 		vertices[0].tu = 0.00f;
 		vertices[0].tv = (float)1 / 3 + 1 / height;

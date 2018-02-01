@@ -476,15 +476,32 @@ void DirectXRenderer::UnLoadTexture(std::string textureName)
 	dxManager->DeleteTexture(textureName);
 }
 
-void DirectXRenderer::GetTextureDesc(std::string textureName, D3DSURFACE_DESC* value)
+float DirectXRenderer::GetTextureWidth(std::string textureName)
 {
 	DxTexture* dxTexture = dxManager->GetTexture(textureName);
+	D3DSURFACE_DESC* value;
 
 	if (dxTexture != NULL && dxTexture->texture)
 	{
 		dxTexture->texture->GetLevelDesc(0, value);
+		return value->Width;
 	}
 
+	return 0;
+}
+
+float DirectXRenderer::GetTextureHeight(std::string textureName)
+{
+	DxTexture* dxTexture = dxManager->GetTexture(textureName);
+	D3DSURFACE_DESC* value;
+
+	if (dxTexture != NULL && dxTexture->texture)
+	{
+		dxTexture->texture->GetLevelDesc(0, value);
+		return value->Height;
+	}
+
+	return 0;
 }
 
 bool DirectXRenderer::LoadIndexedVertices(std::string name, int _primCount, int _vertexCount, xyzTextureVertex * vertices, WORD * indices, int sizeOfVertices, int sizeOfIndices)

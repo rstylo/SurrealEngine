@@ -79,7 +79,8 @@ public:
 	virtual bool LoadTexture(std::string);
 	virtual void DrawTexture(std::string);
 	virtual void UnLoadTexture(std::string);
-	virtual void GetTextureDesc(std::string, D3DSURFACE_DESC*);
+	virtual float GetTextureWidth(std::string);
+	virtual float GetTextureHeight(std::string);
 
 	// Vertex functions
 
