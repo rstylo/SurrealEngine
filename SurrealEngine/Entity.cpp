@@ -33,7 +33,7 @@ void Entity::SetupMatrices(Renderer* renderer, Transform origin)		//setup world 
 void Entity::Draw(Renderer* renderer)									//de entity draw functie draw all zijn resources in plaatst van dit via de resource manager te doen
 {
 	//! draws all resource this entity holds, initialising them first if needed
-	for (auto it = myResources.begin(); it != myResources.end(); it++)
+	for (std::list<Resource*>::iterator it = myResources.begin(); it != myResources.end(); it++)
 	{
 		if ((*it)->Init(renderer))											//if the current resource is already initialized
 			(*it)->Draw(renderer);											//draw it
@@ -43,7 +43,7 @@ void Entity::Draw(Renderer* renderer)									//de entity draw functie draw all 
 void Entity::AddResource(Resource* _resource)
 {
 	//! adds a resource that the entity will draw 
-	for (auto it = myResources.begin(); it != myResources.end(); it++)
+	for (std::list<Resource*>::iterator it = myResources.begin(); it != myResources.end(); it++)
 	{
 		if ((*it) == _resource)
 		{
@@ -69,7 +69,7 @@ std::string Entity::GetEntityInfo()			//get information off this entity to save
 	std::string entityInfo;
 	entityInfo = "entity\n";
 	//name van mesh
-	for (auto it = myResources.begin(); it != myResources.end(); it++)
+	for (std::list<Resource*>::iterator it = myResources.begin(); it != myResources.end(); it++)
 	{
 		//get mesh name by casting the resource to mesh
 		

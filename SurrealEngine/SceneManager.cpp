@@ -23,7 +23,7 @@ void SceneManager::Init(Renderer* device)
 SceneManager::~SceneManager()
 {
 	//! deletes all scenes on destruction and releases and deletes all objects in the process
-	for (auto it = scenes.begin(); it != scenes.end(); it++)
+	for (std::map<std::string, Scene*>::iterator it = scenes.begin(); it != scenes.end(); it++)
 	{
 		delete it->second;
 	}
