@@ -7,7 +7,6 @@
 #define INPUTHANDLER_H_
 
 #include <string>
-#include <d3d9.h>
 #include <dinput.h>
 #include <cstdlib>
 #include <iostream>

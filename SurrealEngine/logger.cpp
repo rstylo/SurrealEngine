@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "logger.h"
+#include "Logger.h"
 #include <time.h>
 #include <sstream>
 

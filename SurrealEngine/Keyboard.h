@@ -5,7 +5,6 @@
 #ifndef KEYBOARD_H_
 #define KEYBOARD_H_
 
-#include <d3d9.h>
 #include <dinput.h>
 #include "Logger.h"
 

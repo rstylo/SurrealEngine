@@ -5,7 +5,6 @@
 #ifndef MOUSE_H_
 #define MOUSE_H_
 
-#include <d3d9.h>
 #include <dinput.h>
 #include "Logger.h"
 
