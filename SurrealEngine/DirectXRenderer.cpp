@@ -24,6 +24,12 @@ DirectXRenderer::~DirectXRenderer()
 		direct3d->Release();
 		direct3d = NULL;
 	}
+
+	if( dxManager != NULL)
+	{
+		delete dxManager;
+		dxManager = NULL;
+	}
 }
 
 bool DirectXRenderer::Init(HWND hWnd, bool windowed)
@@ -396,7 +402,7 @@ bool DirectXRenderer::LoadMesh(std::string meshName)
 			dxMesh->initialized = true;
 			return true;
 		}
-		return false;
+		return true;
 }
 
 void DirectXRenderer::DrawMesh(std::string meshName)
@@ -558,13 +564,13 @@ void DirectXRenderer::DrawVertices(std::string name)
 
 void DirectXRenderer::DrawVerticesBackground(std::string name)
 {
-	device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 
 	DrawVertices(name);
 
 	device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-	device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//device->SetRenderState(D3DRS_LIGHTING, TRUE);
 }
 
 void DirectXRenderer::UnLoadVertices(std::string name)

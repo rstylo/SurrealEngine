@@ -8,7 +8,7 @@
 Scene::Scene(std::string _name)
 	:name(_name)
 {
-	//! initialiazes with scene name, unique id, skybox, terrain and origin transform
+	//! yialiazes with scene name, unique id, skybox, terrain and origin transform
 	id = reinterpret_cast<uint32_t>(this);
 
 	skybox = new Skybox();

@@ -177,7 +177,10 @@ void Terrain::Draw(Renderer* renderer)
 {
 	if (initialized == true && renderer != NULL)
 		if (DirectXRenderer* dxrenderer = dynamic_cast<DirectXRenderer*>(renderer))
+		{
+			dxrenderer->DrawTexture(textureName);
 			dxrenderer->DrawVertices(std::to_string(id));
+		}
 
 }
 

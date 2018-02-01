@@ -10,9 +10,9 @@
 
 #include <list>
 #include <string>
-#include <d3d9.h> 
+//#include <d3d9.h> 
 #include <map>
-
+typedef unsigned char byte;
 
 #include "Transform.h"
 
