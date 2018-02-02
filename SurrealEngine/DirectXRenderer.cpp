@@ -302,10 +302,9 @@ int DirectXRenderer::GetHeightMapDepth(std::string heightMapName)
 	return 0;
 }
 
-int DirectXRenderer::UnLoadHeightMap(std::string heightMapName)
+void DirectXRenderer::UnLoadHeightMap(std::string heightMapName)
 {
 	dxManager->DeleteHeightMap(heightMapName);
-	return 0;
 }
 
 bool DirectXRenderer::LoadMesh(std::string meshName)

@@ -13,18 +13,18 @@ public:
 	Transform();
 	virtual ~Transform();
 
-	virtual void SetupMatrices(Renderer*);
-	virtual void SetupMatrices(Renderer*, Transform);
-	virtual void SetupMatricesRotate(Renderer*, Vector3);
+	virtual void SetupMatrices(Renderer*);					//! setups world matrix from own position, rotation and scale
+	virtual void SetupMatrices(Renderer*, Transform);		//! setups world matrix relative to a other transform
+	virtual void SetupMatricesRotate(Renderer*, Vector3);	//! setups world matrix with only a rotation 
 
-	virtual Vector3 GetPosition();
-	virtual void SetPosition(Vector3);
+	virtual Vector3 GetPosition();							//! returns vector3 to position
+	virtual void SetPosition(Vector3);						//! set this transforms position
 
-	virtual Vector3 GetRotation();
-	virtual void SetRotation(Vector3);
+	virtual Vector3 GetRotation();						//! returns vector3 to rotation
+	virtual void SetRotation(Vector3);					//! set this transforms rotation
 
-	virtual Vector3 GetScale();
-	virtual void SetScale(Vector3);
+	virtual Vector3 GetScale();						//! returns vector3 to scale
+	virtual void SetScale(Vector3);					//! set this transforms scale
 
 private:
 

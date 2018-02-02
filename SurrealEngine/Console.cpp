@@ -26,6 +26,7 @@ Console::Console(SceneManager* _sceneManager, bool expert)
 
 Console::~Console()
 {
+	commands.clear();
 }
 void Console::DoCommand(std::string commandText)
 {

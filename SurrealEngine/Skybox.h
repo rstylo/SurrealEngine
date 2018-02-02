@@ -12,22 +12,21 @@
 class Skybox
 {
 public:
-	Skybox();
+	Skybox();												//! skybox constructor
 	virtual ~Skybox();
 
-	virtual bool Init(Renderer*);
+	virtual bool Init(Renderer*);							//! initialise with generic renderer
 
-	virtual void Update(Vector3);
-	virtual void Create();
-	virtual void Invalidate(Renderer*);
+	virtual void Update(Vector3);							//! update skyboxes starting position								
+	virtual void Invalidate(Renderer*);						//! cleanup rendering objects to free space
 
 
-	virtual void SetupMatrices(Renderer*, Transform);
+	virtual void SetupMatrices(Renderer*, Transform);		//! setup position relative to a given transform
 
-	virtual void Draw(Renderer*);
+	virtual void Draw(Renderer*);							//! draw the skybox into given renderer
 
-	virtual void SetTexture(std::string);
-	virtual std::string GetTexture();
+	virtual void SetTexture(std::string);				 //! sets skybox's texture
+	virtual std::string GetTexture();					//! returns current texture name
 
 private:
 	std::string textureName;

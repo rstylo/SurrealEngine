@@ -140,12 +140,6 @@ void Skybox::Invalidate(Renderer* renderer)
 
 }
 
-void Skybox::Create()
-{
-
-
-
-}
 
 void Skybox::SetupMatrices(Renderer* renderer, Transform origin)
 {

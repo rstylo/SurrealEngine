@@ -22,23 +22,23 @@ class Mouse
 {
 
 public:
-	Mouse(LPDIRECTINPUT);
+	Mouse(LPDIRECTINPUT);					//! create with directxinput
 	virtual ~Mouse();
 
-	bool Init(HWND*);
+	bool Init(HWND*);						//! initialise with window window
 	void SaveReleaseDevice();
-	virtual bool SetWindow(HWND*);
-	virtual bool DoAcquire();				
-	virtual bool UpdateValues();
-	virtual MouseValues* GetValues();
+	virtual bool SetWindow(HWND*);			//! set currently focused window
+	virtual bool DoAcquire();				//! acquire input
+	virtual bool UpdateValues();			//! update routine
+	virtual MouseValues* GetValues();		//! returns mouse values
 
 private:
 
 	LPDIRECTINPUT dInput;
 	LPDIRECTINPUTDEVICE dDevice;
 	DIPROPDWORD dipdw;
-	char mousebuffer[8];
-	MouseValues mouseValues;
+	char mousebuffer[8];					
+	MouseValues mouseValues;			//! hold current mouse values
 
 	DIDEVICEOBJECTDATA od[6];
 

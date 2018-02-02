@@ -39,7 +39,7 @@ bool Wnd::Init()
 bool Wnd::Init(int startX, int startY) 
 {
 
-	//! create on give position on the screen
+	//! create on a give position on the screen
 
 
 	WNDCLASSEX windowClassEx;																									// window classs ex(windows class maar met meer functionaliteit)

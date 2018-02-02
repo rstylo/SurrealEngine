@@ -42,8 +42,8 @@ bool Object::Init(Renderer* renderer)
 		const int numOfVertices = 8;										//8 vertices voor een cube
 		const int numOfIndices = 6 * 6;										//6 indicies per quad
 
-		primCount = 6 * 2;													//2 triangles per quad
-		vertexCount = numOfVertices;
+		int primCount = 6 * 2;													//2 triangles per quad
+		int vertexCount = numOfVertices;
 
 
 		int sizeOfVertices = numOfVertices * sizeof(xyzTextureVertex);			//sizeof the vertex array

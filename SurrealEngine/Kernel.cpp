@@ -17,52 +17,78 @@ Kernel::Kernel()
 
 Kernel::~Kernel()
 {
-	if (sceneManager != NULL)
+	//! call scenemanager destructor
+	if (sceneManager != NULL)		
 	{
 		delete sceneManager;
 		sceneManager = NULL;
 	}
 
+	//! call to inputhandler destructor
 	if (inputHandler != NULL)
 	{
 		delete inputHandler;
 		inputHandler = NULL;
 	}
+
+	//! call to console destructor
+	if (console != NULL)
+	{
+		delete console;
+		console = NULL;
+	}
+
+	//! call to window destructor
+	if (gameDisplay != NULL)
+	{
+		delete gameDisplay;
+		gameDisplay == NULL;
+	}
+
+	//! call to window destrutor
+	if (devDisplay != NULL)
+	{
+		delete devDisplay;
+		devDisplay = NULL;
+	}
 }
 
 bool Kernel::Init(bool windowed)
 {
+
 	expert = false;
+
 	//! initialises renderer, window, scenemanager and console and creates a starting scene
 
-	gameDisplay = new Wnd("GameWindow", "Game window", 1280, 720);						//window die de view van de game geeft
-	devDisplay = new Wnd("DevWindow", "Dev window", 640, 420);							//window die view van een andere persoctive geeft
-	SetWindowPos(GetConsoleWindow(),0,1280,420,0,0, SWP_NOSIZE|SWP_NOZORDER);
+	gameDisplay = new Wnd("GameWindow", "Game window", 1280, 720);						//window with game perpective
+	devDisplay = new Wnd("DevWindow", "Dev window", 640, 420);							//window with a different perpective
+	SetWindowPos(GetConsoleWindow(),0,1280,420,0,0, SWP_NOSIZE|SWP_NOZORDER);			//sets console window position
 
 
-	renderer = new DirectXRenderer();
+	renderer = new DirectXRenderer();													//initialise with directxRenderer
 	//renderer = new OpenGLRenderer();
 
-	if (gameDisplay->Init(0, 0) && devDisplay->Init(1280, 0))									//initialiseer beide windows
+	if (gameDisplay->Init(0, 0) && devDisplay->Init(1280, 0))									//initalise both windows
 	{
 		printf("GameWindow and devWindow succefully initialised... \n");
 		renderer->Log("GameWindow and devWindow succefully initialised...", "Info");
-		if (renderer->Init(gameDisplay->hWnd, true))
+		if (renderer->Init(gameDisplay->hWnd, true))											//initialise the renderer with a hWnd in windowed mode
 		{
 			printf("GameRenderer succefully initialised... \n");
 			renderer->Log("GameRenderer succefully initialised...", "Info");
-			inputHandler = new InputHandler();
-			if (inputHandler->Init(&gameDisplay->hWnd)) {
-				inputHandler->SetWindow(&gameDisplay->hWnd);
+
+			inputHandler = new InputHandler();													//create a dx input handler
+			if (inputHandler->Init(&gameDisplay->hWnd)) {										//initialise with starting window
+				inputHandler->SetWindow(&gameDisplay->hWnd);									//set window
 				printf("Input handler succefully initialized... \n");
 				renderer->Log("Input handler succefully initialized...", "Info");
 
-				sceneManager = new SceneManager();											//aanmaken van scenemanager
-				sceneManager->Init(renderer);
-				sceneManager->LoadSceneFromFile("level.txt");
+				sceneManager = new SceneManager();											//creates scenemanager for managing scenes
+				sceneManager->Init(renderer);												//initialises with a generic renderer
+				sceneManager->LoadSceneFromFile("level.txt");								//loads a scene from level text file
 
 
-				console = new Console(sceneManager,expert);
+				console = new Console(sceneManager,expert);									//create a console class for managing commands
 
 				initialized = true;
 				return true;
@@ -80,8 +106,8 @@ bool Kernel::Init(bool windowed,int width, int height, int width2, int height2)
 {
 	expert = true;
 
-	gameDisplay = new Wnd("GameWindow", "Game window", width, height);						//window die de view van de game geeft
-	devDisplay = new Wnd("DevWindow", "Dev window", width2, height2);							//window die view van een andere persoctive geeft
+	gameDisplay = new Wnd("GameWindow", "Game window", width, height);						
+	devDisplay = new Wnd("DevWindow", "Dev window", width2, height2);							
 
 	std::string rendertype, levelchoice, level;
 	std::cout << "Renderer (choose between 'directx' and 'opengl'):  ";

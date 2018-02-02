@@ -12,17 +12,17 @@
 class Resource
 {
 public:
-	Resource();
+	Resource();										//! create with unique id
 
 	virtual ~Resource();
 
-	virtual bool Init(Renderer*) = 0;
+	virtual bool Init(Renderer*) = 0;				
 	virtual void Draw(Renderer*) = 0;
 
 	virtual void CleanUp(Renderer*) = 0;
 
 
-	virtual uint32_t GetId();						//needs a identifacation number, despite being any other derived version of this class,
+	virtual uint32_t GetId();						//! needs a identifacation number, despite being any other derived version of this class
 	virtual void Invalidate(Renderer*);
 	
 protected:

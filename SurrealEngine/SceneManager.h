@@ -33,9 +33,9 @@ public:
 	virtual void Update();
 	virtual void Draw(Renderer*, int);
 
-	virtual Scene* CreateScene(std::string sceneName);
-	virtual bool AddScene(Scene*);
-	virtual Scene* GetScene(std::string);
+	virtual Scene* CreateScene(std::string sceneName);							//! create a scene if no other scene with the same name exists else it returns NULL ptr
+	virtual bool AddScene(Scene*);												//! add a given scene, returns true if no other similar scene exists
+	virtual Scene* GetScene(std::string);										//! get a scene with given name
 	
 	virtual void LoadScene(std::string);										//! start loading process for a given scene
 	virtual void UnloadScene();													//! free scene space
@@ -43,8 +43,8 @@ public:
 
 	virtual void SetupScene(Renderer*, InputHandler*, HWND*, HWND*);			//! load the current scene's  objects into directx device
 
-	virtual void LoadSceneFromFile(std::string);
-	virtual void SaveSceneToFile(std::string);
+	virtual void LoadSceneFromFile(std::string);								//! load scene from a text file and unloads old scene while at it
+	virtual void SaveSceneToFile(std::string);									//! save current scene to a text file
 	virtual void CreateLevel();
 		
 	 void SpawnEntityMesh();													//! Command function, will wait for input from console

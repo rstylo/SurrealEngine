@@ -27,7 +27,7 @@ public:
 	~Kernel();
 
 	bool Init(bool);				//! initialise in windowed mode or not
-	bool Init(bool,int,int,int,int);
+	bool Init(bool,int,int,int,int);//! initialise in windowed mode with 2 window sizes, will wait for input in console
 
 	void Update();					//! main routine
 	void Draw();					//! rendering routine
@@ -39,7 +39,7 @@ private:
 
 	bool initialized;
 	Renderer* renderer;				
-	SceneManager* sceneManager;		//!  pointer to a manager that control the current scene
+	SceneManager* sceneManager;		//!  pointer to a manager that controls the current scene
 
 	InputHandler* inputHandler;		//!  pointer to inputhandler class, from which camera can get inputs
 	bool expert;

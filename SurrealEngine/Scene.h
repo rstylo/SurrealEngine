@@ -51,34 +51,34 @@ public:
 	virtual void AddCamera(int, Vector3, Vector3, HWND*, InputHandler*);			//! create a camera on a certain position with an id#
 	virtual Camera* GetCamera(int cam);												//! get a pointer to a specific already existing camera object
 
-	virtual void AddEntity(Entity*);
+	virtual void AddEntity(Entity*);												
 	virtual Entity* GetEntity(uint32_t);
 
 	virtual void MoveTerrainTo(Vector3, Vector3);
 
-	virtual void RemoveEntity(uint32_t);
-	virtual void MoveEntityTo(uint32_t, Vector3, Vector3);
+	virtual void RemoveEntity(uint32_t);											//! delete a entity
+	virtual void MoveEntityTo(uint32_t, Vector3, Vector3);							//! move a entity to a position and rotate it
 
-	virtual void SetCameraHeightMap();
+	virtual void SetCameraHeightMap();												//! 
 	
 	
-	virtual std::string GetSceneInfo();
+	virtual std::string GetSceneInfo();												//! returns a string of all information about entities, resources, skyboxes and terrains in this scene
 
 private:
-	uint32_t id;
-	std::string name;
+	uint32_t id;																	//! unique id of this scene
+	std::string name;																//! name of this scene
 
-	virtual std::string CurrentDirectory(std::string);
+	virtual std::string CurrentDirectory(std::string);								//! returns current working directory
 
 private:
 	Transform originTransform;
 
-	Terrain* terrain;
+	Terrain* terrain;																
 	Skybox* skybox;
 
 
-	std::map<int, Camera*> cameras;
-	std::map<uint32_t, Entity*> entities;
+	std::map<int, Camera*> cameras;													//! holds camera with a int as indentifier
+	std::map<uint32_t, Entity*> entities;											//! holds pointers to all entities in this scene with there identifier
 
 
 };

@@ -83,8 +83,7 @@ void Scene::SetupSkybox(Renderer* renderer)
 	//! initialises skybox if present
 	if (skybox != NULL)
 	{
-		if (skybox->Init(renderer))
-			skybox->Create();
+		skybox->Init(renderer);
 	}
 }
 
