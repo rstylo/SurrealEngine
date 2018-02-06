@@ -8,6 +8,7 @@
 #include <dinput.h>
 #include "Logger.h"
 
+//! Struct in which the values read from the mouse are stored in
 struct MouseValues {
 	long x;
 	long y;
@@ -21,23 +22,20 @@ class Mouse
 {
 
 public:
-	Mouse(LPDIRECTINPUT);
+	Mouse();
 	virtual ~Mouse();
 
-	bool Init(HWND*);
+	bool Init(LPDIRECTINPUT, HWND*);		//! Creates a mouse inputdevice and links it with the window
 	void SaveReleaseDevice();
-	virtual bool SetWindow(HWND*);
-	virtual bool DoAcquire();				
-	virtual bool UpdateValues();
-	virtual MouseValues* GetValues();
+	virtual bool SetWindow(HWND*);			//!	Links the mouse inputdevice with a different window
+	virtual bool DoAcquire();				//!	Checks if there is a mouse connected
+	virtual bool UpdateValues();			//!	Updates the values read from the mouse into the MouseValues struct
+	virtual MouseValues* GetValues();		//! Returns the values stored in MouseValues update after the UpdateValues function
 
 private:
-
-	LPDIRECTINPUT dInput;
-	LPDIRECTINPUTDEVICE dDevice;
-	DIPROPDWORD dipdw;
-	char mousebuffer[8];
-	MouseValues mouseValues;
+	LPDIRECTINPUTDEVICE dDevice;			//!	DirectX (mouse) inputdevice 
+	DIPROPDWORD dipdw;						
+	MouseValues mouseValues;				//! Buffer where the mouse data is stored in
 
 	DIDEVICEOBJECTDATA od[6];
 

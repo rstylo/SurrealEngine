@@ -1,9 +1,8 @@
 #include "Keyboard.h"
 #include <iostream>
 
-Keyboard::Keyboard(LPDIRECTINPUT _dInput)
+Keyboard::Keyboard()
 {
-	dInput = _dInput;
 	dDevice = NULL;
 
 }
@@ -13,9 +12,9 @@ Keyboard::~Keyboard()
 	SaveReleaseDevice();
 }
 
-bool Keyboard::Init()
+bool Keyboard::Init(LPDIRECTINPUT dInput, HWND* _hwnd)
 {
-	//! initialise keyboard
+	//! initialise the inputdevice as a keyboard
 	HRESULT hr = dInput->CreateDevice(GUID_SysKeyboard, &dDevice, NULL);
 	if FAILED(hr)
 	{
@@ -30,6 +29,14 @@ bool Keyboard::Init()
 	{
 		printf("Failed setting the keyboard data format");
 		logger.Log("Failed setting the keyboard data format", "Error");
+		SaveReleaseDevice();
+		return false;
+	}
+	hr = dDevice->SetCooperativeLevel(*_hwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
+	if FAILED(hr)
+	{
+		printf("Failed setting the keyboard cooperative level");
+		logger.Log("Failed setting the keyboard cooperative level", "Error");
 		SaveReleaseDevice();
 		return false;
 	}

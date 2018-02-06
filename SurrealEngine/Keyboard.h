@@ -11,19 +11,18 @@
 class Keyboard
 {
 public:
-	Keyboard(LPDIRECTINPUT);
+	Keyboard();
 	virtual ~Keyboard();
-	bool Init();
+	virtual bool Init(LPDIRECTINPUT, HWND*);	//! Creates a keyboard inputdevice and links it with the window
 
 	virtual void SaveReleaseDevice();
-	virtual bool UpdateKeyBuffer();				//! update the inputbuffer
-	virtual bool CheckKeyPressed(byte);			//! see if a key is on the keyboard is pressed
-	virtual bool SetWindow(HWND* _hwnd);		//! set the window for coorperation
-	virtual bool DoAcquire();
+	virtual bool UpdateKeyBuffer();				//!	Updates the values read from the keyboard into the keybuffer
+	virtual bool CheckKeyPressed(byte);			//! Checks in the key buffer if the given key is pressed or not
+	virtual bool SetWindow(HWND* _hwnd);		//!	Links the keyboard inputdevice with a different window
+	virtual bool DoAcquire();					//!	Checks if there is a keyboard connected
 
 private:
-	LPDIRECTINPUT dInput;						//! directx input from which keyboard is created
-	LPDIRECTINPUTDEVICE dDevice;				//! directx input device
+	LPDIRECTINPUTDEVICE dDevice;				//! directx (keyboard) inputdevice
 	byte keybuffer[256];						//! currently pressed keys
 	Logger logger;
 };

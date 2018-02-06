@@ -13,8 +13,8 @@
 
 #include "Logger.h"
 
-class Mouse;					//mouse device
-class Keyboard;					//keyboard device
+#include "mouse.h";						//mouse device
+#include "keyboard.h";					//keyboard device
 
 class InputHandler
 {
@@ -27,7 +27,7 @@ public:
 	virtual HWND* GetWindow();					//! get the window on which the inputhandler is focussed on
 
 	virtual void SaveReleaseDevice();			
-	virtual bool Init(HWND*);					//! initiae inputhandler with a starting window
+	virtual bool Init(HWND*);					//! initialises inputhandler with a starting window
 
 	virtual void Update();						//! main routine, updates all input devices
 

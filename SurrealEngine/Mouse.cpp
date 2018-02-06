@@ -1,7 +1,7 @@
 #include "Mouse.h" 
 #include <iostream>
 
-Mouse::Mouse(LPDIRECTINPUT _dInput)
+Mouse::Mouse()
 {
 	mouseValues = { 0, 0, 0, 0, false, false };
 	dipdw.diph.dwSize = sizeof(DIPROPDWORD);
@@ -9,7 +9,6 @@ Mouse::Mouse(LPDIRECTINPUT _dInput)
 	dipdw.diph.dwObj = 0;
 	dipdw.diph.dwHow = DIPH_DEVICE;
 	dipdw.dwData = 8;
-	dInput = _dInput;
 	dDevice = NULL;
 }
 
@@ -19,8 +18,9 @@ Mouse::~Mouse()
 	SaveReleaseDevice();
 }
 
-bool Mouse::Init(HWND* _hwnd) {
+bool Mouse::Init(LPDIRECTINPUT dInput, HWND* _hwnd) {
 
+	//! initialise the inputdevice as a mouse
 	HRESULT result = dInput->CreateDevice(GUID_SysMouse, &dDevice, NULL);
 	if (FAILED(result))
 	{

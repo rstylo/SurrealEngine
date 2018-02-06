@@ -36,11 +36,11 @@ bool InputHandler::Init(HWND* _hwnd)
 		return false;
 	}
 
-	mouse = new Mouse(dInput);
-	keyboard = new Keyboard(dInput);
+	mouse = new Mouse();
+	keyboard = new Keyboard();
 	CurrentWindow = _hwnd;
 	SetFocus(*_hwnd);
-	if (!(mouse->Init(_hwnd) && keyboard->Init()))
+	if (!(mouse->Init(dInput, _hwnd) && keyboard->Init(dInput, _hwnd)))
 	{
 		printf("failed initializing keyboard/mouse\n");
 		logger.Log("Failed initializing keyboard/mouse", "Error");
