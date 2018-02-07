@@ -8,7 +8,6 @@
 #include <string>
 #include <map>
 #include <iostream>
-#include "Logger.h"
 
 
 
@@ -38,7 +37,6 @@ private:
 
 	SceneManager* sceneManager;
 	std::map<std::string, void(SceneManager::*)(void)> commands;	//! map with command name as the key and void* to a scenemanager function scenemanager as value
-	Logger logger;
 };
 
 //

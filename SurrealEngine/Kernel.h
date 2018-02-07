@@ -11,7 +11,6 @@
 #include <sstream>
 #include "DirectXRenderer.h"
 #include "OpenGLRenderer.h"
-#include "Logger.h"
 
 class Renderer;
 class Wnd;
@@ -44,7 +43,7 @@ private:
 	InputHandler* inputHandler;		//!  pointer to inputhandler class, from which camera can get inputs
 	bool expert;
 
-	Console* console;
+	Console* console;				//! pointer to console class from which commands can be called
 
 	Logger logger;
 

@@ -104,6 +104,7 @@ bool Kernel::Init(bool windowed)
 
 bool Kernel::Init(bool windowed,int width, int height, int width2, int height2)
 {
+	//! initialises renderer, window, scenemanager and console and creates a starting scene
 	expert = true;
 
 	gameDisplay = new Wnd("GameWindow", "Game window", width, height);						
@@ -175,26 +176,26 @@ void Kernel::Draw()
 	//! Initiates drawing routine
 	if (initialized)
 	{
-		//gameView
+		//draw game view
+		renderer->Clear(0x0000FFFF);					//clear the backbuffer with color in rgb 0,255,255
+		if (renderer->Begin())							//start capturing new backbuffer
+		{
+			sceneManager->Draw(renderer, 0);			//draws current scene into the backbuffer from perspective view 0
+			renderer->End();							//end
+		}
+
+		renderer->Present(gameDisplay->hWnd);			//Present the current backbuffer the game window, !!!will present nothing if begin was unsucceful
+
+
+		//draw dev view
 		renderer->Clear(D3DCOLOR_XRGB(0, 255, 255));
 		if (renderer->Begin())
 		{
-			sceneManager->Draw(renderer, 0);
+			sceneManager->Draw(renderer, 1);		//draws current scene into the backbuffer from perspective view 0
 			renderer->End();
 		}
 
-		renderer->Present(gameDisplay->hWnd);
-
-
-		//dev view
-		renderer->Clear(D3DCOLOR_XRGB(0, 255, 255));
-		if (renderer->Begin())
-		{
-			sceneManager->Draw(renderer, 1);
-			renderer->End();
-		}
-
-		renderer->Present(devDisplay->hWnd);
+		renderer->Present(devDisplay->hWnd);	//Present the current backbuffer to the dev window, !!!will present nothing if begin was unsucceful
 	}
 }
 
@@ -205,6 +206,7 @@ void Kernel::Update() {
 	//! Initiates Updating routine
 	while (gameDisplay->Run() && devDisplay->Run() && !inputHandler->CheckKeyboardPressed('`')) //~ gebruikt als char voor escape
 	{
+		//! set the window the user is currently focused on as the window to get input from
 		if (*inputHandler->GetWindow() != GetFocus()) {
 			if (devDisplay->hWnd == GetFocus())
 				inputHandler->SetWindow(&devDisplay->hWnd);
@@ -212,12 +214,16 @@ void Kernel::Update() {
 				inputHandler->SetWindow(&gameDisplay->hWnd);
 		}
 
+		//! call with a renderer to Setup the scene if needed
 		if (sceneManager->IsLoading() == true) {
 			sceneManager->SetupScene(renderer, inputHandler, &gameDisplay->hWnd, &devDisplay->hWnd);
 			std::cout << "Press 'h' to view the help/command list" << std::endl << std::endl;
 		}
+
+		//! call to scenemanager updating routine
 		sceneManager->Update();
 		
+		//! check if command key("b") is pressed, to set console window as the focused window
 		if (inputHandler->CheckKeyboardPressed('b')) {
 			if (bpressed == false) {
 				std::cout << "Enter a command: " << std::endl;
@@ -230,6 +236,7 @@ void Kernel::Update() {
 				bpressed = false;
 		}
 		
+		//! check if help key("h") is pressed
 		if (inputHandler->CheckKeyboardPressed('h')) {
 			if (hpressed == false) {
 				console->PrintHelp();
@@ -242,12 +249,19 @@ void Kernel::Update() {
 				hpressed = false;
 		}
 		
+		//! read input if command key is pressed
 		if (inputHandler->CheckKeyboardPressed('b')) {
 			console->ReadLine();
 		}
+
+
+		//! updates the console
 		console->Update();
+
+		//! updates the inputhandler
 		inputHandler->Update();
 		
+		//! calls kernel drawing routine
 		Draw();
 
 		logtime++;

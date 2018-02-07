@@ -6,8 +6,9 @@
 
 InputHandler::InputHandler()
 {
-
+	MouseValues* mouseValues = NULL;
 }
+
 
 InputHandler::~InputHandler()
 {

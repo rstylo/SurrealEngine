@@ -31,7 +31,7 @@ public:
 
 	virtual void Init(Renderer*);
 	virtual void Update();
-	virtual void Draw(Renderer*, int);
+	virtual void Draw(Renderer*, int);											//! draw objects of display (int) into given rendering device
 
 	virtual Scene* CreateScene(std::string sceneName);							//! create a scene if no other scene with the same name exists else it returns NULL ptr
 	virtual bool AddScene(Scene*);												//! add a given scene, returns true if no other similar scene exists
@@ -41,7 +41,7 @@ public:
 	virtual void UnloadScene();													//! free scene space
 	virtual bool IsLoading();													
 
-	virtual void SetupScene(Renderer*, InputHandler*, HWND*, HWND*);			//! load the current scene's  objects into directx device
+	virtual void SetupScene(Renderer*, InputHandler*, HWND*, HWND*);			//! load the current scene's  objects into directx device and creeates cameras
 
 	virtual void LoadSceneFromFile(std::string);								//! load scene from a text file and unloads old scene while at it
 	virtual void SaveSceneToFile(std::string);									//! save current scene to a text file

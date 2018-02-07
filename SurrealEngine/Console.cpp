@@ -30,12 +30,11 @@ Console::~Console()
 }
 void Console::DoCommand(std::string commandText)
 {
-	//! check and do the command if possible, by calling the void* to memeber of scenemanager it with a scenemanager object
+	//! check and do the command by calling the void* to memeber of scenemanager with a scenemanager object
 	if (commands.find(commandText) != commands.end())
 		(sceneManager->*(commands.find(commandText)->second))();		
 	else {
 		PrintL("command not found....");
-		logger.Log("command not found: " + commandText, "Warning");
 	}
 }
 

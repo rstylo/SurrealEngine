@@ -5,6 +5,7 @@
 Object::Object(std::string _objectName)
 	: Resource(), initialised(false)
 {
+	
 	objectName = _objectName;
 	textureName = "texture1.jpg";
 
@@ -18,6 +19,7 @@ Object::~Object()
 
 void Object::CleanUp(Renderer* renderer)
 {
+	//! delete vertices and texture from rendering device
 	if (renderer != NULL)
 	{
 		renderer->UnLoadTexture(textureName);
@@ -28,11 +30,12 @@ void Object::CleanUp(Renderer* renderer)
 
 bool Object::Init(Renderer* renderer)
 {
-
+	//! creates and inserts a texture, vertices and indices if not initialised
 	if (initialised == false)
 	{
 		CleanUp(renderer);
 
+		// create texture
 		if (!renderer->LoadTexture(textureName))
 		{
 			MessageBox(NULL, "failed loading object texture", NULL, NULL);
@@ -102,6 +105,8 @@ bool Object::Init(Renderer* renderer)
 
 void Object::Draw(Renderer* renderer)
 {
+
+	//! draw texture and verticces if already initialised
 	if (renderer != NULL && initialised == true)
 	{
 
