@@ -15,30 +15,24 @@ public:
 	Skybox();
 	virtual ~Skybox();
 
-	virtual bool Init(Renderer*);
+	virtual bool Init(Renderer*);						//! Makes the renderer load a texture and create a cube with texturecoordinates 
+														//! to correctly fit a skyboxtype of texture.
+	
+	virtual void Invalidate(Renderer*);					//! Releases texture data and vertex/index buffers on the renderer to free space
+	
+	virtual void SetupMatrices(Renderer*, Transform);	//! Places the correct rotation on the skybox from the camera's point of view
 
-	virtual void Update(Vector3);
-	virtual void Create();
-	virtual void Invalidate(Renderer*);
+	virtual void Draw(Renderer*);						//! Makes the renderer draw the cube and the texture created by the Init function
 
-
-	virtual void SetupMatrices(Renderer*, Transform);
-
-	virtual void Draw(Renderer*);
-
-	virtual void SetTexture(std::string);
-	virtual std::string GetTexture();
+	virtual void SetTexture(std::string);				//! Sets the texturepath of the skybox
+	virtual std::string GetTexture();					//! Returns the texturepath of the skybox
 
 private:
-	std::string textureName;
+	std::string textureName;				//! The path of the skyboxtexture
 
-	Transform transform;
+	Transform transform;					//! The transformation values of the skybox
 
-	Vector3 middle;
-
-	//Logger logger;
-
-	uint32_t id;
+	uint32_t id;							//! The unique identifier of the skybox
 };
 
 #endif // !SKYBOX_H_

@@ -31,7 +31,8 @@ bool Skybox::Init(Renderer* renderer)
 
 	int size = 100;
 
-	const int numOfVertices = 14;										//
+	const int numOfVertices = 14;										//! - 14 vertices 8 for the cube, 4 for the top and bottom texturepositions, 
+																		//!   2 for the 1.00f textureposition on the right
 	const int numOfIndices = 6 * 6;										//! - 6 indicies per quad
 
 	xyzTextureVertex* vertices = new xyzTextureVertex[numOfVertices];	//! - vertex array
@@ -40,8 +41,7 @@ bool Skybox::Init(Renderer* renderer)
 	int sizeOfVertices = numOfVertices * sizeof(xyzTextureVertex);		//! - sizeof the vertex array
 	int sizeOfIndices = numOfIndices * sizeof(WORD);					//! - sizeof the indexarray
 
-	
-
+	//! cube vertexcoordinates
 	vertices[0].position = Vector3(+size, +size,-size);
 	vertices[1].position = Vector3(+size,-size,-size);
 	vertices[2].position = Vector3(-size, +size,-size);
@@ -51,14 +51,17 @@ bool Skybox::Init(Renderer* renderer)
 	vertices[6].position = Vector3(+size, +size, +size);
 	vertices[7].position = Vector3(+size,-size, +size);
 
-	vertices[8].position = Vector3(+size,-size,-size);		//vertex 1 // top
-	vertices[9].position = Vector3(+size,-size, +size);		//vertex 7
+	//! top texturecoordinates
+	vertices[8].position = Vector3(+size,-size,-size);		//! same position as vertex 1
+	vertices[9].position = Vector3(+size,-size, +size);		//! same position as vertex 7
 
-	vertices[10].position = Vector3(+size, +size,-size);	//vertex 0 // bottom
-	vertices[11].position = Vector3(+size, +size, +size);	//vertex 6
+	//! bottom texturecoordinates
+	vertices[10].position = Vector3(+size, +size,-size);	//! same position as vertex 0 
+	vertices[11].position = Vector3(+size, +size, +size);	//! same position as vertex 6
 
-	vertices[12].position = Vector3(+size, +size,-size);	//vertex 0
-	vertices[13].position = Vector3(+size,-size,-size);		//vertex 1
+	//! texturecoordinates on the right
+	vertices[12].position = Vector3(+size, +size,-size);	//! same position as vertex 0 
+	vertices[13].position = Vector3(+size,-size,-size);		//! same position as vertex 1
 
 	vertices[0].tu = 0.00f;
 	vertices[0].tv = (float)1 / 3 + 1 / height;
@@ -77,20 +80,23 @@ bool Skybox::Init(Renderer* renderer)
 	vertices[7].tu = 0.75f;
 	vertices[7].tv = (float)2 / 3 - 1 / height;
 
-	vertices[12].tu = 1.00f;						// vertex 0 with other texture coordinate
+	//! texturecoordinates on the right
+	vertices[12].tu = 1.00f;						// vertex 0 position with other texture coordinate
 	vertices[12].tv = (float)1 / 3 + 1 / height;
-	vertices[13].tu = 1.00f;						// vertex 1 with other texture coordinate
+	vertices[13].tu = 1.00f;						// vertex 1 position with other texture coordinate
 	vertices[13].tv = (float)2 / 3 - 1 / height;
 
-	vertices[8].tu = (float)1 / 4 + 1 / width;		// bottom 
-	vertices[8].tv = 1.00f - 1 / height;			// vertex 1 with other texture coordinate
-	vertices[9].tu = (float)2 / 4 - 1 / width;
-	vertices[9].tv = 1.00f - 1 / height;			// vertex 7 with other texture coordinate
+	//! bottom texturecoordinates
+	vertices[8].tu = (float)1 / 4 + 1 / width;		// vertex 1 position with other texture coordinate
+	vertices[8].tv = 1.00f - 1 / height;			
+	vertices[9].tu = (float)2 / 4 - 1 / width;		// vertex 7 position with other texture coordinate
+	vertices[9].tv = 1.00f - 1 / height;			
 
-	vertices[10].tu = (float)1 / 4 + 1 / width;		// top
-	vertices[10].tv = 1 / height;					// vertex 0 with other texture coordinate
-	vertices[11].tu = (float)2 / 4 - 1 / width;
-	vertices[11].tv = (float)1 / height;			// vertex 6 with other texture coordinate
+	//! top texturecoordinates
+	vertices[10].tu = (float)1 / 4 + 1 / width;		// vertex 0 position with other texture coordinate
+	vertices[10].tv = 1 / height;					
+	vertices[11].tu = (float)2 / 4 - 1 / width;		// vertex 6 position with other texture coordinate
+	vertices[11].tv = (float)1 / height;			
 
 	WORD* indicies = new WORD[numOfIndices]			//! - index array
 	{
@@ -121,12 +127,6 @@ bool Skybox::Init(Renderer* renderer)
 	}
 	return true;
 }
-void Skybox::Update(Vector3 _position)
-{
-	//! updates skybox position to given vector
-	transform.SetPosition(Vector3(_position.x, _position.y, _position.z));
-	transform.SetRotation(Vector3(0, 0, 0));
-}
 
 void Skybox::Invalidate(Renderer* renderer)
 {
@@ -140,16 +140,9 @@ void Skybox::Invalidate(Renderer* renderer)
 
 }
 
-void Skybox::Create()
-{
-
-
-
-}
-
 void Skybox::SetupMatrices(Renderer* renderer, Transform origin)
 {
-	//!change skyboxe's position
+	//!change skybox's rotation
 	transform.SetupMatricesRotate(renderer, origin.GetRotation());
 }
 
