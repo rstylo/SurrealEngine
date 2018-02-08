@@ -73,9 +73,8 @@ int OpenGLRenderer::GetHeightMapDepth(std::string)
 	return 0;
 }
 
-int OpenGLRenderer::UnLoadHeightMap(std::string)
+void OpenGLRenderer::UnLoadHeightMap(std::string)
 {
-	return 0;
 }
 
 bool OpenGLRenderer::LoadMesh(std::string)

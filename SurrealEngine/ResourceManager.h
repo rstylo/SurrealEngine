@@ -19,14 +19,14 @@ class ResourceManager
 public:
 	ResourceManager();
 	virtual ~ResourceManager();
-	virtual bool AddResource(Resource*);				
+	virtual bool AddResource(Resource*);		//! add a resource
 
-	virtual Resource* GetResource(uint32_t);
+	virtual Resource* GetResource(uint32_t);	//! returns resource with given id
 
-	virtual Resource* GetMesh(std::string);		
+	virtual Resource* GetMesh(std::string);	   //! returns pointer to a mesh with the given name as a resource* 
 	virtual Resource* CreateMesh(std::string); //! create a mesh with a certain name, returns created mesh or already existing one
 
-	virtual Resource* GetObj(std::string);	 
+	virtual Resource* GetObj(std::string);		//! returns pointer to a object with the given name as a resource* 
 	virtual Resource* CreateObj(std::string); //! create an object with a certain name, returns created object or already existing one
 
 private:

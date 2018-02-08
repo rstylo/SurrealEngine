@@ -11,15 +11,16 @@ Mesh::Mesh(std::string _meshPath)
 
 Mesh::~Mesh()
 {
+
 }
 
 bool Mesh::Init(Renderer* renderer)
 {
+	// create mesh
 	if (renderer != NULL)
 	{
 		if (!renderer->LoadMesh(meshName))
 		{
-			renderer->Log("Failed loading mesh", "Error");
 			return false;
 		}
 		return true;
@@ -29,6 +30,7 @@ bool Mesh::Init(Renderer* renderer)
 
 void Mesh::Draw(Renderer* renderer)
 {
+	// draw mesh
 	if (renderer != NULL)
 		renderer->DrawMesh(meshName);
 }
@@ -40,6 +42,7 @@ std::string Mesh::GetMeshName()
 
 void Mesh::CleanUp(Renderer* renderer)
 {
+	// remove mesh from rendering device
 	if (renderer != NULL)
 		renderer->UnLoadMesh(meshName);
 }

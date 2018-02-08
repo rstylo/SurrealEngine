@@ -108,7 +108,7 @@ void DirectXRenderer::End() {
 
 void DirectXRenderer::Present(HWND wnd) {
 	//! presents the created frame to the screen
-	device->Present(NULL, NULL, wnd, NULL);
+	device->Present(NULL, NULL, wnd, NULL);	
 }
 
 LPDIRECT3DDEVICE9* DirectXRenderer::GetDevice()
@@ -119,20 +119,23 @@ LPDIRECT3DDEVICE9* DirectXRenderer::GetDevice()
 
 void DirectXRenderer::Log(std::string text, std::string type)
 {
+	//! log a message
 	logger.Log(text, type);
 }
 
 void DirectXRenderer::Flush()
 {
+	//! insert into text file and clear logger
 	logger.Flush();
 }
 
 void DirectXRenderer::SetupMatrices(Vector3 position, Vector3 rotation)
 {
-
+	//! setuprs matrices with a givenpostion and rotation
 	D3DXMATRIX worldMtrx;
 	D3DXMatrixIdentity(&worldMtrx);
 
+	// translate matrix with a position vector
 	D3DXMATRIXA16 trans;
 	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
 
@@ -140,29 +143,37 @@ void DirectXRenderer::SetupMatrices(Vector3 position, Vector3 rotation)
 	D3DXMATRIXA16 rotY;
 	D3DXMATRIXA16 rotZ;
 
+	// create yaw pitch and roll using the rotation vector
 	D3DXMatrixRotationX(&rotX, rotation.x);
 	D3DXMatrixRotationY(&rotY, rotation.y);
 	D3DXMatrixRotationZ(&rotZ, rotation.z);
 
+	// apply translation and rotation matrixes onto thw world matrix
 	worldMtrx = trans* rotZ * rotY * rotX;
 
+
+	// translate the world matrix for this device
 	device->SetTransform(D3DTS_WORLD, &worldMtrx);
 }
 
 void DirectXRenderer::SetupMatrices(Vector3 position, Vector3 rotation, Vector3 position2, Vector3 rotation2)
 {
+	//Create world matrixes and originpostion vector
 	Vector3 tempposition = position2;
 	D3DXMATRIX cameraMtrx, worldMtrx;
 
+	//create translation matrix and translate using origin point
 	D3DXMATRIXA16 trans;
 	D3DXMatrixTranslation(&trans, tempposition.x, tempposition.y, tempposition.z);
 
+	//create rotation matrix and origin rotation vector
 	D3DXMATRIXA16 rotX;
 	D3DXMATRIXA16 rotY;
 	D3DXMATRIXA16 rotZ;
 
 	Vector3 temprotation = rotation2;
 
+	// rotate the the origin matrix
 	D3DXMatrixRotationX(&rotX, temprotation.x);
 	D3DXMatrixRotationY(&rotY, temprotation.y);
 	D3DXMatrixRotationZ(&rotZ, temprotation.z);
@@ -170,11 +181,13 @@ void DirectXRenderer::SetupMatrices(Vector3 position, Vector3 rotation, Vector3 
 
 	cameraMtrx = trans* rotZ * rotY * rotX;
 
+	// translate and rotate a new matrix on a given position and rotation
 	D3DXMatrixTranslation(&trans, position.x, position.y, position.z);
 	D3DXMatrixRotationX(&rotX, rotation.x);
 	D3DXMatrixRotationY(&rotY, rotation.y);
 	D3DXMatrixRotationZ(&rotZ, rotation.z);
 
+	// multiply origin matrix with a matrix transformation
 	worldMtrx = rotX*rotY*rotZ*trans;
 	worldMtrx *= cameraMtrx;
 
@@ -205,6 +218,7 @@ void DirectXRenderer::SetupMatricesRotate(Vector3 _rotation)
 
 bool DirectXRenderer::LoadHeightMapWithBmp(std::string heightMapName)
 {
+	//! create new height map if not existing
 	DxHeightMap* dxHeightMap;
 	if (dxManager->GetHeightMap(heightMapName) == NULL)
 	{
@@ -213,7 +227,7 @@ bool DirectXRenderer::LoadHeightMapWithBmp(std::string heightMapName)
 		dxManager->AddHeightMap(dxHeightMap);
 	}
 
-
+	//! get already exisitng or just created heightmap
 	dxHeightMap = dxManager->GetHeightMap(heightMapName);
 
 	//! load height map from give path and inserts into heightmap data
@@ -223,12 +237,14 @@ bool DirectXRenderer::LoadHeightMapWithBmp(std::string heightMapName)
 	HINSTANCE hInstance = NULL;
 
 
+
 	deviceContext = CreateCompatibleDC(NULL);
 	if (deviceContext == NULL)
 	{
 		DeleteDC(deviceContext);
 		return false;
 	}
+
 
 	bmp = LoadImage(hInstance, heightMapName.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	if (bmp == NULL)
@@ -261,6 +277,9 @@ bool DirectXRenderer::LoadHeightMapWithBmp(std::string heightMapName)
 			dxHeightMap->heightData[itW * dxHeightMap->depth + itH] = GetRValue(GetPixel(deviceContext, itW, itH));
 		}
 	}
+
+	Log("Create a heightmap with name:" + dxHeightMap->heightMapName, "info");
+
 	return true;
 
 
@@ -302,15 +321,17 @@ int DirectXRenderer::GetHeightMapDepth(std::string heightMapName)
 	return 0;
 }
 
-int DirectXRenderer::UnLoadHeightMap(std::string heightMapName)
+void DirectXRenderer::UnLoadHeightMap(std::string heightMapName)
 {
-	dxManager->DeleteHeightMap(heightMapName);
-	return 0;
+	if (dxManager->DeleteHeightMap(heightMapName)) {
+		Log("deleted a heightmap with name:" + heightMapName, "info");
+	}
+
 }
 
 bool DirectXRenderer::LoadMesh(std::string meshName)
 {
-	
+	//! create new mesh if not existing
 	DxMesh* dxMesh;
 
 	if (dxManager->GetMesh(meshName) == NULL)	//! create a new mesh
@@ -320,6 +341,7 @@ bool DirectXRenderer::LoadMesh(std::string meshName)
 		dxManager->AddMesh(dxMesh);
 	}
 
+	//! get already existing or just created mesh
 	dxMesh = dxManager->GetMesh(meshName);
 
 	//! intialise the mesh, returns if creation is succeful using a texture and a model
@@ -330,7 +352,7 @@ bool DirectXRenderer::LoadMesh(std::string meshName)
 			LPD3DXBUFFER materialBuffer;
 
 
-
+			//! try creating mesh, if failed, try again with a different directory
 			if (!SUCCEEDED(D3DXLoadMeshFromX((dxMesh->meshPath).c_str(), D3DXMESH_SYSTEMMEM,
 				device, NULL,
 				&materialBuffer, NULL, &(dxMesh->numOfMaterials),
@@ -401,13 +423,17 @@ bool DirectXRenderer::LoadMesh(std::string meshName)
 			// Done with the material buffer
 			materialBuffer->Release();
 			dxMesh->initialized = true;
+			Log("created a mesh with name:" + meshName, "info");
 			return true;
 		}
 		return true;
+
+		
 }
 
 void DirectXRenderer::DrawMesh(std::string meshName)
 {
+	//! draw mesh with given name if existing
 	DxMesh* dxMesh = dxManager->GetMesh(meshName);
 
 	if (dxMesh != NULL && dxMesh->textures && dxMesh->materials && dxMesh->initialized)
@@ -424,12 +450,15 @@ void DirectXRenderer::DrawMesh(std::string meshName)
 
 void DirectXRenderer::UnLoadMesh(std::string meshName)
 {
-	dxManager->DeleteMesh(meshName);
+	//! delete mesh with given name
+	if (dxManager->DeleteMesh(meshName)) {
+		Log("deleted a mesh with name:" + meshName, "info");
+	}
 }
 
 bool DirectXRenderer::LoadTexture(std::string textureName)
 {
-
+	//! load given texture if already existing else create a new one and load that one
 	DxTexture* dxTexture;
 
 	if (dxManager->GetTexture(textureName) == NULL)	//! create a new texture
@@ -442,15 +471,19 @@ bool DirectXRenderer::LoadTexture(std::string textureName)
 
 	dxTexture = dxManager->GetTexture(textureName);
 
-
+	//create directx texture from given file name
 	D3DXCreateTextureFromFile(device, dxTexture->textureName.c_str(), &(dxTexture->texture));
 	if (!dxTexture->texture)
 	{
+		//try again from different directory
 		D3DXCreateTextureFromFile(device, ("..\\" + dxTexture->textureName).c_str(), &(dxTexture->texture));
 		if (!dxTexture->texture) {
 			MessageBox(NULL, std::string("failed initialising texture: " + dxTexture->textureName).c_str(), NULL, NULL);
+			Log("failed initialising texture: " + dxTexture->textureName, "Error");
 			return false;
 		}
+
+		Log("created a texture with name:" + textureName, "info");
 		return true;
 	}
 
@@ -459,6 +492,7 @@ bool DirectXRenderer::LoadTexture(std::string textureName)
 
 void DirectXRenderer::DrawTexture(std::string textureName)
 {
+	//! draw texture with given name if existing
 	DxTexture* dxTexture = dxManager->GetTexture(textureName);
 	
 	if (dxTexture != NULL && dxTexture->texture)
@@ -474,11 +508,16 @@ void DirectXRenderer::DrawTexture(std::string textureName)
 
 void DirectXRenderer::UnLoadTexture(std::string textureName)
 {
-	dxManager->DeleteTexture(textureName);
+	//! remove texture rom device to free space
+	if (dxManager->DeleteTexture(textureName))
+	{
+		Log("delte a texture with name:" + textureName, "info");
+	}
 }
 
 float DirectXRenderer::GetTextureWidth(std::string textureName)
 {
+	//! returns width from dx texture description
 	DxTexture* dxTexture = dxManager->GetTexture(textureName);
 	D3DSURFACE_DESC desc;
 
@@ -493,6 +532,7 @@ float DirectXRenderer::GetTextureWidth(std::string textureName)
 
 float DirectXRenderer::GetTextureHeight(std::string textureName)
 {
+	//! returns texture height from dx tedxture description
 	DxTexture* dxTexture = dxManager->GetTexture(textureName);
 	D3DSURFACE_DESC desc;
 
@@ -507,6 +547,7 @@ float DirectXRenderer::GetTextureHeight(std::string textureName)
 
 bool DirectXRenderer::LoadIndexedVertices(std::string name, int _primCount, int _vertexCount, xyzTextureVertex * vertices, WORD * indices, int sizeOfVertices, int sizeOfIndices)
 {
+	//! load or create new indexvertices and insert given vertices and indices
 	DxVertexBuffer* dxVertexBuffer;
 
 	if (dxManager->GetVertexBuffer(name) == NULL)	//! create a new texture
@@ -528,6 +569,7 @@ bool DirectXRenderer::LoadIndexedVertices(std::string name, int _primCount, int 
 		D3DPOOL_DEFAULT, &(dxVertexBuffer->vertexBuffer), NULL)))
 	{
 		printf("failed creating vertex buffer... \n");
+		Log("failed creating vertex buffer with name" + name, "error");
 		return false;
 	}
 
@@ -537,6 +579,7 @@ bool DirectXRenderer::LoadIndexedVertices(std::string name, int _primCount, int 
 		D3DPOOL_MANAGED, &(dxVertexBuffer->indexBuffer), NULL)))
 	{
 		printf("failed creating index buffer... \n");
+		Log("failed creating index buffer with name" + name, "error");
 		return false;
 	}
 
@@ -545,6 +588,7 @@ bool DirectXRenderer::LoadIndexedVertices(std::string name, int _primCount, int 
 	if (!SUCCEEDED(dxVertexBuffer->vertexBuffer->Lock(0, sizeOfVertices, (void**)&pVertices, 0)))
 	{
 		printf("failed filling the vertex buffer... \n");
+		Log("failed flling vertex buffer with name" + name, "error");
 		return false;
 	}
 	memcpy(pVertices, vertices, sizeOfVertices);
@@ -556,16 +600,19 @@ bool DirectXRenderer::LoadIndexedVertices(std::string name, int _primCount, int 
 	if (!SUCCEEDED(dxVertexBuffer->indexBuffer->Lock(0, sizeOfIndices, (void**)&pIndices, 0)))
 	{
 		printf("failed filling the index buffer... \n");
+		Log("failed flling index buffer with name" + name, "error");
 		return false;
 	}
 	memcpy(pIndices, indices, sizeOfIndices);
 	dxVertexBuffer->indexBuffer->Unlock();
+	Log("created a dx vertexbuffer with name:" + name, "info");
 
 	return true;
 }
 
 void DirectXRenderer::DrawVertices(std::string name)
 {
+	//! draw vertices with given name id
 	DxVertexBuffer* dxVertexBuffer = dxManager->GetVertexBuffer(name);
 
 	if (dxVertexBuffer != NULL && device != NULL && dxVertexBuffer->vertexBuffer != NULL && dxVertexBuffer->indexBuffer != NULL)
@@ -582,6 +629,7 @@ void DirectXRenderer::DrawVertices(std::string name)
 
 void DirectXRenderer::DrawVerticesBackground(std::string name)
 {
+	//! draw vertices with given name in the back of the zbuffer
 	//device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 
@@ -593,7 +641,11 @@ void DirectXRenderer::DrawVerticesBackground(std::string name)
 
 void DirectXRenderer::UnLoadVertices(std::string name)
 {
-	dxManager->DeleteVertexBuffer(name);
+	//! unload vertex buffer with given name
+	if (dxManager->DeleteVertexBuffer(name))
+	{
+		Log("deleted a dx vertexbuffer with name:" + name, "info");
+	}
 }
 
 void DirectXRenderer::SetupView(float nearViewPlane, float farViewPlane)
@@ -607,7 +659,8 @@ void DirectXRenderer::SetupView(float nearViewPlane, float farViewPlane)
 void DirectXRenderer::SetupLight()
 {
 	D3DMATERIAL9 material;
-	//
+	
+	//setup material on which the light will shine on (normalized vertices)
 	ZeroMemory(&material, sizeof(D3DMATERIAL9));
 	material.Diffuse.r = material.Ambient.r = 1.0f;
 	material.Diffuse.g = material.Ambient.g = 1.0f;
@@ -622,14 +675,17 @@ void DirectXRenderer::SetupLight()
 	ZeroMemory(&light, sizeof(D3DLIGHT9));
 	light.Type = D3DLIGHT_DIRECTIONAL;
 
+	//light diffuse strengh
 	light.Diffuse.r = 0.5f;
 	light.Diffuse.g = 0.5f;
 	light.Diffuse.b = 0.5f;
 
+	//direction of the light
 	direction = D3DXVECTOR3(-100.0f, -1000.0f, -100.0f);
 	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, &direction);
 	light.Range = 100.0f;
 
+	//! set light into dx device
 	device->SetLight(0, &light);
 }
 

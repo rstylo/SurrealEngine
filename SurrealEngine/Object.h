@@ -18,15 +18,15 @@ class Renderer;
 class Object : public Resource
 {
 public:
-	Object(std::string);
+	Object(std::string);				//! intiliase with objects name
 	virtual ~Object();
 
 	virtual bool Init(Renderer*);		//! intialise object
-	virtual void Draw(Renderer*);		
+	virtual void Draw(Renderer*);		//! draw object
 
-	virtual void SetTexture(std::string);
+	virtual void SetTexture(std::string);	//! set new texture to be drawn on the object
 	
-	virtual std::string GetObjectName();
+	virtual std::string GetObjectName();	//! returns object name
 	virtual void CleanUp(Renderer*);
 
 	
@@ -37,9 +37,6 @@ private:
 	std::string textureName;
 
 	bool initialised;
-
-	int primCount;
-	int vertexCount;
 
 	uint32_t id;
 };

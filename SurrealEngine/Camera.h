@@ -17,7 +17,7 @@ public:
 
 	virtual void SetupView(Renderer*);							//rendering routine
 
-	virtual void SetLookAt(bool);
+	virtual void SetLookAt(bool);								
 
 	virtual void Update();										//main routine, used for moving and rotating the view matrix
 

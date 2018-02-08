@@ -34,7 +34,7 @@ public:
 	virtual byte* GetHeightData(std::string);
 	virtual int GetHeightMapWidth(std::string);
 	virtual int GetHeightMapDepth(std::string);
-	virtual int UnLoadHeightMap(std::string);
+	virtual void UnLoadHeightMap(std::string);
 
 	// Mesh functions
 	virtual bool LoadMesh(std::string);
@@ -50,7 +50,7 @@ public:
 
 	// Vertex functions
 
-	virtual bool LoadIndexedVertices(std::string, int _primCount, int _vertexCount, xyzTextureVertex * vertices, WORD * indices, int sizeOfVertices, int sizeOfIndices);
+	virtual bool LoadIndexedVertices(std::string, int, int, xyzTextureVertex *, WORD *, int, int);
 	virtual void DrawVertices(std::string);
 	virtual void DrawVerticesBackground(std::string);
 	virtual void UnLoadVertices(std::string);

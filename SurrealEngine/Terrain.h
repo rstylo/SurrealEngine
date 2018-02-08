@@ -28,20 +28,20 @@ public:
 
 	virtual void SetMapAndTexture(std::string heightMapFileName, std::string _textureName);		//! change heightmap and texture
 	virtual bool Init(Renderer*);																//! initialise
-	virtual void Invalidate(Renderer*);																	//! release the vertex buffer and indexBuffer to free space
+	virtual void Invalidate(Renderer*);															//! release the vertex buffer and indexBuffer to free space
 
 
 	virtual void SetupMatrices(Renderer*, Transform);											//! setup position in which terrain is to be drawn
 	//virtual bool InitWithColor(Renderer*);
 	virtual void Draw(Renderer*);																
 
-	virtual std::string GetMapFileName();														
-	virtual std::string GetTextureName();
+	virtual std::string GetMapFileName();														//! returns heightmaps name		
+	virtual std::string GetTextureName();														//! returns texture's name
 
-	virtual byte* getHeightArray();
-	virtual int getTerrainWidth();
-	virtual int getTerrainDepth();
-	virtual bool getInitialized();
+	virtual byte* getHeightArray();																//! returns height map in unsigned char
+	virtual int getTerrainWidth();																//! returns terrain width
+	virtual int getTerrainDepth();																//! returns terrain depth
+	virtual bool getInitialized();																//! returns true if terrain is initialised
 
 	Transform transform;
 private:

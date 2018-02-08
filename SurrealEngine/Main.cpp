@@ -1,29 +1,33 @@
 /*! \file  Main.cpp
 \brief this class is used to move drawable objects around in the world
 */
+
+
 #include <Windows.h>
 #include <iostream>
 #include "Kernel.h"
 
 int main()
 {
-	Kernel kernel;
+	Kernel kernel;																			// create kernel 
+
 	std::cout << "Welcome at Surrealengine" << std::endl;
 	std::string interfaceType;
 	std::cout << "Would you like the 'beginner' or 'advanced' interface?:" << std::endl;
-	while (interfaceType != "beginner" && interfaceType != "advanced") {
+
+	while (interfaceType != "beginner" && interfaceType != "advanced") {					// wait for correct input
 		std::cin >> interfaceType;
 		if (interfaceType != "beginner" && interfaceType != "advanced")
 			std::cout << "Please select one of the above" << std::endl;
 	}
 	//! The n00b interface
-	if(interfaceType == "beginner"){
+	if(interfaceType == "beginner"){													
 		//! intialises kernel and initiates its main routine
-		if (kernel.Init(true))
-				kernel.Update();
+		if (kernel.Init(true))																//inialiase kernel with interface beginner
+				kernel.Update();															//Run the engine
 	}
 	//! The sandbox interface
-	if (interfaceType == "advanced") {
+	if (interfaceType == "advanced") {													
 		int height, width, height2, width2;
 
 		std::cout << "Please enter the window sizes" << std::endl;
@@ -35,9 +39,9 @@ int main()
 		std::cin >> width2;
 		std::cout << "Window2 height: ";
 		std::cin >> height2;
-
-		if (kernel.Init(true, width, height, width2, height2))
-			kernel.Update();
+		
+		if (kernel.Init(true, width, height, width2, height2))						//inialiase kernel with interface advabced
+			kernel.Update();														//run the engine
 	}
 	exit(0);
 	return 0;

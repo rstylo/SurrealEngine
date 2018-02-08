@@ -37,6 +37,7 @@ private:
 	DIPROPDWORD dipdw;						
 	MouseValues mouseValues;				//! Buffer where the mouse data is stored in
 
+
 	DIDEVICEOBJECTDATA od[6];
 
 	Logger logger;

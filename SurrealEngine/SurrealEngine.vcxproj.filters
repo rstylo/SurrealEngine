@@ -1,52 +1,178 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Console.cpp" />
-    <ClCompile Include="DirectXRenderer.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="InputHandler.cpp" />
-    <ClCompile Include="Kernel.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Engine\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXRenderer.cpp">
+      <Filter>Engine\Renderers\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DxManager.cpp">
+      <Filter>Engine\Renderers\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLRenderer.cpp">
+      <Filter>Engine\Renderers\OpenGl</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Kernel.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Engine\Input\DirectX Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Engine\Input\DirectX Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Engine\World\Draw-able</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Engine\World\Draw-able</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Engine\World\Positioning</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Engine\World\Managing</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Engine\World\Managing</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Wnd.cpp">
+      <Filter>Engine\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="OpenGLRenderer.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Resource.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Skybox.cpp" />
-    <ClCompile Include="Terrain.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Wnd.cpp" />
-    <ClCompile Include="DxManager.cpp" />
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Engine\World\Managing</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Engine\World\Managing</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Engine\World\Managing</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Engine\World\Draw-able\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Engine\World\Draw-able\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine\World\Positioning</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Console.h" />
-    <ClInclude Include="DirectXRenderer.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="Kernel.h" />
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Logger.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Mouse.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="OpenGLRenderer.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Skybox.h" />
-    <ClInclude Include="Terrain.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Wnd.h" />
-    <ClInclude Include="DxManager.h" />
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXRenderer.h">
+      <Filter>Engine\Renderers\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DxManager.h">
+      <Filter>Engine\Renderers\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRenderer.h">
+      <Filter>Engine\Renderers\OpenGl</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Kernel.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Engine\Input\DirectX Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Engine\Input\DirectX Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Engine\World\Draw-able</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Engine\World\Draw-able</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Engine\World\Positioning</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Engine\World\Managing</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Engine\World\Managing</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Wnd.h">
+      <Filter>Engine\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine\World\Managing</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Engine\World\Managing</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Engine\World\Managing</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Engine\World\Draw-able\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Engine\World\Draw-able\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine\World\Positioning</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{69bcf43f-2086-443d-8a8f-cd355ae2739f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Renderers">
+      <UniqueIdentifier>{767039b3-49cf-4ab4-a28f-121565db946a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Renderers\DirectX">
+      <UniqueIdentifier>{1e313f08-5956-463e-8ba8-5aa218db657b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Renderers\OpenGl">
+      <UniqueIdentifier>{c5764973-6b96-4cc9-91f4-ccb5dcc90568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\World">
+      <UniqueIdentifier>{0c8acc41-fbd7-4091-8f56-f4bf21cb1388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\World\Draw-able">
+      <UniqueIdentifier>{794ddff5-1d12-482e-b43c-a00a88011f67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\World\Positioning">
+      <UniqueIdentifier>{2af380ca-22a0-4f62-b747-7112a01b9f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\World\Managing">
+      <UniqueIdentifier>{7b3b007f-05a5-4ee3-9322-b52906106867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Windows">
+      <UniqueIdentifier>{cf87839f-0f1a-4200-ba5d-3841c339309c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Input">
+      <UniqueIdentifier>{6391d0c6-2094-4b25-a5d9-d5f12372bfdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Input\DirectX Input">
+      <UniqueIdentifier>{898b1665-64ee-4afa-b56c-1c7747a99c98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\World\Draw-able\Resources">
+      <UniqueIdentifier>{d34afacb-0b9c-449e-a81e-e6294a7079a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

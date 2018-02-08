@@ -47,7 +47,7 @@ bool Terrain::Init(Renderer* renderer)
 
 	CleanUp(renderer);
 
-	//y waarde ophalen uit de heightmap
+	//create heightmap with a given mapfile name
 	if (!renderer->LoadHeightMapWithBmp(mapFileName))
 	{
 		MessageBox(NULL, "failed loading heightmap", NULL, NULL);
@@ -57,7 +57,7 @@ bool Terrain::Init(Renderer* renderer)
 	}
 	printf("succesfully loaded the heightmap... \n");
 
-
+	//create texture
 	if (!renderer->LoadTexture(textureName))
 	{
 		MessageBox(NULL, "failed loading terrain texture", NULL, NULL);
@@ -66,6 +66,7 @@ bool Terrain::Init(Renderer* renderer)
 
 	}
 
+	// get map data from heightmap
 	width = renderer->GetHeightMapWidth(mapFileName);
 	depth = renderer->GetHeightMapDepth(mapFileName);
 	heightData = renderer->GetHeightData(mapFileName);
@@ -163,6 +164,7 @@ bool Terrain::Init(Renderer* renderer)
 
 void Terrain::Draw(Renderer* renderer)
 {
+	//! draw texture and verices if terrain already initialised
 	if (initialized == true && renderer != NULL)
 	{
 		renderer->DrawTexture(textureName);
@@ -175,6 +177,7 @@ void Terrain::Draw(Renderer* renderer)
 
 void Terrain::CleanUp(Renderer* renderer)
 {
+	//! free heightmap, texture, vertices from rendering device
 	if (initialized == true && renderer != NULL)
 	{
 		renderer->UnLoadHeightMap(mapFileName);

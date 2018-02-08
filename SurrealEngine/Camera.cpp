@@ -41,7 +41,7 @@ void Camera::SetLookAt(bool state)
 void Camera::Update()
 {
 
-	//! get input and move/rotate accordingly the camera depending
+	//! get input and move/rotate the camera accordingly
 	if (*hwnd == GetFocus()) {
 		if (inputHandler->CheckKeyboardPressed('w')) {
 			if (inputHandler->CheckKeyboardPressed('a')) {

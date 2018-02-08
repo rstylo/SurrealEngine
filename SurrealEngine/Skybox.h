@@ -12,7 +12,7 @@
 class Skybox
 {
 public:
-	Skybox();
+	Skybox();												//! skybox constructor
 	virtual ~Skybox();
 
 	virtual bool Init(Renderer*);						//! Makes the renderer load a texture and create a cube with texturecoordinates 

@@ -12,14 +12,14 @@
 class Wnd
 {
 public:
-	Wnd(LPSTR, LPSTR, int, int);
+	Wnd(LPSTR, LPSTR, int, int); //! create with className, windowtitle and window sizes
 	~Wnd();
 
-	bool Init();
-	bool Init(int, int);
-	bool IsInitialized();
-	bool Run();
-	LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);															//! Message handling
+	bool Init();				//! initialises on the middle of the screen, returns true if succesful
+	bool Init(int, int);		//! initialise on a position, returns true if succesful
+	bool IsInitialized();		
+	bool Run();					//! update routine, returs true if window is still working
+	LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);	//! Message handling
 
 public:
 	HWND hWnd;

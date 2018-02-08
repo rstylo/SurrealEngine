@@ -26470,3 +26470,76 @@ Initialized the mouse and keyboard
 1/2/2018 - 13:21
 <<Info>>
 Input handler succefully initialized...
+1/1/2018 - 18:19 - 23s
+1/1/2018 - 18:19 - 23s
+<<Info>>GameWindow and devWindow succefully initialised...
+1/1/2018 - 18:19 - 25s
+<<Info>>GameRenderer succefully initialised...
+1/1/2018 - 18:19 - 25s
+<<Info>>Initialized the mouse and keyboard
+1/1/2018 - 18:19 - 25s
+<<Info>>Input handler succefully initialized...
+1/1/2018 - 18:20 - 25s
+1/1/2018 - 18:20 - 25s
+<<Info>>GameWindow and devWindow succefully initialised...
+1/1/2018 - 18:20 - 25s
+<<Info>>GameRenderer succefully initialised...
+1/1/2018 - 18:20 - 25s
+<<Info>>Initialized the mouse and keyboard
+1/1/2018 - 18:20 - 25s
+<<Info>>Input handler succefully initialized...
+2/1/2018 - 11:41 - 30s
+2/1/2018 - 11:41 - 30s
+<<Info>>GameWindow and devWindow succefully initialised...
+2/1/2018 - 11:41 - 31s
+<<Info>>GameRenderer succefully initialised...
+2/1/2018 - 11:41 - 31s
+<<Info>>Initialized the mouse and keyboard
+2/1/2018 - 11:41 - 31s
+<<Info>>Input handler succefully initialized...
+2/1/2018 - 12:26 - 50s
+2/1/2018 - 12:26 - 50s
+<<Info>>GameWindow and devWindow succefully initialised...
+2/1/2018 - 12:26 - 50s
+<<Info>>GameRenderer succefully initialised...
+2/1/2018 - 12:26 - 51s
+<<Info>>Initialized the mouse and keyboard
+2/1/2018 - 12:26 - 51s
+<<Info>>Input handler succefully initialized...
+2/1/2018 - 12:32 - 0s
+2/1/2018 - 12:32 - 0s
+<<Info>>GameWindow and devWindow succefully initialised...
+2/1/2018 - 12:32 - 0s
+<<Info>>GameRenderer succefully initialised...
+2/1/2018 - 12:32 - 0s
+<<Info>>Initialized the mouse and keyboard
+2/1/2018 - 12:32 - 0s
+<<Info>>Input handler succefully initialized...
+2/1/2018 - 12:40 - 38s
+2/1/2018 - 12:40 - 38s
+<<Info>>GameWindow and devWindow succefully initialised...
+2/1/2018 - 12:40 - 38s
+<<Info>>GameRenderer succefully initialised...
+2/1/2018 - 12:40 - 38s
+<<Info>>Initialized the mouse and keyboard
+2/1/2018 - 12:40 - 38s
+<<Info>>Input handler succefully initialized...
+2/1/2018 - 12:41 - 15s
+<<Info>>Created scene scene1
+6/1/2018 - 20:13 - 32s
+6/1/2018 - 20:13 - 33s
+<<Info>>GameWindow and devWindow succefully initialised...
+6/1/2018 - 20:13 - 35s
+<<Info>>GameRenderer succefully initialised...
+6/1/2018 - 20:13 - 36s
+<<Info>>Initialized the mouse and keyboard
+6/1/2018 - 20:13 - 36s
+<<Info>>Input handler succefully initialized...
+6/1/2018 - 20:13 - 37s
+<<info>>created a dx vertexbuffer with name:6938016
+6/1/2018 - 20:13 - 38s
+<<info>>Create a heightmap with name:map6.bmp
+6/1/2018 - 20:13 - 38s
+<<info>>created a dx vertexbuffer with name:59823680
+6/1/2018 - 20:13 - 38s
+<<info>>created a mesh with name:tiger.x

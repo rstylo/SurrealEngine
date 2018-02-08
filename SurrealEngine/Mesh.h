@@ -16,13 +16,13 @@ class Mesh: public Resource					//! inherits from resource
 {
 public:
 	Mesh(std::string);							//! needs a name with which it can be indentified as a mesh
-	virtual ~Mesh();
+	virtual ~Mesh();	
 
-	virtual bool Init(Renderer*);
-	virtual void Draw(Renderer*);
+	virtual bool Init(Renderer*);				//! initialise with a generic renderer
+	virtual void Draw(Renderer*);				//! draw mesh with a generic renderer
 
-	virtual std::string GetMeshName();
-	virtual void CleanUp(Renderer*);
+	virtual std::string GetMeshName();			//! get the meshes name
+	virtual void CleanUp(Renderer*);			//! remove this mesh from the renderer
 	
 
 private:
